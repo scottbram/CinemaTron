@@ -2,4 +2,4 @@
 A demo project
 
 ## Deploy Status
-[![Netlify Status](https://api.netlify.com/api/v1/badges/05a179f2-ccff-41fd-9d0d-838ebaadb61e/deploy-status)](https://app.netlify.com/sites/sans-demo/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/414442f0-579c-41c1-82f3-ff486fd0180e/deploy-status)](https://app.netlify.com/sites/cinematron/deploys)
