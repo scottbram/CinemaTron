@@ -1,0 +1,83 @@
+/** _movie-listings.scss */
+/** 
+ * Main movie listings styles
+ */
+
+#movie_listings {
+	#movie_list {
+		visibility: hidden;
+
+		display: flex;
+    	flex-direction: column;
+		width: 100%;
+	}
+	
+	.movie_listing {
+		margin: 0 0 16px;
+		padding: 0 0 16px;
+		border-bottom: 1px dotted silver;
+	}
+
+	.movie_title {
+		font-family: 'Krub';
+		font-size: 4rem;
+		font-weight: 700;
+		line-height: 1.25;
+	}
+
+	.movie_details {
+		font-family: 'Mada';
+		font-size: 2.5rem;
+	}
+
+	.movie_rating_stars {
+		color: rgb(245, 208, 0);
+	}
+
+	.movie_rating_stars_filler {
+		color: rgb(216, 216, 216);
+	}
+
+	/** Older large mobile device in landscape, e.g., iPhone 6 Plus */
+	@media only screen 
+	and (device-width : 414px) 
+	and (device-height : 736px) 
+	and (orientation : landscape) {
+		.movie_title {
+			font-size: 3rem;
+		}
+
+		.movie_details {
+			font-size: 2rem;
+		}
+	}
+
+	/** Newer mobile device in landscape, e.g., iPhone Xs */
+	@media only screen 
+	and (device-width : 414px) 
+	and (device-height : 896px) 
+	and (-webkit-device-pixel-ratio : 3) 
+	and (orientation : landscape) {
+		.movie_title {
+			font-size: 3rem;
+		}
+
+		.movie_details {
+			font-size: 2rem;
+		}
+	}
+
+	@media (min-width: 1000px) {
+		.movie_title {
+			font-size: 2rem;
+		}
+
+		.movie_details {
+			font-size: 1.2rem;
+		}
+	}
+
+	@media (min-width: 1400px) {
+		/** Grid/Panel layout */
+	}
+}

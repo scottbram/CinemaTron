@@ -1,0 +1,32 @@
+/** _bstor.scss */
+/** 
+ * Bootstrap overrides
+ */
+
+.btn {
+	vertical-align: baseline; // Aligns it with an adjacent input
+	border-radius: $border-radius;
+}
+
+.btn-primary, 
+.btn-primary.disabled, 
+.btn-primary:disabled {
+	background-color: $primary_color;
+	border-color: $primary_color;
+}
+
+.btn-primary:hover,
+.btn-primary:not(:disabled):not(.disabled).active, 
+.btn-primary:not(:disabled):not(.disabled):active, 
+.show > .btn-primary.dropdown-toggle {
+	background-color: $primary_color_intense;
+	border-color: $primary_color_intense;
+}
+
+.alert-dismissible .close {
+	padding: .5rem 1.25rem;
+}
+
+.carousel-indicators {
+	width: auto;
+}

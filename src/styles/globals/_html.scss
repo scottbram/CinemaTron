@@ -1,0 +1,113 @@
+/** _html.scss */
+/** 
+ * Base HTML styles
+ */
+
+body {
+	margin: 0;
+	padding: 0 0 16px;
+	color: $font_color;
+
+	visibility: hidden;
+}
+
+header, main {
+	margin: auto;
+}
+
+header {
+	padding: 8px;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0 5vw;
+}
+
+aside {
+	padding: 16px 0 8px;
+
+	header {
+		background: $primary_color_bg;
+		margin-bottom: 8px;
+	}
+}
+
+h1 {
+	margin: 0;
+	padding: 16px 0;
+	color: $primary_color;
+	text-align: center;
+	font-family: 'Bowlby One SC';
+	font-size: 8rem;
+}
+
+h2 {
+	margin: 0;
+	color: $secondary_color;
+}
+
+h3 {
+	color: $primary_color;
+}
+
+dl, ol, ul {
+	display: inline-block;
+	margin-bottom: 8px;
+    width: 100%;
+}
+
+dt, dd {
+	float: left;
+	margin: 0 0 4px;
+	padding: 2px 4px;
+}
+
+dt {
+	clear: left;
+	margin-right: 4px;
+	color: $neutral_font_color;
+	text-align: right;
+}
+
+dd {
+	color: $secondary_color;
+}
+
+label {
+	margin-bottom: 0.2rem;
+}
+
+input {
+	border-radius: $border-radius;
+}
+
+button {
+	border-radius: $border-radius;
+}
+
+a {
+	color: $highlight_color_intense;
+	text-decoration: underline;
+
+	&:hover {
+		color: $highlight_color_darker;
+	}
+}
+
+@media (min-width: 1000px) {
+	h1 {
+		font-size: 6rem;
+	}
+
+	main {
+		padding: 0 20px;
+		width: 960px;
+	}
+}
+
+@media (min-width: 1400px) {
+	/** Grid/Panel layout */
+}

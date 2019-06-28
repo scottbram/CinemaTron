@@ -1,0 +1,63 @@
+/** _site.scss */
+/** 
+ * Sitewide styles
+ */
+
+#site_header {
+	padding-right: 5vw;
+	padding-left: 5vw;
+	/*background-color: $primary_color_bg;
+	border-bottom: 1px solid $primary_color;*/
+	background-color: $highlight_color_bg;
+	border-bottom: 1px solid $highlight_color;
+}
+
+/*#movie_listings {
+	position: relative;
+}*/
+
+#movie_list_status {
+	position: absolute;
+	/*padding: 8px 16px;
+	background-color: rgba(100, 100, 100, 0.3);
+	text-align: center;*/
+
+	.spinner {
+		margin-right: 8px;
+	}
+
+	#movie_list_status_msg {
+		font-size: 2.8rem;
+	}
+}
+
+/** .form-control:focus overrides Bootstrap */
+input:not([type='checkbox']):not([type='radio']).valChg,
+input:not([type='checkbox']):not([type='radio']).valChg.form-control:focus
+textarea.valChg,
+textarea.valChg.form-control:focus,
+select.valChg {
+	border-color: rgb(255, 165, 0);
+	background-color: rgb(255, 244, 224);
+}
+
+.unsavedChgMsg {
+	margin-left: 8px;
+}
+
+@media (min-width: 1000px) {
+	/*#site_header {
+		padding-right: 10vw;
+		padding-left: 10vw;
+	}*/
+
+	#movie_list_status {
+		.spinner {
+			vertical-align: middle;
+		}
+
+		#movie_list_status_msg {
+			font-size: 1.1rem;
+		}
+	}
+}

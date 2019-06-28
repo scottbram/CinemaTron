@@ -1,0 +1,115 @@
+/** _movie-admin.scss */
+/** 
+ * Movie item administration styles
+ */
+
+#movie_admin {
+	input, select, textarea {
+		font-size: 2.8rem;
+	}
+
+	#movie_admin_list {
+		width: 100%;
+	}
+
+	.movie_listing {
+		margin: 0 0 16px;
+		padding: 0 0 16px;
+		border-bottom-width: 1px;
+		border-bottom-style: dotted;
+		border-bottom-color: $secondary_color_bg;
+	}
+
+	.movie_title,
+	.movie_details {
+		font-size: 2.8rem;
+	}
+
+	.movie_title,
+	.movie_details > div {
+		margin-bottom: 8px;
+	}
+
+	.movie_title input {
+		width: 100%;
+	}
+
+	.movie_format .custom-select {
+		display: block;
+	}
+
+	.movie_rating_star {
+		cursor: pointer;
+	}
+
+	.movie_rating_star_selected, 
+	.movie_rating_star:hover {
+		color: rgb(245, 208, 0);
+	}
+
+	.movie_rating_star_unselected {
+		color: rgb(216, 216, 216);
+	}
+
+	.movie_rating_hover_prevSib {
+		color: rgb(245, 208, 0);
+	}
+
+	.movie_rating_hover_nextSib {
+		color: rgb(216, 216, 216);
+	}
+
+	#movie_admin_list_actions {
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+
+		.alert {
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 40%;
+		}
+	}
+
+	@media (min-width: 1000px) {
+		.movie_listing {
+			border-bottom-width: 2px;
+		}
+
+		.movie_title,
+		.movie_details,
+		input, select, textarea {
+			font-size: 1.1rem;
+		}
+
+		.movie_title input {
+			width: 424px;
+		}
+
+		.movie_year input,
+		.movie_length input {
+			width: 90px;
+		}
+
+		.movie_rating_stars {
+			font-size: 1.6rem;
+		}
+
+		.movie_format select {
+			width: 130px;
+		}
+
+		#movie_admin_list_actions {
+			justify-content: flex-start;
+			width: 100%;
+			
+			.alert {
+			    width: auto;
+			}
+		}
+	}
+}
