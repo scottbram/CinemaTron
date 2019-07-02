@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thatbram/sans-demo.git"
+    "url": "git+https://github.com/scottbram/cinematron.git"
   },
   "author": "Scott Bram <scottbram@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/thatbram/sans-demo/issues"
+    "url": "https://github.com/scottbram/cinematron/issues"
   },
-  "homepage": "https://github.com/thatbram/sans-demo#readme",
+  "homepage": "https://github.com/scottbram/cinematron#readme",
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
@@ -25,8 +25,7 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-terser": "^1.1.7",
-    "netlify-lambda": "^1.4.5",
-    "node-fetch": "^2.3.0"
+    "netlify-lambda": "^1.4.5"
   },
   "dependencies": {
     "airtable": "^0.5.10"

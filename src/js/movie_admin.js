@@ -72,6 +72,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					
 					var movie_listing = '<div class="movie_listing form-group" ' +
 							'data-recid="' + movie_recid +'"' +
+							'data-haschgs="false"' +
 							'id="movie_listing_' + movie_recid + '"' +
 						'>' +
 							// '<div class="movie_poster"></div>' +
@@ -150,14 +151,13 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		$('.save_all').show();
 		// $('.save_all').prop('disabled', false);
 
-		movie_admin.track_changes();
+		movie_admin.track_changes_field();
 		movie_admin.rating_hover();
 		movie_admin.rating_click();
 		movie_admin.save_all_click();
 
 
-
-		var tempSaveWarning = '<div class="alert alert-warning fade show" role="alert">' +
+		/*var tempSaveWarning = '<div class="alert alert-warning fade show" role="alert">' +
   				'<strong>HEADS UP!</strong> Only the first movie title will save at the moment...' +
 			'</div>';
 
@@ -165,13 +165,12 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			$('#movie_admin_list_actions').append(tempSaveWarning);
 		// }, function() {
 			// $('#movie_admin_list_actions .alert').alert('close');
-		// });
-
+		// });*/
 
 
 	}
 	,
-	track_changes : function () {
+	track_changes_field : function () {
 		$('#movie_admin_list').on('input change', 'input', function (e) {
 			var ogVal = $(this).attr('data-ogval');
 			var currVal = $(this).val();
@@ -188,7 +187,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				$(this).removeClass('valChg').nextAll('.valChgMsg').remove();
 			}
 
-			movie_admin.save_all_check();
+			movie_admin.track_changes_listing( $(this) );
 		});
 
 		$('#movie_admin_list').on('change', 'select', function (e) {
@@ -207,8 +206,26 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				$(this).removeClass('valChg').nextAll('.valChgMsg').remove();
 			}
 
-			movie_admin.save_all_check();
+			movie_admin.track_changes_listing( $(this) );
 		});
+	}
+	,
+	track_changes_listing : function (jqObj) {
+		/*var listingID = jqObj.closest('.movie_listing').attr('id');
+
+		console.log('listingID: ' + listingID);*/
+
+		var hasChgs = jqObj.closest('.movie_listing').find('input, select').hasClass('valChg');
+
+		// console.log('hasChgs: ' + hasChgs);
+
+		if (hasChgs) {
+			jqObj.closest('.movie_listing').attr('data-haschgs', true);
+		} else {
+			jqObj.closest('.movie_listing').attr('data-haschgs', false);
+		}
+
+		movie_admin.save_all_check();
 	}
 	,
 	rating_hover : function () {
@@ -307,7 +324,12 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		 * clear flag on parent element
 		 */
 
+		/** Manually-specified ID for 1 movie for development */
+		// var movie_recid = 'recgYgj9HIfvXUZmo';
+		
+
 		var movie_recid = 'recgYgj9HIfvXUZmo';
+
 		/**
 		  * Fields:
 		  * Title
