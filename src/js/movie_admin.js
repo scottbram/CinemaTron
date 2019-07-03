@@ -5,7 +5,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		$.ajax({
 			url: '/.netlify/functions/at_api',
 			dataType: 'json'
-		}).done( function (resp) {
+		}).done( function ( resp, textStatus, jqXHR ) {
 
 			/*console.log('resp: ');
 			console.log(resp);*/
@@ -80,6 +80,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 								'<label for="movie_title_' + movie_recid + '">Title <small class="text-muted">(50 characters or less)</small></label>' +
 								'<input id="movie_title_' + movie_recid + '"' +
 									' value="' + movie_title + '"' +
+									' data-fldname="Title"' +
 									' data-ogval="' + movie_title + '"' +
 									' class="form-control"' +
 									' type="text" minlength="1" maxlength="50">' +
@@ -89,6 +90,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 									'<label for="movie_year_' + movie_recid + '">Year <small class="text-muted">(from 1800 to 2100)</small></label>' +
 									'<input id="movie_year_' + movie_recid + '"' +
 										' value="' + movie_year + '"' +
+										' data-fldname="Year"' +
 										' data-ogval="' + movie_year + '"' +
 										' class="form-control"' +
 										' type="number" min="1800" max="2100">' +
@@ -97,6 +99,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 									'<label for="movie_length_' + movie_recid + '">Length <small class="text-muted">(in minutes)</small></label>' +
 									'<input id="movie_length_' + movie_recid + '"' +
 										' value="' + movie_length + '"' +
+										' data-fldname="Length"' +
 										' data-ogval="' + movie_length + '"' +
 										' class="form-control"' +
 										' type="number" min="0" max="500">' +
@@ -106,6 +109,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 									movie_rating_stars +
 									'<input id="movie_rating_' + movie_recid + '"' +
 										' value="' + movie_rating + '"' +
+										' data-fldname="Rating"' +
 										' data-ogval="' + movie_rating + '"' +
 										' class="form-control"' +
 										' type="number" min="1" max="5" hidden>' +
@@ -113,23 +117,14 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 								'<div class="movie_format">' +
 									'<label for="movie_format_' + movie_recid + '">Format</label>' +
 									'<select id="movie_format_' + movie_recid + '" class="custom-select"' +
+										' data-fldname="Format"' +
 										' data-ogval="' + movie_format + '"' +'>' +
 										// '<option selected>Open this select menu</option>' +
 										'<option value="DVD"' + DVDsel + '>DVD</option>' +
 										'<option value="Streaming"' + STRsel + '>Streaming</option>' +
 										'<option value="VHS"' + VHSsel + '>VHS</option>' +
 									'</select>' +
-
-									/*'<input id="movie_format_' + movie_recid + '"' +
-										' value="' + movie_format + '"' +
-										' data-ogval="' + movie_format + '"' +
-										' class="form-control"' +
-										' type="text">' +*/
-
 								'</div>' +
-
-								// movie_year + ' | ' + movie_length + ' minutes | ' + movie_rating_stars + ' | ' + movie_format +
-
 							'</div>' +
 						'</div>'
 					;
@@ -141,21 +136,31 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					}
 				});
 			}
+		}).fail( function ( jqXHR, textStatus, errorThrown ) {
+			$('#movie_list_status').alert('close');
+
+			console.log('textStatus: ');
+			console.log(textStatus);
+			console.log('errorThrown: ');
+			console.log(errorThrown);
+
+			var errMsg = '<div id="movie_list_status" class="alert alert-warning fade show" role="alert">' +
+					'<span id="movie_list_status_msg">There was a problem loading the movies.</br>Try refreshing the page and if the problem persists, please contact us.</span>' +
+				'</div>';
+			
+			$('#movie_admin').prepend(errMsg);
 		});
 	}
 	,
 	ready : function () {
-		// $('#movie_list_status').hide();
 		$('#movie_list_status').alert('close');
 
 		$('.save_all').show();
-		// $('.save_all').prop('disabled', false);
-
+		
 		movie_admin.track_changes_field();
 		movie_admin.rating_hover();
 		movie_admin.rating_click();
 		movie_admin.save_all_click();
-
 
 		/*var tempSaveWarning = '<div class="alert alert-warning fade show" role="alert">' +
   				'<strong>HEADS UP!</strong> Only the first movie title will save at the moment...' +
@@ -166,8 +171,6 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		// }, function() {
 			// $('#movie_admin_list_actions .alert').alert('close');
 		// });*/
-
-
 	}
 	,
 	track_changes_field : function () {
@@ -211,13 +214,14 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	track_changes_listing : function (jqObj) {
-		/*var listingID = jqObj.closest('.movie_listing').attr('id');
 
-		console.log('listingID: ' + listingID);*/
+		console.log('jqObj: ');
+		console.log(jqObj);
 
 		var hasChgs = jqObj.closest('.movie_listing').find('input, select').hasClass('valChg');
 
-		// console.log('hasChgs: ' + hasChgs);
+		console.log("jqObj.closest('.movie_listing'): ");
+		console.log(jqObj.closest('.movie_listing'));
 
 		if (hasChgs) {
 			jqObj.closest('.movie_listing').attr('data-haschgs', true);
@@ -309,7 +313,20 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	save_all : function () {
-		/** This section will gather the chanegs */
+		/** Manually-specified values for development */
+		/*var movie_recid = 'recgYgj9HIfvXUZmo',
+			movie_title = $('#movie_listing_' + movie_recid + ' .movie_title input').val(),
+			var req_obj = {
+				'ID': movie_recid,
+				'Title': movie_title
+			};*/
+
+		/**
+		 * This will break the request as a way of demoing error handling
+		 */
+		// var movie_title 	= $('#' + movie_recid + ' .movie_title input');
+
+		/** Gather changes and send PATCH request to API per movie */
 
 		/** 
 		 * Changes need to be grouped per record (i.e., movie)
@@ -324,97 +341,116 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		 * clear flag on parent element
 		 */
 
-		/** Manually-specified ID for 1 movie for development */
-		// var movie_recid = 'recgYgj9HIfvXUZmo';
-		
+		var chgdMoviesArr = $('.movie_listing[data-haschgs="true"]');
 
-		var movie_recid = 'recgYgj9HIfvXUZmo';
+		$.each(chgdMoviesArr, function (idx, itm) {
+			var movie_recid = $(itm).attr('data-recid');
+			var req_obj = {
+				'ID': movie_recid
+			};
+			var req_obj_flds = {};
 
-		/**
-		  * Fields:
-		  * Title
-		  * Year
-		  * Length
-		  * Rating
-		  * Format
-		  * Art
-		  */
-		// var movie_obj 		= itm.fields;
-		// var movie_art 		= movie_obj.Art;
-		
-		/**
-		 * This will break the request as a way of demoing error handling
-		 */
-		// var movie_title 	= $('#' + movie_recid + ' .movie_title input');
+			console.log('movie_recid: ');
+			console.log(movie_recid);
 
-		var movie_title 	= $('#movie_listing_' + movie_recid + ' .movie_title input').val();
+			var chgdFldsArr = $('#movie_listing_' + movie_recid).find('.valChg');
 
-		// var movie_year 		= movie_obj.Year;
-		// var movie_length 	= movie_obj.Length;
-		// var movie_rating 	= movie_obj.Rating;
-		// var movie_format 	= movie_obj.Format;
+			console.log('chgdFldsArr: ');
+			console.log(chgdFldsArr);
 
-		var req_obj = {
-			'ID': movie_recid,
-			'Title': movie_title
-		}
+			/** 
+			 * For each changed field, 
+			 * get the attribute value that has the associated field name in the data store
+			 * along with the field value 
+			 * to build an object of key/value pairs 
+			 * to send in each request
+			 */
 
-		var req_str = JSON.stringify(req_obj);
+			$.each(chgdFldsArr, function (idx_fld, itm_fld) {
+				var fldName = $(itm_fld).attr('data-fldname');
+				var fldVal = $(itm_fld).val();
 
-		$.ajax({
-			url: '/.netlify/functions/at_api',
-			type : 'PATCH',
-			// dataType: 'json',
-		    contentType: 'application/json',
-			data: req_str,
-			success : function (resp, textStatus, jqXhr) {
-
-				console.log('success event');
-
-				console.log('resp: ');
-				console.log(resp);
-				
-				console.log('textStatus: ');
-				console.log(textStatus);
-
-				// alert('success event');
-
-				window.location.reload(true);
-			},
-			error : function (jqXHR, textStatus, errorThrown) {
-
-				console.log('error event');
-				
-				console.log('jqXHR: ');
-				console.log(jqXHR);
-
-				console.log('textStatus: ');
-				console.log(textStatus);
-				
-				console.log('errorThrown: ');
-				console.log(errorThrown);
-				
-				var err_disp;
-
-				if (typeof jqXHR.responseJSON !== 'undefined') {
-					err_statusCode = jqXHR.responseJSON['statusCode'];
-					err_is = jqXHR.responseJSON['error'];
-					err_msg = jqXHR.responseJSON['message'];
-
-					err_disp = err_statusCode + '\n' + err_is + '\n' + err_msg;
-				} else {
-					err_disp = jqXHR.responseText;
+				if ( fldName === 'Year' | fldName === 'Length' | fldName === 'Rating' ) {
+					fldVal = Number(fldVal);
 				}
+
+				console.log('fldName: ');
+				console.log(fldName);
+				console.log('fldVal: ');
+				console.log(fldVal);
 				
-				alert('Error:\n' + err_disp);
-			},
-			complete : function() {
+				req_obj_flds[fldName] = fldVal;
+			});
 
-				console.log('complete event');
+			req_obj.fields = req_obj_flds;
 
-			}
+			console.log('req_obj: ');
+			console.log(req_obj);
+
+			var req_str = JSON.stringify(req_obj);
+
+			console.log('req_str: ');
+			console.log(req_str);
+
+			$.ajax({
+				url: '/.netlify/functions/at_api',
+				type : 'PATCH',
+				// dataType: 'json',
+			    contentType: 'application/json',
+				data: req_str,
+				success : function (resp, textStatus, jqXhr) {
+
+					console.log('success event');
+
+					console.log('resp: ');
+					console.log(resp);
+					
+					console.log('textStatus: ');
+					console.log(textStatus);
+
+					if (idx+1 === chgdMoviesArr.length) {
+						window.location.reload(true);
+					}
+				},
+				error : function (jqXHR, textStatus, errorThrown) {
+
+					console.log('error event');
+					
+					console.log('jqXHR: ');
+					console.log(jqXHR);
+
+					console.log('textStatus: ');
+					console.log(textStatus);
+					
+					console.log('errorThrown: ');
+					console.log(errorThrown);
+					
+					var err_disp;
+
+					if (typeof jqXHR.responseJSON !== 'undefined') {
+						err_statusCode = jqXHR.responseJSON['statusCode'];
+						err_is = jqXHR.responseJSON['error'];
+						err_msg = jqXHR.responseJSON['message'];
+
+						err_disp = err_statusCode + '\n' + err_is + '\n' + err_msg;
+					} else {
+						err_disp = jqXHR.responseText;
+					}
+					
+					alert('Error:\n' + err_disp);
+
+					/*<div id="movie_list_status" class="alert alert-info fade show" role="alert">
+						<span class="spinner spinner-border spinner-border-md" role="status" aria-hidden="true"></span>
+						<span id="movie_list_status_msg">Movies loading...</span>
+					</div>*/
+				},
+				complete : function() {
+
+					console.log('complete event');
+
+				}
+			});
 		});
-		
 	}
 	,
 	save_one : function () {
