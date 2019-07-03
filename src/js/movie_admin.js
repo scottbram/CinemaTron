@@ -409,7 +409,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					console.log(textStatus);
 
 					if (idx+1 === chgdMoviesArr.length) {
-						window.location.reload(true);
+						// window.location.reload(true);
+						movie_admin.status_msg('save_success');
 					}
 				},
 				error : function (jqXHR, textStatus, errorThrown) {
@@ -455,5 +456,20 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	,
 	save_one : function () {
 		/** Potential use for single field save */
+	}
+	,
+	status_msg : function (status_msg) {
+		switch (status_msg) {
+			case 'save_success':
+				var msg = '<div id="movie_list_status" class="alert alert-success fade show" role="alert">' +
+					'<span id="movie_list_status_msg">Changes saved.</span>' +
+				'</div>';
+			break;
+			/*case '':
+				
+			break;*/
+		}
+			
+		$('#movie_admin').prepend(msg);
 	}
 }).init();
