@@ -85,4 +85,5 @@ gulp.task('imagemin', function () {
 });
 
 /** Default task */
+/** Image processing starts first because it tends require the longest execution */
 gulp.task('default', gulp.parallel('imagemin', 'build-html', 'build-styles', 'build-js'));

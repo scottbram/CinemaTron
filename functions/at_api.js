@@ -1,5 +1,6 @@
 const Airtable = require('airtable')
 const { AIRTABLE_API_KEY } = process.env
+const { AIRTABLE_BASE_ID } = process.env
 const at_obj = new Airtable({
 		apiKey: AIRTABLE_API_KEY
 	})
@@ -57,7 +58,7 @@ exports.handler = async (event, context) => {
 				console.log(errObj);
 				
 				return {
-		            statusCode: 500,
+		            statusCode: errObj.statusCode,
 		            headers: { 'Content-Type': 'application/json' },
 		            body: JSON.stringify(errBody)
 		        }
@@ -70,18 +71,22 @@ exports.handler = async (event, context) => {
 
 			var req_obj = JSON.parse(event.body)
 			var rec_id = req_obj.ID
-			var rec_title = req_obj.Title
+			var rec_fields = req_obj.fields
 
+			console.log('req_obj: ')
+			console.log(req_obj)
+
+			console.log('rec_id: ')
 			console.log(rec_id)
-			console.log(rec_title)
+
+			console.log('rec_fields: ')
+			console.log(rec_fields)
 
 			try {
 				resp = await at_obj('movies')
 					.update(
 						rec_id,
-						{
-							'Title': rec_title
-						}
+						rec_fields
 					)
 
 				return {
@@ -90,13 +95,6 @@ exports.handler = async (event, context) => {
 					body: JSON.stringify(resp)
 				}
 			} catch (errObj) {
-				
-				/*
-				 error: 'INVALID_VALUE_FOR_COLUMN',
-				  message: 'Field Title can not accept value [object Object]',
-				  statusCode: 422
-				 */
-				
 				return {
 					statusCode: errObj.statusCode,
 					headers: { 'Content-Type': 'application/json' },
