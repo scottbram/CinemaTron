@@ -294,25 +294,29 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		if ( $('.valChg').length !== 0 ) {
 			$('.save_all').prop('disabled', false);
 
-			/** If an .unsavedChgMsg isn't already present, add it */
-			if ( $('.save_all').nextAll('.unsavedChgMsg').length === 0 ) {
-				$('.save_all').after('<small class="text-muted unsavedChgMsg">There are unsaved changes!</small>');
+			/** If an .msg_unsavedChgs isn't already present, add it */
+			if ( $('#movie_admin_list_actions_msgs .msg_unsavedChgs').length === 0 ) {
+				$('#movie_admin_list_actions_msgs').prepend('<small class="msg_saveStatus msg_unsavedChgs msg-warning">There are unsaved changes!</small>');
 			}
 		} else {
 			$('.save_all').prop('disabled', true);
-			$('.save_all').nextAll('.unsavedChgMsg').remove();
+			$('#movie_admin_list_actions_msgs .msg_unsavedChgs').remove();
 		}
 	}
 	,
 	save_all_click : function () {
 		$('.save_all').click( function (e) {
-			if ( $('#movie_title_recgYgj9HIfvXUZmo').hasClass('valChg') ) {
-				movie_admin.save_all();
-			}
+			$('.save_all').prop('disabled', true);
+
+			movie_admin.save_all();
 		});
 	}
 	,
 	save_all : function () {
+		$('#movie_admin_list_actions_msgs .msg_saveStatus').remove();
+
+		$('#movie_admin_list_actions_msgs').prepend('<small class="msg_saveStatus msg_savingChgs msg-info">Saving changes...</small>');
+
 		/** Manually-specified values for development */
 		/*var movie_recid = 'recgYgj9HIfvXUZmo',
 			movie_title = $('#movie_listing_' + movie_recid + ' .movie_title input').val(),
@@ -461,15 +465,28 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	status_msg : function (status_msg) {
 		switch (status_msg) {
 			case 'save_success':
-				var msg = '<div id="movie_list_status" class="alert alert-success fade show" role="alert">' +
+				/*var msg = '<div id="movie_list_status" class="alert alert-success fade show " role="alert">' +
 					'<span id="movie_list_status_msg">Changes saved.</span>' +
-				'</div>';
+				'</div>';*/
+
+				/** Reset fields to unchanged style */
+				$('.valChg').removeClass('valChg');
+
+				/** Remove any messages about save status */
+				$('#movie_admin_list_actions_msgs .msg_saveStatus').remove();
+
+				$('#movie_admin_list_actions_msgs').prepend('<small class="msg_saveStatus msg_chgsSaved msg-success">Changes saved.</small>');
+
+				/** After specificed delay, fade the message, then remove from DOM */
+				window.setTimeout( function () {
+					$('#movie_admin_list_actions_msgs .msg_chgsSaved').fadeOut('slow', function (e) {
+						$(this).remove();
+					});
+				}, 2000);
 			break;
 			/*case '':
 				
 			break;*/
 		}
-			
-		$('#movie_admin').prepend(msg);
 	}
 }).init();

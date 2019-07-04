@@ -4,12 +4,44 @@
  */
 
 #site_header {
-	padding-right: 5vw;
-	padding-left: 5vw;
-	/*background-color: $primary_color_bg;
-	border-bottom: 1px solid $primary_color;*/
+	/*padding-right: 5vw;
+	padding-left: 5vw;*/
+	background-color: $primary_color;
+	/*border-bottom: 1px solid $primary_color;
 	background-color: $highlight_color_bg;
-	border-bottom: 1px solid $highlight_color;
+	border-bottom: 1px solid $highlight_color;*/
+}
+
+.msg-primary {
+	color: $msg_primary_color;
+}
+
+.msg-secondary {
+	color: $msg_secondary_color;
+}
+
+.msg-success {
+	color: $msg_success_color;
+}
+
+.msg-danger {
+	color: $msg_danger_color;
+}
+
+.msg-warning {
+	color: $msg_warning_color;
+}
+
+.msg-info {
+	color: $msg_info_color;
+}
+
+.msg-light {
+	color: $msg_light_color;
+}
+
+.msg-dark {
+	color: $msg_dark_color;
 }
 
 /*#movie_listings {
@@ -39,10 +71,6 @@ textarea.valChg.form-control:focus,
 select.valChg {
 	border-color: rgb(255, 165, 0);
 	background-color: rgb(255, 244, 224);
-}
-
-.unsavedChgMsg {
-	margin-left: 8px;
 }
 
 @media (min-width: 1000px) {

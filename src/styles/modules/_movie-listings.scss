@@ -15,7 +15,15 @@
 	.movie_listing {
 		margin: 0 0 16px;
 		padding: 0 0 16px;
-		border-bottom: 1px dotted silver;
+		border-bottom-width: 4px;
+		border-bottom-style: dotted;
+		border-bottom-color: $secondary_color_bg;
+
+		&:last-of-type {
+			margin: 0;
+			padding: 0;
+			border-bottom-width: 0;
+		}
 	}
 
 	.movie_title {
