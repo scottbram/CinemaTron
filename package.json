@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/scottbram/cinematron#readme",
   "devDependencies": {
+    "eslint": "^6.0.1",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-htmlmin": "^5.0.1",

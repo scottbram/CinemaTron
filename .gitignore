@@ -1,4 +1,7 @@
+branding/
 node_modules/
 netlify.toml
 *.sublime-*
-branding/
+*.code-workspace
+.eslintrc.json
+.vscode/tasks.json
