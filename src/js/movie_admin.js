@@ -3,7 +3,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 (movie_admin = {
 	init : function () {
 		$.ajax({
-			url: '/.netlify/functions/at_api',
+			url: '/.netlify/functions/at_get_movie',
 			dataType: 'json'
 		}).done( function ( resp, textStatus, jqXHR ) {
 
@@ -160,6 +160,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		movie_admin.track_changes_field();
 		movie_admin.rating_hover();
 		movie_admin.rating_click();
+		movie_admin.save_item_click();
 		movie_admin.save_all_click();
 
 		/*var tempSaveWarning = '<div class="alert alert-warning fade show" role="alert">' +
@@ -290,6 +291,10 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		});
 	}
 	,
+	save_item_check : function () {
+		// check if fields associated to given save button have changed
+	}
+	,
 	save_all_check : function () {
 		if ( $('.valChg').length !== 0 ) {
 			$('.save_all').prop('disabled', false);
@@ -304,6 +309,15 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		}
 	}
 	,
+	save_item_click : function () {
+		$('.save_item').click( function (e) {
+			$(this).prop('disabled', true);
+			var movie_recid = $(this).attr('data-recid');
+
+			movie_admin.save_item(movie_recid);
+		});
+	}
+	,
 	save_all_click : function () {
 		$('.save_all').click( function (e) {
 			$('.save_all').prop('disabled', true);
@@ -312,10 +326,116 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		});
 	}
 	,
+	save_item : function (movie_recid) {
+		var req_obj = {
+			'ID': movie_recid
+		};
+		var req_obj_flds = {};
+
+		console.log('movie_recid: ');
+		console.log(movie_recid);
+
+		var chgdFldsArr = $('#movie_listing_' + movie_recid).find('.valChg');
+
+		console.log('chgdFldsArr: ');
+		console.log(chgdFldsArr);
+
+		/** 
+		 * For each changed field, 
+		 * get the attribute value that has the associated field name in the data store
+		 * along with the field value 
+		 * to build an object of key/value pairs 
+		 * to send in each request
+		 */
+
+		$.each(chgdFldsArr, function (idx_fld, itm_fld) {
+			var fldName = $(itm_fld).attr('data-fldname');
+			var fldVal = $(itm_fld).val();
+
+			if ( fldName === 'Year' | fldName === 'Length' | fldName === 'Rating' ) {
+				fldVal = Number(fldVal);
+			}
+
+			console.log('fldName: ');
+			console.log(fldName);
+			console.log('fldVal: ');
+			console.log(fldVal);
+			
+			req_obj_flds[fldName] = fldVal;
+		});
+
+		req_obj.fields = req_obj_flds;
+
+		console.log('req_obj: ');
+		console.log(req_obj);
+
+		var req_str = JSON.stringify(req_obj);
+
+		console.log('req_str: ');
+		console.log(req_str);
+
+		$.ajax({
+			url: '/.netlify/functions/at_update_movie',
+			type : 'PATCH',
+			// dataType: 'json',
+			contentType: 'application/json',
+			data: req_str,
+			success : function (resp, textStatus, jqXhr) {
+
+				console.log('success event');
+
+				console.log('resp: ');
+				console.log(resp);
+				
+				console.log('textStatus: ');
+				console.log(textStatus);
+
+				movie_admin.status_msg('save_item_success');
+			},
+			error : function (jqXHR, textStatus, errorThrown) {
+
+				console.log('error event');
+				
+				console.log('jqXHR: ');
+				console.log(jqXHR);
+
+				console.log('textStatus: ');
+				console.log(textStatus);
+				
+				console.log('errorThrown: ');
+				console.log(errorThrown);
+				
+				var err_disp;
+
+				if (typeof jqXHR.responseJSON !== 'undefined') {
+					let err_statusCode = jqXHR.responseJSON['statusCode'];
+					let err_is = jqXHR.responseJSON['error'];
+					let err_msg = jqXHR.responseJSON['message'];
+
+					err_disp = err_statusCode + '\n' + err_is + '\n' + err_msg;
+				} else {
+					err_disp = jqXHR.responseText;
+				}
+				
+				alert('Error:\n' + err_disp);
+
+				/*<div id="movie_list_status" class="alert alert-info fade show" role="alert">
+					<span class="spinner spinner-border spinner-border-md" role="status" aria-hidden="true"></span>
+					<span id="movie_list_status_msg">Movies loading...</span>
+				</div>*/
+			},
+			complete : function() {
+
+				console.log('complete event');
+
+			}
+		});
+	}
+	,
 	save_all : function () {
 		$('#movie_admin_list_actions_msgs .msg_saveStatus').remove();
 
-		$('#movie_admin_list_actions_msgs').prepend('<small class="msg_saveStatus msg_savingChgs msg-info">Saving changes...</small>');
+		$('#movie_admin_list_actions_msgs').prepend('<small class="msg_saveStatus msg_savingAllChgs msg-info">Saving all changes...</small>');
 
 		/** Manually-specified values for development */
 		/*var movie_recid = 'recgYgj9HIfvXUZmo',
@@ -397,10 +517,10 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			console.log(req_str);
 
 			$.ajax({
-				url: '/.netlify/functions/at_api',
+				url: '/.netlify/functions/at_update_movie',
 				type : 'PATCH',
 				// dataType: 'json',
-			    contentType: 'application/json',
+				contentType: 'application/json',
 				data: req_str,
 				success : function (resp, textStatus, jqXhr) {
 
@@ -413,8 +533,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					console.log(textStatus);
 
 					if (idx+1 === chgdMoviesArr.length) {
-						// window.location.reload(true);
-						movie_admin.status_msg('save_success');
+						movie_admin.status_msg('save_all_success');
 					}
 				},
 				error : function (jqXHR, textStatus, errorThrown) {
@@ -433,9 +552,9 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					var err_disp;
 
 					if (typeof jqXHR.responseJSON !== 'undefined') {
-						err_statusCode = jqXHR.responseJSON['statusCode'];
-						err_is = jqXHR.responseJSON['error'];
-						err_msg = jqXHR.responseJSON['message'];
+						let err_statusCode = jqXHR.responseJSON['statusCode'];
+						let err_is = jqXHR.responseJSON['error'];
+						let err_msg = jqXHR.responseJSON['message'];
 
 						err_disp = err_statusCode + '\n' + err_is + '\n' + err_msg;
 					} else {
@@ -464,7 +583,10 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	,
 	status_msg : function (status_msg) {
 		switch (status_msg) {
-			case 'save_success':
+			case 'save_item_success':
+				// 
+			break;
+			case 'save_all_success':
 				/*var msg = '<div id="movie_list_status" class="alert alert-success fade show " role="alert">' +
 					'<span id="movie_list_status_msg">Changes saved.</span>' +
 				'</div>';*/

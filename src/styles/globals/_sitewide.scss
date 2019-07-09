@@ -12,6 +12,18 @@
 	border-bottom: 1px solid $highlight_color;*/
 }
 
+#admin_access {
+	position: fixed;
+	right: 6px;
+	bottom: 2px;
+	font-size: 1.8rem;
+
+	a {
+		color: whitesmoke;
+		text-decoration: none;
+	}
+}
+
 .msg-primary {
 	color: $msg_primary_color;
 }
@@ -87,5 +99,9 @@ select.valChg {
 		#movie_list_status_msg {
 			font-size: 1.1rem;
 		}
+	}
+
+	#admin_access {
+		font-size: 0.8rem;
 	}
 }
