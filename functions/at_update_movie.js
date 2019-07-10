@@ -1,6 +1,7 @@
 const Airtable = require('airtable')
-// The next 2 lines refer to environment variables configured in Netlify settings (found in "Site settings > Build & deploy > Environment" as of this writing)
+/** The next 2 lines refer to environment variables configured in Netlify settings (found in "Site settings > Build & deploy > Environment" as of this writing) */
 const { AIRTABLE_API_KEY } = process.env
+/** Didn't work locally via Netlify CLI, so just using direct value */
 // const { AIRTABLE_BASE_ID } = process.env
 const at_base = new Airtable({
 		apiKey: AIRTABLE_API_KEY
@@ -8,27 +9,11 @@ const at_base = new Airtable({
 	.base('appESVtnPeSwbPbUA')
 const at_table_movies = at_base('movies')
 
-exports.handler = async (event, context) => {
-
-	// console.log(event)
-
+exports.handler = async (event, context, callback) => {
 	var resp
-
-	console.log('PATCH request recvd')
-	// console.log(event)
-
 	var req_obj = JSON.parse(event.body)
 	var rec_id = req_obj.ID
 	var rec_fields = req_obj.fields
-
-	console.log('req_obj: ')
-	console.log(req_obj)
-
-	console.log('rec_id: ')
-	console.log(rec_id)
-
-	console.log('rec_fields: ')
-	console.log(rec_fields)
 
 	try {
 		resp = await at_table_movies.update(
