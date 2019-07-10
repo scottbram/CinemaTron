@@ -12,7 +12,7 @@ exports.handler = async (event, context) => {
 
 	// console.log(event)
 
-	var resp, sendBack
+	var resp
 
 	console.log('PATCH request recvd')
 	// console.log(event)
