@@ -3,7 +3,7 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 (movie_listings = {
 	init : function () {
 		$.ajax({
-			url: '/.netlify/functions/at_api',
+			url: '/.netlify/functions/at_get_movie',
 			dataType: 'json'
 		}).done( function (resp) {
 
