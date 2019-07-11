@@ -3,7 +3,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 (movie_admin = {
 	init : function () {
 		$.ajax({
-			url: '/.netlify/functions/at_get_movie',
+			url: '/.netlify/functions/at_get_movie?recid=all',
 			dataType: 'json'
 		}).done( function ( resp, textStatus, jqXHR ) {
 
