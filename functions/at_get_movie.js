@@ -19,9 +19,9 @@ exports.handler = async (event, context, callback) => {
 
 		console.log('record id: ' + rec_id_qs)
 
-		if ( typeof rec_id_qs !== 'undefined' && rec_id_qs !== '' ) {
+		if ( typeof rec_id_qs !== 'undefined' && rec_id_qs !== '' && rec_id_qs !== 'all' ) {
 			resp = await at_table_movies.find(rec_id_qs);
-		} else {
+		} else if (rec_id_qs === 'all') {
 			resp = await at_table_movies.select({
 					maxRecords: 20,
 					// filterByFormula: filterFormula

@@ -1,0 +1,3 @@
+# Netlify Functions proxy redirect for API endpoints
+ /at_get_movie recid=:recidid /.netlify/functions/at_get_movie recid=:recidid 200
+ /at_update_movie /.netlify/functions/at_update_movie 200

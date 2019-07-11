@@ -84,6 +84,21 @@ gulp.task('imagemin', function () {
 		.pipe(gulp.dest(output.images));
 });
 
+/** Copy _redirect file */
+gulp.task('copy_redir', function () {
+	return gulp.src(in_root + '/_redirects')
+		.pipe(gulp.dest(out_root));
+});
+
+
 /** Default task */
 /** Image processing starts first because it tends require the longest execution */
-gulp.task('default', gulp.parallel('imagemin', 'build-html', 'build-styles', 'build-js'));
+gulp.task('default', 
+	gulp.parallel(
+		'imagemin', 
+		'build-js', 
+		'build-styles', 
+		'build-html', 
+		'copy_redir'
+	)
+);
