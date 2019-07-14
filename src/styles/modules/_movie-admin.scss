@@ -10,7 +10,6 @@
 
 	#movie_admin_list {
 		padding-bottom: 158px;
-		width: 100%;
 	}
 
 	.movie_listing {
@@ -45,25 +44,36 @@
 		display: block;
 	}
 
-	.movie_rating_star {
-		cursor: pointer;
-	}
+	.movie_rating_stars {
+		width: max-content;
+		padding: 0 6px 3px;
+		border: 1px solid rgb(206, 212, 218);
+		border-radius: 4px;
+		line-height: normal;
 
-	.movie_rating_star_selected, 
-	.movie_rating_star:hover {
-		color: rgb(245, 208, 0);
-	}
+		.movie_rating_star {
+			display: inline-block;
+			padding: 0 3px;
 
-	.movie_rating_star_unselected {
-		color: rgb(216, 216, 216);
-	}
-
-	.movie_rating_hover_prevSib {
-		color: rgb(245, 208, 0);
-	}
-
-	.movie_rating_hover_nextSib {
-		color: rgb(216, 216, 216);
+			cursor: pointer;
+		}
+	
+		.movie_rating_star_selected, 
+		.movie_rating_star:hover {
+			color: rgb(245, 208, 0);
+		}
+	
+		.movie_rating_star_unselected {
+			color: rgb(216, 216, 216);
+		}
+	
+		.movie_rating_hover_prevSib {
+			color: rgb(245, 208, 0);
+		}
+	
+		.movie_rating_hover_nextSib {
+			color: rgb(216, 216, 216);
+		}
 	}
 
 	#movie_admin_list_actions {

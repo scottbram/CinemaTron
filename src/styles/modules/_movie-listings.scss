@@ -6,10 +6,6 @@
 #movie_listings {
 	#movie_list {
 		visibility: hidden;
-
-		display: flex;
-    	flex-direction: column;
-		width: 100%;
 	}
 	
 	.movie_listing {
@@ -27,7 +23,8 @@
 	}
 
 	.movie_title {
-		font-family: 'Krub';
+		color: $secondary_color;
+		font-family: 'Mada';
 		font-size: 4rem;
 		font-weight: 700;
 		line-height: 1.25;

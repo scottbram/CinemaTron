@@ -4,21 +4,32 @@
  */
 
 body {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
 	margin: 0;
 	padding: 0;
 	color: $font_color;
 
 	visibility: hidden;
+
+	& > main {
+		a {
+			&:hover {
+				background-color: $primary_color_bg;
+				color: $secondary_color_intense;
+			}
+		}
+	}
 }
 
-header, main {
+main {
 	margin: auto;
 }
 
 header {
-	padding: 8px;
-
 	a {
+		display: inline-block;
 		color: inherit;
 		text-decoration: none;
 
@@ -47,7 +58,7 @@ aside {
 
 h1 {
 	margin: 0;
-	padding: 16px 0;
+	padding: 0;
 	color: white;
 	text-align: center;
 	font-family: 'Bowlby One SC';
@@ -57,6 +68,8 @@ h1 {
 h2 {
 	margin: 0;
 	color: $secondary_color;
+	font-family: 'Mada';
+	font-weight: 700;
 }
 
 h3 {
@@ -99,12 +112,8 @@ button {
 }
 
 a {
-	color: $highlight_color_intense;
+	color: $secondary_color;
 	text-decoration: underline;
-
-	&:hover {
-		color: $highlight_color_darker;
-	}
 }
 
 @media (min-width: 1000px) {

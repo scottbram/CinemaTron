@@ -4,12 +4,21 @@
  */
 
 #site_header {
-	/*padding-right: 5vw;
-	padding-left: 5vw;*/
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
 	background-color: $primary_color;
-	/*border-bottom: 1px solid $primary_color;
-	background-color: $highlight_color_bg;
-	border-bottom: 1px solid $highlight_color;*/
+
+	h1 {
+		display: inline-flex;
+	}
+}
+
+.main_content {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }
 
 #admin_access {
@@ -56,10 +65,6 @@
 	color: $msg_dark_color;
 }
 
-/*#movie_listings {
-	position: relative;
-}*/
-
 #movie_list_status {
 	position: absolute;
 	/*padding: 8px 16px;
@@ -80,17 +85,13 @@ input:not([type='checkbox']):not([type='radio']).valChg,
 input:not([type='checkbox']):not([type='radio']).valChg.form-control:focus
 textarea.valChg,
 textarea.valChg.form-control:focus,
-select.valChg {
-	border-color: rgb(255, 165, 0);
-	background-color: rgb(255, 244, 224);
+select.valChg,
+.valChg-colorsOnly {
+	border-color: rgb(255, 165, 0) !important;
+	background-color: $primary_color_bg !important;
 }
 
 @media (min-width: 1000px) {
-	/*#site_header {
-		padding-right: 10vw;
-		padding-left: 10vw;
-	}*/
-
 	#movie_list_status {
 		.spinner {
 			vertical-align: middle;

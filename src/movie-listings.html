@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta name="description" content="CinemaTron">
+	<meta name="description" content="Cinematron">
 	<meta name="author" content="Scott Bram">
 
 	<title>CinemaTron | Curated film favs</title>
@@ -19,25 +19,26 @@
 		<h1><a href="/">CinemaTron</a></h1>
 	</header>
 
-	<main id="movie_admin">
+	<main id="movie_listings">
 		<div id="movie_list_status" class="alert alert-info fade show" role="alert">
 			<span class="spinner spinner-border spinner-border-md" role="status" aria-hidden="true"></span>
 			<span id="movie_list_status_msg">Movies loading...</span>
 		</div>
 
-		<div id="movie_admin_list" class="main_content"></div>
-
-		<div id="movie_admin_list_actions">
-			<button class="btn btn-primary save_all" type="button" disabled>Save all changes</button>
-			<span id="movie_admin_list_actions_msgs"></span>
-		</div>
+		<div id="movie_list" class="main_content"></div>
 	</main>
+
+	<footer>
+		<div id="admin_access">
+			<a href="/movie-admin">admin</a>
+		</div>
+	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 	<script src="js/site.min.js"></script>
-	<script src="js/movie_admin.min.js"></script>
+	<script src="js/movie_listings.min.js"></script>
 </body>
 </html>

@@ -262,10 +262,20 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		$('.movie_rating_star').click( function (e) {
 			var movie_rating_sel = $(this).attr('data-ratingstar');
 			var movie_recid = $(this).closest('.movie_listing').attr('data-recid');
-
+			
+			/** Fire change event on associated input */
 			$('#movie_rating_' + movie_recid).val(movie_rating_sel).change();
-			// $('#movie_rating_' + movie_recid).val(movie_rating_sel);
-			// $('#movie_rating_' + movie_recid).attr('value', movie_rating_sel);
+
+			var ogVal = $('#movie_rating_' + movie_recid).attr('data-ogval');
+			var currVal = $('#movie_rating_' + movie_recid).val();
+
+			/** If the current value isn't the original value, mark the field */
+			/** Change colors on rating display to mimic input fields */
+			if (ogVal !== currVal) {
+				$(this).closest('.movie_rating_stars').addClass('valChg-colorsOnly');
+			} else {
+				$(this).closest('.movie_rating_stars').removeClass('valChg-colorsOnly');
+			}
 
 			/** 
 			 * Make selcted item 
@@ -324,14 +334,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			'ID': movie_recid
 		};
 		var req_obj_flds = {};
-
-		/* console.log('movie_recid: ');
-		console.log(movie_recid); */
-
 		var chgdFldsArr = $('#movie_listing_' + movie_recid).find('.valChg');
-
-		/* console.log('chgdFldsArr: ');
-		console.log(chgdFldsArr); */
 
 		/** 
 		 * For each changed field, 
@@ -349,43 +352,27 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				fldVal = Number(fldVal);
 			}
 
-			/* console.log('fldName: ');
-			console.log(fldName);
-			console.log('fldVal: ');
-			console.log(fldVal); */
-			
 			req_obj_flds[fldName] = fldVal;
 		});
 
 		req_obj.fields = req_obj_flds;
 
-		/* console.log('req_obj: ');
-		console.log(req_obj); */
-
 		var req_str = JSON.stringify(req_obj);
-
-		/* console.log('req_str: ');
-		console.log(req_str); */
 
 		var saveItemProm = new Promise( function (promSuccess, promError) {
 			$.ajax({
 				url: '/.netlify/functions/at_update_movie',
-				type : 'PATCH',
-				// dataType: 'json',
+				type: 'PATCH',
 				contentType: 'application/json',
 				data: req_str,
 				success: function (resp, textStatus, jqXhr) {
 
 					console.log('success event');
 
-					/** resp will be fresh data of the saved item */
-					/* console.log('resp: ');
-					console.log(resp); */
-					
-					/* console.log('textStatus: ');
-					console.log(textStatus); */
+					/** Reset fields to unchanged style */
+					$('#movie_listing_' + movie_recid).find('.valChg, .valChg-colorsOnly').removeClass('valChg valChg-colorsOnly');
 
-					// movie_admin.status_msg('save_item_success');
+					$(this).closest('.movie_rating_stars').removeClass('valChg-colorsOnly');
 
 					promSuccess();
 				},
@@ -417,11 +404,6 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					promError();
 
 					alert('Error:\n' + err_disp);
-
-					/*<div id="movie_list_status" class="alert alert-info fade show" role="alert">
-						<span class="spinner spinner-border spinner-border-md" role="status" aria-hidden="true"></span>
-						<span id="movie_list_status_msg">Movies loading...</span>
-					</div>*/
 				},
 				complete: function() {
 
@@ -454,19 +436,6 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		$('#movie_admin_list_actions_msgs .msg_saveStatus').remove();
 
 		$('#movie_admin_list_actions_msgs').prepend('<small class="msg_saveStatus msg_savingAllChgs msg-info">Saving all changes...</small>');
-
-		/** Manually-specified values for development */
-		/*var movie_recid = 'recgYgj9HIfvXUZmo',
-			movie_title = $('#movie_listing_' + movie_recid + ' .movie_title input').val(),
-			var req_obj = {
-				'ID': movie_recid,
-				'Title': movie_title
-			};*/
-
-		/**
-		 * This will break the request as a way of demoing error handling
-		 */
-		// var movie_title 	= $('#' + movie_recid + ' .movie_title input');
 
 		/** Gather changes and send PATCH request to API per movie */
 
@@ -512,13 +481,6 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				// 
 			break;
 			case 'save_all_success':
-				/*var msg = '<div id="movie_list_status" class="alert alert-success fade show " role="alert">' +
-					'<span id="movie_list_status_msg">Changes saved.</span>' +
-				'</div>';*/
-
-				/** Reset fields to unchanged style */
-				$('.valChg').removeClass('valChg');
-
 				/** Remove any messages about save status */
 				$('#movie_admin_list_actions_msgs .msg_saveStatus').remove();
 
