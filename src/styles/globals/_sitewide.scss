@@ -21,16 +21,16 @@
 	width: 100%;
 }
 
-#admin_access {
-	position: fixed;
-	right: 6px;
-	bottom: 2px;
-	font-size: 1.8rem;
+.form-field-container {
+	margin-bottom: 2rem;
+}
 
-	a {
-		color: whitesmoke;
-		text-decoration: none;
-	}
+#index-link {
+	left: 6px;
+}
+
+#admin_access {
+	right: 6px;
 }
 
 .msg-primary {
@@ -66,13 +66,21 @@
 }
 
 #movie_list_status {
+	align-self: center;
 	position: absolute;
 	/*padding: 8px 16px;
 	background-color: rgba(100, 100, 100, 0.3);
 	text-align: center;*/
 
 	.spinner {
+		vertical-align: text-top;
 		margin-right: 8px;
+	}
+
+	.spinner-border {
+		width: 1.6rem;
+		height: 1.6rem;
+		border-width: 0.15em;
 	}
 
 	#movie_list_status_msg {
@@ -92,17 +100,23 @@ select.valChg,
 }
 
 @media (min-width: 1000px) {
+	.form-field-container {
+		margin-bottom: 1rem;
+	}
+
 	#movie_list_status {
 		.spinner {
 			vertical-align: middle;
 		}
 
+		.spinner-border {
+			width: 1.6rem;
+			height: 1.6rem;
+			border-width: 0.25em;
+		}
+
 		#movie_list_status_msg {
 			font-size: 1.1rem;
 		}
-	}
-
-	#admin_access {
-		font-size: 0.8rem;
 	}
 }

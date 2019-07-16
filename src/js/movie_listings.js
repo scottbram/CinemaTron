@@ -117,10 +117,10 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 	,
 	ready : function () {
 		window.setTimeout( function () {
-			// $('#movie_list_status').hide();
 			$('#movie_list_status').alert('close');
+			$('#movie_list').css('overflow', 'auto');
 
-			$('#movie_list').css('visibility', 'visible');
+			// $('#movie_list').css('visibility', 'visible');
 		}, 200);
 	}
 }).init();

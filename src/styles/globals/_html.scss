@@ -4,27 +4,21 @@
  */
 
 body {
+	visibility: hidden;
 	display: flex;
     flex-direction: column;
     align-items: center;
 	margin: 0;
 	padding: 0;
 	color: $font_color;
-
-	visibility: hidden;
-
-	& > main {
-		a {
-			&:hover {
-				background-color: $primary_color_bg;
-				color: $secondary_color_intense;
-			}
-		}
-	}
+	font-family: 'Mada';
+	font-size: 2.2rem;
+	font-weight: 400;
 }
 
 main {
 	margin: auto;
+	width: 100%;
 }
 
 header {
@@ -34,9 +28,23 @@ header {
 		text-decoration: none;
 
 		&:hover {
+			background-color: transparent;
 			color: inherit;
 			text-decoration: none;
 		}
+	}
+}
+
+footer {
+	position: fixed;
+	bottom: 48px;
+	width: 100%;
+	font-size: 1.8rem;
+	
+	a {
+		position: absolute;
+		color: whitesmoke;
+		text-decoration: none;
 	}
 }
 
@@ -45,6 +53,10 @@ main {
 	flex-direction: column;
 	align-items: center;
 	padding: 16px 5vw;
+
+	header {
+		width: 100%;
+	}
 }
 
 aside {
@@ -66,10 +78,12 @@ h1 {
 }
 
 h2 {
-	margin: 0;
+	margin: 0 0 1.8rem;
+	padding: 0 0 0.4rem;
 	color: $secondary_color;
+	font-size: 5rem;
 	font-family: 'Mada';
-	font-weight: 700;
+	font-weight: 300;
 }
 
 h3 {
@@ -114,11 +128,29 @@ button {
 a {
 	color: $secondary_color;
 	text-decoration: underline;
+
+	&:hover {
+		background-color: $secondary_color_bg;
+		color: $secondary_color_intense;
+	}
 }
 
 @media (min-width: 1000px) {
+	body {
+		font-size: 0.9rem;
+	}
+
 	h1 {
 		font-size: 6rem;
+	}
+
+	h2 {
+		font-size: 3rem;
+	}
+
+	footer {
+		bottom: 18px;
+		font-size: 0.8rem;
 	}
 
 	main {

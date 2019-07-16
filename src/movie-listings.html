@@ -20,18 +20,21 @@
 	</header>
 
 	<main id="movie_listings">
-		<div id="movie_list_status" class="alert alert-info fade show" role="alert">
-			<span class="spinner spinner-border spinner-border-md" role="status" aria-hidden="true"></span>
-			<span id="movie_list_status_msg">Movies loading...</span>
-		</div>
+		<header>
+			<h2>The F.F.L. (Film Favs List)</h2>
+		</header>
 
-		<div id="movie_list" class="main_content"></div>
+		<div id="movie_list" class="main_content">
+			<div id="movie_list_status" class="alert alert-info fade show" role="alert">
+				<span class="spinner spinner-border spinner-border-md" role="status" aria-hidden="true"></span>
+				<span id="movie_list_status_msg">Movies loading...</span>
+			</div>
+		</div>
 	</main>
 
 	<footer>
-		<div id="admin_access">
-			<a href="/movie-admin">admin</a>
-		</div>
+		<a id="admin_access" href="/movie-admin">admin</a>
+		<a id="index-link" href="/index.html">index</a>
 	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>

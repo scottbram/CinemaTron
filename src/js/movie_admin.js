@@ -76,7 +76,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'id="movie_listing_' + movie_recid + '"' +
 						'>' +
 							// '<div class="movie_poster"></div>' +
-							'<div class="movie_title">' +
+							'<div class="movie_title form-field-container">' +
 								'<label for="movie_title_' + movie_recid + '">Title <small class="text-muted">(50 characters or less)</small></label>' +
 								'<input id="movie_title_' + movie_recid + '"' +
 									' value="' + movie_title + '"' +
@@ -86,7 +86,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 									' type="text" minlength="1" maxlength="50">' +
 							'</div>' +
 							'<div class="movie_details">' +
-								'<div class="movie_year">' +
+								'<div class="movie_year form-field-container">' +
 									'<label for="movie_year_' + movie_recid + '">Year <small class="text-muted">(from 1800 to 2100)</small></label>' +
 									'<input id="movie_year_' + movie_recid + '"' +
 										' value="' + movie_year + '"' +
@@ -95,7 +95,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										' class="form-control"' +
 										' type="number" min="1800" max="2100">' +
 								'</div>' +
-								'<div class="movie_length">' +
+								'<div class="movie_length form-field-container">' +
 									'<label for="movie_length_' + movie_recid + '">Length <small class="text-muted">(in minutes)</small></label>' +
 									'<input id="movie_length_' + movie_recid + '"' +
 										' value="' + movie_length + '"' +
@@ -104,7 +104,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										' class="form-control"' +
 										' type="number" min="0" max="500">' +
 								'</div>' +
-								'<div class="movie_rating">' +
+								'<div class="movie_rating form-field-container">' +
 									'<label for="movie_rating_' + movie_recid + '">Rating</label>' +
 									movie_rating_stars +
 									'<input id="movie_rating_' + movie_recid + '"' +
@@ -114,7 +114,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										' class="form-control"' +
 										' type="number" min="1" max="5" hidden>' +
 								'</div>' +
-								'<div class="movie_format">' +
+								'<div class="movie_format form-field-container">' +
 									'<label for="movie_format_' + movie_recid + '">Format</label>' +
 									'<select id="movie_format_' + movie_recid + '" class="custom-select"' +
 										' data-fldname="Format"' +
