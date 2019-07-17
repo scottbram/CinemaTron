@@ -1,7 +1,7 @@
 /** movie-admin.js */
 var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 (movie_admin = {
-	init : function () {
+	init : () => {
 		$.ajax({
 			url: '/.netlify/functions/at_get_movie?recid=all',
 			dataType: 'json'
@@ -30,32 +30,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					var movie_format 	= movie_obj.Format;
 					var movie_art 		= movie_obj.Art;
 
-					/**
-					 * Star ASCII codes
-					 * - - - - - - - - -
-					 * Solid star: &#9733;
-					 * Outline star: &#9734;
-					 */
-					var movie_rating_stars = '';
-						movie_rating_stars += '<div class="movie_rating_stars">';
-					/** Set the lowest value */
-					var ratingstar = 1;
-					/** Add a selected indicator to the object until the selected rating value is reached */
-					for (var i = 0; i < movie_rating; i++) {
-						movie_rating_stars += '<span class="movie_rating_star movie_rating_star_selected" data-ratingstar="' + ratingstar + '">&#9733 </span>';
-						
-						ratingstar++;
-					}
-					/** Subtract the selected rating from the highest possible to get an unselected/filler count */
-					var movie_rating_star_totalCt = 5;
-					var movie_rating_star_unselectedCt = movie_rating_star_totalCt-movie_rating;
-					/** Add an unselected indicator to the object until filler count is reached */
-					for (i = 0; i < movie_rating_star_unselectedCt; i++) {
-						movie_rating_stars += '<span class="movie_rating_star movie_rating_star_unselected" data-ratingstar="' + ratingstar + '">&#9734  </span>';
-
-						ratingstar++;
-					}
-					movie_rating_stars += '</div>';
+					var movie_rating_stars = movie_admin.seeing_stars(movie_rating);
 
 					var DVDsel, STRsel, VHSsel;
 					switch (movie_format) {
@@ -152,7 +127,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		});
 	}
 	,
-	ready : function () {
+	ready : () => {
 		$('#movie_list_status').alert('close');
 
 		$('.save_all').show();
@@ -167,14 +142,115 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
   				'<strong>HEADS UP!</strong> Only the first movie title will save at the moment...' +
 			'</div>';
 
-		// $('#movie_admin_list_actions').hover( function () {
+		// $('#movie_admin_list_actions').hover( () => {
 			$('#movie_admin_list_actions').append(tempSaveWarning);
 		// }, function() {
 			// $('#movie_admin_list_actions .alert').alert('close');
 		// });*/
 	}
 	,
-	track_changes_field : function () {
+	add_movie : () => {
+		var movie_recid = new Date();
+		var movie_rating_stars = movie_admin.seeing_stars('1');
+
+		var movie_listing = '<div class="movie_listing form-group" ' +
+				'data-recid="' + movie_recid +'"' +
+				'data-haschgs="false"' +
+				'id="movie_listing_' + movie_recid + '"' +
+				'class="movie_listing_new"' +
+			'>' +
+				// '<div class="movie_poster"></div>' +
+				'<div class="movie_title form-field-container">' +
+					'<label for="movie_title_' + movie_recid + '">Title <small class="text-muted">(50 characters or less)</small></label>' +
+					'<input id="movie_title_' + movie_recid + '"' +
+						' value=""' +
+						' data-fldname="Title"' +
+						' data-ogval=new_movie_"' + movie_recid + '"' +
+						' class="form-control"' +
+						' placeholder="The Big Flick Title"' +
+						' type="text" minlength="1" maxlength="50" required>' +
+				'</div>' +
+				'<div class="movie_details">' +
+					'<div class="movie_year form-field-container">' +
+						'<label for="movie_year_' + movie_recid + '">Year <small class="text-muted">(from 1800 to 2100)</small></label>' +
+						'<input id="movie_year_' + movie_recid + '"' +
+							' value=""' +
+							' data-fldname="Year"' +
+							' data-ogval=new_movie_"' + movie_recid + '"' +
+							' class="form-control"' +
+							' placeholder="2019"' +
+							' type="number" min="1800" max="2100" required>' +
+					'</div>' +
+					'<div class="movie_length form-field-container">' +
+						'<label for="movie_length_' + movie_recid + '">Length <small class="text-muted">(in minutes)</small></label>' +
+						'<input id="movie_length_' + movie_recid + '"' +
+							' value=""' +
+							' data-fldname="Length"' +
+							// ' data-ogval="' + movie_length + '"' +
+							' class="form-control"' +
+							' placeholder="150"' +
+							' type="number" min="0" max="500" required>' +
+					'</div>' +
+					'<div class="movie_rating form-field-container">' +
+						'<label for="movie_rating_' + movie_recid + '">Rating</label>' +
+						movie_rating_stars +
+						'<input id="movie_rating_' + movie_recid + '"' +
+							' value="1"' +
+							' data-fldname="Rating"' +
+							' data-ogval="' + movie_rating + '"' +
+							' class="form-control"' +
+							' type="number" min="1" max="5" hidden required>' +
+					'</div>' +
+					'<div class="movie_format form-field-container">' +
+						'<label for="movie_format_' + movie_recid + '">Format</label>' +
+						'<select id="movie_format_' + movie_recid + '" class="custom-select"' +
+							' data-fldname="Format"' +
+							// ' data-ogval="' + movie_format + '"' +'>' +
+							// '<option selected>Open this select menu</option>' +
+							'<option value="DVD"' + DVDsel + '>DVD</option>' +
+							'<option value="Streaming"' + STRsel + ' selected>Streaming</option>' +
+							'<option value="VHS"' + VHSsel + '>VHS</option>' +
+						'</select>' +
+					'</div>' +
+				'</div>' +
+			'</div>'
+		;
+
+		$('#movie_admin_list').append(movie_listing);
+	}
+	,
+	seeing_stars : (movie_rating) => {
+		/**
+		 * Star ASCII codes
+		 * - - - - - - - - -
+		 * Solid star: &#9733;
+		 * Outline star: &#9734;
+		 */
+		var movie_rating_stars = '';
+			movie_rating_stars += '<div class="movie_rating_stars">';
+		/** Set the lowest value */
+		var ratingstar = 1;
+		/** Add a selected indicator to the object until the selected rating value is reached */
+		for (var i = 0; i < movie_rating; i++) {
+			movie_rating_stars += '<span class="movie_rating_star movie_rating_star_selected" data-ratingstar="' + ratingstar + '">&#9733 </span>';
+			
+			ratingstar++;
+		}
+		/** Subtract the selected rating from the highest possible to get an unselected/filler count */
+		var movie_rating_star_totalCt = 5;
+		var movie_rating_star_unselectedCt = movie_rating_star_totalCt-movie_rating;
+		/** Add an unselected indicator to the object until filler count is reached */
+		for (i = 0; i < movie_rating_star_unselectedCt; i++) {
+			movie_rating_stars += '<span class="movie_rating_star movie_rating_star_unselected" data-ratingstar="' + ratingstar + '">&#9734  </span>';
+
+			ratingstar++;
+		}
+		movie_rating_stars += '</div>';
+
+		return movie_rating_stars;
+	}
+	,
+	track_changes_field : () => {
 		$('#movie_admin_list').on('input change', 'input', function (e) {
 			var ogVal = $(this).attr('data-ogval');
 			var currVal = $(this).val();
@@ -214,7 +290,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		});
 	}
 	,
-	track_changes_listing : function (jqObj) {
+	track_changes_listing : (jqObj) => {
 		var hasChgs = jqObj.closest('.movie_listing').find('input, select').hasClass('valChg');
 
 		if (hasChgs) {
@@ -226,9 +302,9 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		movie_admin.save_all_check();
 	}
 	,
-	rating_hover : function () {
+	rating_hover : () => {
 		$('.movie_rating_star').hover(
-			function () {
+			() => {
 				/** Make hovered item into selected state */
 				$(this).html('&#9733 ');
 
@@ -243,7 +319,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				 * and add class that will make them the unselected color
 				 */
 				$(this).nextAll('.movie_rating_star').html('&#9734 ').addClass('movie_rating_hover_nextSib');
-			}, function () {
+			}, () => {
 				$(this).siblings().removeClass('movie_rating_hover_prevSib').removeClass('movie_rating_hover_nextSib');
 				
 				/** Reset all stars to original state */
@@ -258,7 +334,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		);
 	}
 	,
-	rating_click : function () {
+	rating_click : () => {
 		$('.movie_rating_star').click( function (e) {
 			var movie_rating_sel = $(this).attr('data-ratingstar');
 			var movie_recid = $(this).closest('.movie_listing').attr('data-recid');
@@ -294,11 +370,11 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		});
 	}
 	,
-	save_one_check : function () {
+	save_one_check : () => {
 		// check if fields associated to given save button have changed
 	}
 	,
-	save_all_check : function () {
+	save_all_check : () => {
 		if ( $('.valChg').length !== 0 ) {
 			$('.save_all').prop('disabled', false);
 
@@ -312,7 +388,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		}
 	}
 	,
-	save_one_click : function () {
+	save_one_click : () => {
 		$('.save_item').click( function (e) {
 			$(this).prop('disabled', true);
 			var movie_recid = $(this).attr('data-recid');
@@ -321,7 +397,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		});
 	}
 	,
-	save_all_click : function () {
+	save_all_click : () => {
 		$('.save_all').click( function (e) {
 			$('.save_all').prop('disabled', true);
 
@@ -329,7 +405,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		});
 	}
 	,
-	save_item : function (movie_recid) {
+	save_item : (movie_recid) => {
 		var req_obj = {
 			'ID': movie_recid
 		};
@@ -416,7 +492,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		return saveItemProm;
 	}
 	,
-	save_one : function (movie_recid) {
+	save_one : (movie_recid) => {
 		var saveItem = movie_admin.save_item(movie_recid);
 
 		saveItem.then(
@@ -432,7 +508,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		);
 	}
 	,
-	save_all : function () {
+	save_all : () => {
 		$('#movie_admin_list_actions_msgs .msg_saveStatus').remove();
 
 		$('#movie_admin_list_actions_msgs').prepend('<small class="msg_saveStatus msg_savingAllChgs msg-info">Saving all changes...</small>');
@@ -472,7 +548,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		});
 	}
 	,
-	status_msg : function (status_msg) {
+	status_msg : (status_msg) => {
 		switch (status_msg) {
 			case 'save_one_success':
 				// 
@@ -487,7 +563,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				$('#movie_admin_list_actions_msgs').prepend('<small class="msg_saveStatus msg_chgsSaved msg-success">All changes saved.</small>');
 
 				/** After specificed delay, fade the message, then remove from DOM */
-				window.setTimeout( function () {
+				window.setTimeout( () => {
 					$('#movie_admin_list_actions_msgs .msg_chgsSaved').fadeOut('slow', function (e) {
 						$(this).remove();
 					});

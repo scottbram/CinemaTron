@@ -26,9 +26,9 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-terser": "^1.1.7",
-    "netlify-lambda": "^1.4.5"
+    "netlify-lambda": "^1.5.0"
   },
   "dependencies": {
-    "airtable": "^0.5.10"
+    "airtable": "^0.7.0"
   }
 }

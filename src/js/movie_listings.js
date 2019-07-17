@@ -1,7 +1,7 @@
 /** index.js */
 var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings : {};
 (movie_listings = {
-	init : function () {
+	init : () => {
 		$.ajax({
 			url: '/.netlify/functions/at_get_movie?recid=all',
 			dataType: 'json'
@@ -115,7 +115,7 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 		});
 	}
 	,
-	ready : function () {
+	ready : () => {
 		window.setTimeout( function () {
 			$('#movie_list_status').alert('close');
 			$('#movie_list').css('overflow', 'auto');

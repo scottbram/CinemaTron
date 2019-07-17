@@ -92,7 +92,7 @@ gulp.task('copy_redir', function () {
 
 
 /** Default task */
-/** Image processing starts first because it tends require the longest execution */
+/** Image processing starts first, as it tends to require the longest execution */
 gulp.task('default', 
 	gulp.parallel(
 		'imagemin', 
