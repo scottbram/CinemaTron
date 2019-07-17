@@ -45,7 +45,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'data-recid="' + movie_recid +'"' +
 							'data-haschgs="false"' +
 							'id="movie_listing_' + movie_recid + '"' +
-						'>' +
+							'>' +
 							// '<div class="movie_poster"></div>' +
 							'<div class="movie_title form-field-container">' +
 								'<label for="movie_title_' + movie_recid + '">Title <small class="text-muted">(50 characters or less)</small></label>' +
@@ -54,7 +54,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 									' data-fldname="Title"' +
 									' data-ogval="' + movie_title + '"' +
 									' class="form-control"' +
-									' type="text" minlength="1" maxlength="50">' +
+									' type="text" minlength="1" maxlength="50"' + 
+									'>' +
 							'</div>' +
 							'<div class="movie_details">' +
 								'<div class="movie_year form-field-container">' +
@@ -64,7 +65,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										' data-fldname="Year"' +
 										' data-ogval="' + movie_year + '"' +
 										' class="form-control"' +
-										' type="number" min="1800" max="2100">' +
+										' type="number" min="1800" max="2100"' + 
+										'>' +
 								'</div>' +
 								'<div class="movie_length form-field-container">' +
 									'<label for="movie_length_' + movie_recid + '">Length <small class="text-muted">(in minutes)</small></label>' +
@@ -73,7 +75,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										' data-fldname="Length"' +
 										' data-ogval="' + movie_length + '"' +
 										' class="form-control"' +
-										' type="number" min="0" max="500">' +
+										' type="number" min="0" max="500"' + 
+										'>' +
 								'</div>' +
 								'<div class="movie_rating form-field-container">' +
 									'<label for="movie_rating_' + movie_recid + '">Rating</label>' +
@@ -83,7 +86,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										' data-fldname="Rating"' +
 										' data-ogval="' + movie_rating + '"' +
 										' class="form-control"' +
-										' type="number" min="1" max="5" hidden>' +
+										' type="number" min="1" max="5" hidden' + 
+										'>' +
 								'</div>' +
 								'<div class="movie_format form-field-container">' +
 									'<label for="movie_format_' + movie_recid + '">Format</label>' +
@@ -156,7 +160,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				'data-haschgs="false"' +
 				'id="movie_listing_' + movie_recid + '"' +
 				'class="movie_listing_new"' +
-			'>' +
+				'>' +
 				// '<div class="movie_poster"></div>' +
 				'<div class="movie_title form-field-container">' +
 					'<label for="movie_title_' + movie_recid + '">Title <small class="text-muted">(50 characters or less)</small></label>' +
@@ -166,7 +170,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 						// ' data-ogval="new_movie_' + movie_recid + '"' +
 						' class="form-control"' +
 						// ' placeholder="The Big Flick Title"' +
-						' type="text" minlength="1" maxlength="50" required>' +
+						' type="text" minlength="1" maxlength="50" required' + 
+						'>' +
 				'</div>' +
 				'<div class="movie_details">' +
 					'<div class="movie_year form-field-container">' +
@@ -185,7 +190,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							// ' type="text" pattern="\\d{4}" maxlength="4" required>' +
 							
 							/** Fun fact: This pattern will trigger the numeric keypad on mobile */
-							' type="text" pattern="\\d*" maxlength="4" required>' +
+							' type="text" pattern="\\d*" maxlength="4" required' + 
+							'>' +
 					'</div>' +
 					'<div class="movie_length form-field-container">' +
 						'<label for="movie_length_' + movie_recid + '">Length <small class="text-muted">(in minutes)</small></label>' +
@@ -196,7 +202,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							' class="form-control"' +
 							// ' placeholder="150"' +
 							// ' type="number" min="0" max="500" minlength="1" maxlength="3" pattern="\\d{4}" required>' +
-							' type="text" pattern="\\d*" maxlength="3" required>' +
+							' type="text" pattern="\\d*" maxlength="3" required' + 
+							'>' +
 					'</div>' +
 					'<div class="movie_rating form-field-container">' +
 						'<label for="movie_rating_' + movie_recid + '">Rating</label>' +
@@ -206,14 +213,16 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							' data-fldname="Rating"' +
 							// ' data-ogval="' + movie_rating + '"' +
 							' class="form-control"' +
-							' type="number" min="1" max="5" hidden required>' +
+							' type="number" min="1" max="5" hidden required' + 
+							'>' +
 					'</div>' +
 					'<div class="movie_format form-field-container">' +
 						'<label for="movie_format_' + movie_recid + '">Format</label>' +
 						// '<select id="movie_format_' + movie_recid + '" class="custom-select"' +
 						'<select id="movie_format_' + movie_recid + '" class="form-control"' +
 							' data-fldname="Format"' +
-							// ' data-ogval="' + movie_format + '"' +'>' +
+							// ' data-ogval="' + movie_format + '"' +
+							'>' +
 							// '<option selected>Open this select menu</option>' +
 							'<option value="DVD">DVD</option>' +
 							'<option value="Streaming" selected>Streaming</option>' +
