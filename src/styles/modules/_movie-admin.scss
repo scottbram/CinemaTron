@@ -81,18 +81,14 @@
 	}
 
 	#movie_admin_list_actions {
-		position: relative;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-
-		/** Fixed position */
 		position: fixed;
 		bottom: 0;
-		justify-content: flex-start;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
 		padding: 24px 5vw;
+		width: 100%;
 		background: whitesmoke;
 		box-shadow: 0 -2px 3px silver;
 	}
@@ -144,7 +140,6 @@
 		}
 
 		#movie_admin_list_actions {
-			justify-content: flex-start;
 			padding: 8px 20px;
 			width: 960px;
 		}

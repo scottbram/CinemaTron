@@ -6,10 +6,6 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			url: '/.netlify/functions/at_get_movie?recid=all',
 			dataType: 'json'
 		}).done( function ( resp, textStatus, jqXHR ) {
-
-			/*console.log('resp: ');
-			console.log(resp);*/
-
 			if (resp.length > 0) {
 				$.each(resp, function(idx, itm) {
 					var movie_recid = itm.id;
@@ -91,7 +87,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 								'</div>' +
 								'<div class="movie_format form-field-container">' +
 									'<label for="movie_format_' + movie_recid + '">Format</label>' +
-									'<select id="movie_format_' + movie_recid + '" class="custom-select"' +
+									// '<select id="movie_format_' + movie_recid + '" class="custom-select"' +
+									'<select id="movie_format_' + movie_recid + '" class="form-control"' +
 										' data-fldname="Format"' +
 										' data-ogval="' + movie_format + '"' +'>' +
 										// '<option selected>Open this select menu</option>' +
@@ -130,31 +127,32 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	ready : () => {
 		$('#movie_list_status').alert('close');
 
-		$('.save_all').show();
+		movie_admin.add_movie_click();
+		$('.add-movie').prop('disabled', false);
+
 		
 		movie_admin.track_changes_field();
 		movie_admin.rating_hover();
 		movie_admin.rating_click();
 		// movie_admin.save_one_click();
 		movie_admin.save_all_click();
+	}
+	,
+	add_movie_click : () => {
+		$('.add-movie').click( function (e) {
+			movie_admin.add_movie();
 
-		/*var tempSaveWarning = '<div class="alert alert-warning fade show" role="alert">' +
-  				'<strong>HEADS UP!</strong> Only the first movie title will save at the moment...' +
-			'</div>';
-
-		// $('#movie_admin_list_actions').hover( function () {
-			$('#movie_admin_list_actions').append(tempSaveWarning);
-		// }, function() {
-			// $('#movie_admin_list_actions .alert').alert('close');
-		// });*/
+			$('input').first().focus();
+		});
 	}
 	,
 	add_movie : () => {
-		var movie_recid = new Date();
+		var movie_recid = Date.now();
 		var movie_rating_stars = movie_admin.seeing_stars('1');
 
 		var movie_listing = '<div class="movie_listing form-group" ' +
 				'data-recid="' + movie_recid +'"' +
+				// 'data-recid="new"' +
 				'data-haschgs="false"' +
 				'id="movie_listing_' + movie_recid + '"' +
 				'class="movie_listing_new"' +
@@ -165,9 +163,9 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					'<input id="movie_title_' + movie_recid + '"' +
 						' value=""' +
 						' data-fldname="Title"' +
-						' data-ogval=new_movie_"' + movie_recid + '"' +
+						// ' data-ogval="new_movie_' + movie_recid + '"' +
 						' class="form-control"' +
-						' placeholder="The Big Flick Title"' +
+						// ' placeholder="The Big Flick Title"' +
 						' type="text" minlength="1" maxlength="50" required>' +
 				'</div>' +
 				'<div class="movie_details">' +
@@ -176,9 +174,9 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 						'<input id="movie_year_' + movie_recid + '"' +
 							' value=""' +
 							' data-fldname="Year"' +
-							' data-ogval=new_movie_"' + movie_recid + '"' +
+							// ' data-ogval="new_movie_' + movie_recid + '"' +
 							' class="form-control"' +
-							' placeholder="2019"' +
+							// ' placeholder="2019"' +
 							' type="number" min="1800" max="2100" required>' +
 					'</div>' +
 					'<div class="movie_length form-field-container">' +
@@ -188,7 +186,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							' data-fldname="Length"' +
 							// ' data-ogval="' + movie_length + '"' +
 							' class="form-control"' +
-							' placeholder="150"' +
+							// ' placeholder="150"' +
 							' type="number" min="0" max="500" required>' +
 					'</div>' +
 					'<div class="movie_rating form-field-container">' +
@@ -197,26 +195,27 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 						'<input id="movie_rating_' + movie_recid + '"' +
 							' value="1"' +
 							' data-fldname="Rating"' +
-							' data-ogval="' + movie_rating + '"' +
+							// ' data-ogval="' + movie_rating + '"' +
 							' class="form-control"' +
 							' type="number" min="1" max="5" hidden required>' +
 					'</div>' +
 					'<div class="movie_format form-field-container">' +
 						'<label for="movie_format_' + movie_recid + '">Format</label>' +
-						'<select id="movie_format_' + movie_recid + '" class="custom-select"' +
+						// '<select id="movie_format_' + movie_recid + '" class="custom-select"' +
+						'<select id="movie_format_' + movie_recid + '" class="form-control"' +
 							' data-fldname="Format"' +
 							// ' data-ogval="' + movie_format + '"' +'>' +
 							// '<option selected>Open this select menu</option>' +
-							'<option value="DVD"' + DVDsel + '>DVD</option>' +
-							'<option value="Streaming"' + STRsel + ' selected>Streaming</option>' +
-							'<option value="VHS"' + VHSsel + '>VHS</option>' +
+							'<option value="DVD">DVD</option>' +
+							'<option value="Streaming" selected>Streaming</option>' +
+							'<option value="VHS">VHS</option>' +
 						'</select>' +
 					'</div>' +
 				'</div>' +
 			'</div>'
 		;
 
-		$('#movie_admin_list').append(movie_listing);
+		$('#movie_admin_list').prepend(movie_listing);
 	}
 	,
 	seeing_stars : (movie_rating) => {
@@ -303,8 +302,10 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	rating_hover : () => {
-		$('.movie_rating_star').hover(
-			function () {
+		/** Have to use delegated approach to work with injected elements (e.g., new movie) */
+		$('#movie_admin_list')
+			.on('mouseenter', '.movie_rating_star', function (e) {
+		
 				/** Make hovered item into selected state */
 				$(this).html('&#9733 ');
 
@@ -319,7 +320,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				 * and add class that will make them the unselected color
 				 */
 				$(this).nextAll('.movie_rating_star').html('&#9734 ').addClass('movie_rating_hover_nextSib');
-			}, function () {
+			})
+			.on('mouseleave', '.movie_rating_star', function (e) {
 				$(this).siblings().removeClass('movie_rating_hover_prevSib').removeClass('movie_rating_hover_nextSib');
 				
 				/** Reset all stars to original state */
@@ -335,7 +337,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	rating_click : () => {
-		$('.movie_rating_star').click( function (e) {
+		// $('.movie_rating_star').click( function (e) {
+		$('#movie_admin_list').on('click', '.movie_rating_star', function (e) {
 			var movie_rating_sel = $(this).attr('data-ratingstar');
 			var movie_recid = $(this).closest('.movie_listing').attr('data-recid');
 			
@@ -376,14 +379,14 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	,
 	save_all_check : () => {
 		if ( $('.valChg').length !== 0 ) {
-			$('.save_all').prop('disabled', false);
+			$('.save-all').prop('disabled', false);
 
 			/** If an .msg_unsavedChgs isn't already present, add it */
 			if ( $('#movie_admin_list_actions_msgs .msg_unsavedChgs').length === 0 ) {
 				$('#movie_admin_list_actions_msgs').prepend('<small class="msg_saveStatus msg_unsavedChgs msg-warning">There are unsaved changes!</small>');
 			}
 		} else {
-			$('.save_all').prop('disabled', true);
+			$('.save-all').prop('disabled', true);
 			$('#movie_admin_list_actions_msgs .msg_unsavedChgs').remove();
 		}
 	}
@@ -398,8 +401,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	save_all_click : () => {
-		$('.save_all').click( function (e) {
-			$('.save_all').prop('disabled', true);
+		$('.save-all').click( function (e) {
+			$('.save-all').prop('disabled', true);
 
 			movie_admin.save_all();
 		});

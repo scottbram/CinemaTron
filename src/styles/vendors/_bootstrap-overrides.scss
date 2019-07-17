@@ -3,6 +3,22 @@
  * Bootstrap overrides
  */
 
+.form-control {
+	&::placeholder {
+		color: $secondary_color_bg;
+		opacity: 0.8;
+	}
+	&::-webkit-input-placeholder {
+		color: $secondary_color_bg;
+	}
+	&:-ms-input-placeholder {
+		color: $secondary_color_bg;
+	}
+	&::-ms-input-placeholder {
+		color: $secondary_color_bg;
+	}
+}
+
 .btn {
 	vertical-align: baseline; // Aligns it with an adjacent input
 	border-radius: $border-radius;

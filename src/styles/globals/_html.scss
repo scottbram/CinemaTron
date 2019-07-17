@@ -117,8 +117,36 @@ label {
 	margin-bottom: 0.2rem;
 }
 
+::placeholder {
+	color: $secondary_color_bg;
+	opacity: 0.8;
+}
+::-webkit-input-placeholder {
+	color: $secondary_color_bg;
+}
+:-ms-input-placeholder {
+	color: $secondary_color_bg;
+}
+::-ms-input-placeholder {
+	color: $secondary_color_bg;
+}
+
 input {
 	border-radius: $border-radius;
+
+	&::placeholder {
+		color: $secondary_color_bg;
+		opacity: 0.8;
+	}
+	&::-webkit-input-placeholder {
+		color: $secondary_color_bg;
+	}
+	&:-ms-input-placeholder {
+		color: $secondary_color_bg;
+	}
+	&::-ms-input-placeholder {
+		color: $secondary_color_bg;
+	}
 }
 
 button {
