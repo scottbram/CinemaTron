@@ -65,7 +65,15 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										' data-fldname="Year"' +
 										' data-ogval="' + movie_year + '"' +
 										' class="form-control"' +
-										' type="number" min="1800" max="2100"' + 
+										
+										/** Input type="number" has undesirable side effects */
+										// ' type="number" min="1800" max="2100"' + 
+
+										/** This pattern is perfect but triggering the numeric keypad on mobile is perfecter */
+										// ' type="text" pattern="\\d{4}" maxlength="4" required' +
+										
+										/** Fun fact: This pattern will trigger the numeric keypad on mobile */
+										' type="text" pattern="\\d*" maxlength="4" required' + 
 										'>' +
 								'</div>' +
 								'<div class="movie_length form-field-container">' +
@@ -75,7 +83,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										' data-fldname="Length"' +
 										' data-ogval="' + movie_length + '"' +
 										' class="form-control"' +
-										' type="number" min="0" max="500"' + 
+										// ' type="number" min="1" max="999"' + 
+										' type="text" pattern="\\d*" maxlength="3" required' + 
 										'>' +
 								'</div>' +
 								'<div class="movie_rating form-field-container">' +
@@ -182,14 +191,6 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							// ' data-ogval="new_movie_' + movie_recid + '"' +
 							' class="form-control"' +
 							// ' placeholder="2019"' +
-
-							/** Input type="number" has a number of undesirable side effects */
-							// ' type="number" min="1800" max="2100" pattern="\\d{4}" required>' +
-							
-							/** This pattern is perfect but triggering the numeric keypad on mobile is perfecter */
-							// ' type="text" pattern="\\d{4}" maxlength="4" required>' +
-							
-							/** Fun fact: This pattern will trigger the numeric keypad on mobile */
 							' type="text" pattern="\\d*" maxlength="4" required' + 
 							'>' +
 					'</div>' +
@@ -201,7 +202,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							// ' data-ogval="' + movie_length + '"' +
 							' class="form-control"' +
 							// ' placeholder="150"' +
-							// ' type="number" min="0" max="500" minlength="1" maxlength="3" pattern="\\d{4}" required>' +
+							// ' type="number" min="0" max="500" minlength="1" maxlength="3" pattern="\\d{4}" required' +
 							' type="text" pattern="\\d*" maxlength="3" required' + 
 							'>' +
 					'</div>' +
@@ -271,20 +272,19 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		$('#movie_admin_list').on('input change', 'input', function (e) {
 			var ogVal = $(this).attr('data-ogval');
 			var currVal = $(this).val();
+			var fld_name = $(this).attr('data-fldname');
+			var fld_el = $(this)[0];
+			
+			/** https://developer.mozilla.org/en-US/docs/Web/API/ValidityState */
+			// console.log(fld_el.validity);
 
+			fld_el.setCustomValidity('');
+			
 			/** If the current value isn't the original value, mark the field as changed */
 			if (ogVal !== currVal) {
 				$(this).addClass('valChg');
 
 				/** Do some validation */
-				var fld_name = $(this).attr('data-fldname');
-				var fld_el = $(this)[0];
-				
-				/** https://developer.mozilla.org/en-US/docs/Web/API/ValidityState */
-				// console.log(fld_el.validity);
-
-				fld_el.setCustomValidity('');
-
 				switch (fld_name) {
 					case 'Title':
 							var chk_title = $(this).val().length > 0 && $(this).val().length < 51;
@@ -331,15 +331,17 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					break;
 				}
 
-				var fld_isValid = fld_el.checkValidity();
-
-				if (!fld_isValid) {
-					
-					console.log(fld_el.validationMessage);
-
-				}
+				
 			} else {
 				$(this).removeClass('valChg').nextAll('.valChgMsg').remove();
+			}
+
+			var fld_isValid = fld_el.checkValidity();
+
+			if (!fld_isValid) {
+				
+				console.log(fld_el.validationMessage);
+
 			}
 
 			movie_admin.track_changes_listing( $(this) );
