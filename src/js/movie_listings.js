@@ -11,7 +11,7 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 			console.log(resp);*/
 
 			if (resp.length > 0) {
-				$.each(resp, function(idx, itm) {
+				$.each(resp, function (idx, itm) {
 					var movie_recid = itm.id;
 					/**
 					  * Fields:

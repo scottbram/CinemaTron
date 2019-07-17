@@ -142,7 +142,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
   				'<strong>HEADS UP!</strong> Only the first movie title will save at the moment...' +
 			'</div>';
 
-		// $('#movie_admin_list_actions').hover( () => {
+		// $('#movie_admin_list_actions').hover( function () {
 			$('#movie_admin_list_actions').append(tempSaveWarning);
 		// }, function() {
 			// $('#movie_admin_list_actions .alert').alert('close');
@@ -304,7 +304,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	,
 	rating_hover : () => {
 		$('.movie_rating_star').hover(
-			() => {
+			function () {
 				/** Make hovered item into selected state */
 				$(this).html('&#9733 ');
 
@@ -319,7 +319,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				 * and add class that will make them the unselected color
 				 */
 				$(this).nextAll('.movie_rating_star').html('&#9734 ').addClass('movie_rating_hover_nextSib');
-			}, () => {
+			}, function () {
 				$(this).siblings().removeClass('movie_rating_hover_prevSib').removeClass('movie_rating_hover_nextSib');
 				
 				/** Reset all stars to original state */
@@ -496,13 +496,13 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		var saveItem = movie_admin.save_item(movie_recid);
 
 		saveItem.then(
-			() => {
+			function () {
 				/** Flag an element so the message can be placed contextually */
 				//
 
 				movie_admin.status_msg('save_one_success');
 			}, 
-			(errObj) => {
+			function (errObj) {
 				console.error(errObj);
 			}
 		);
@@ -536,12 +536,12 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			var saveItem = movie_admin.save_item(movie_recid);
 
 			saveItem.then(
-				() => {
+				function () {
 					if (idx+1 === chgdMoviesArr.length) {
 						movie_admin.status_msg('save_all_success');
 					}
 				}, 
-				(errObj) => {
+				function (errObj) {
 					console.error(errObj);
 				}
 			);
@@ -563,7 +563,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				$('#movie_admin_list_actions_msgs').prepend('<small class="msg_saveStatus msg_chgsSaved msg-success">All changes saved.</small>');
 
 				/** After specificed delay, fade the message, then remove from DOM */
-				window.setTimeout( () => {
+				window.setTimeout( function () {
 					$('#movie_admin_list_actions_msgs .msg_chgsSaved').fadeOut('slow', function (e) {
 						$(this).remove();
 					});
