@@ -177,8 +177,15 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							// ' data-ogval="new_movie_' + movie_recid + '"' +
 							' class="form-control"' +
 							// ' placeholder="2019"' +
+
+							/** Input type="number" has a number of undesirable side effects */
 							// ' type="number" min="1800" max="2100" pattern="\\d{4}" required>' +
-							' type="text" pattern="\\d{4}" maxlength="4" required>' +
+							
+							/** This pattern is perfect but triggering the numeric keypad on mobile is perfecter */
+							// ' type="text" pattern="\\d{4}" maxlength="4" required>' +
+							
+							/** Fun fact: This pattern will trigger the numeric keypad on mobile */
+							' type="text" pattern="\\d*" maxlength="4" required>' +
 					'</div>' +
 					'<div class="movie_length form-field-container">' +
 						'<label for="movie_length_' + movie_recid + '">Length <small class="text-muted">(in minutes)</small></label>' +
@@ -256,14 +263,15 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			var ogVal = $(this).attr('data-ogval');
 			var currVal = $(this).val();
 
-			/** If the current value isn't the original value, mark the field */
+			/** If the current value isn't the original value, mark the field as changed */
 			if (ogVal !== currVal) {
 				$(this).addClass('valChg');
 
-				/** Do some exhaustive validation */
+				/** Do some validation */
 				var fld_name = $(this).attr('data-fldname');
 				var fld_el = $(this)[0];
 				
+				/** https://developer.mozilla.org/en-US/docs/Web/API/ValidityState */
 				// console.log(fld_el.validity);
 
 				fld_el.setCustomValidity('');
