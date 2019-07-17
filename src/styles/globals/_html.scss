@@ -134,6 +134,10 @@ label {
 input {
 	border-radius: $border-radius;
 
+	&:invalid {
+		border-color: red !important;
+	}
+
 	&::placeholder {
 		color: $secondary_color_bg;
 		opacity: 0.8;

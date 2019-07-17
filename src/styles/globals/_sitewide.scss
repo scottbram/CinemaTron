@@ -99,6 +99,11 @@ select.valChg,
 	background-color: $primary_color_bg !important;
 }
 
+input:invalid,
+input:not([type='checkbox']):not([type='radio']).valChg:invalid {
+	border-color: red !important;
+}
+
 @media (min-width: 1000px) {
 	.form-field-container {
 		margin-bottom: 1rem;

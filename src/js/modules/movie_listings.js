@@ -1,4 +1,4 @@
-/** index.js */
+/** movie_listings.js */
 var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings : {};
 (movie_listings = {
 	init : () => {

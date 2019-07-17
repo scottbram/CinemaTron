@@ -177,7 +177,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							// ' data-ogval="new_movie_' + movie_recid + '"' +
 							' class="form-control"' +
 							// ' placeholder="2019"' +
-							' type="number" min="1800" max="2100" required>' +
+							// ' type="number" min="1800" max="2100" pattern="\\d{4}" required>' +
+							' type="text" pattern="\\d{4}" maxlength="4" required>' +
 					'</div>' +
 					'<div class="movie_length form-field-container">' +
 						'<label for="movie_length_' + movie_recid + '">Length <small class="text-muted">(in minutes)</small></label>' +
@@ -187,7 +188,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							// ' data-ogval="' + movie_length + '"' +
 							' class="form-control"' +
 							// ' placeholder="150"' +
-							' type="number" min="0" max="500" required>' +
+							// ' type="number" min="0" max="500" minlength="1" maxlength="3" pattern="\\d{4}" required>' +
+							' type="text" pattern="\\d*" maxlength="3" required>' +
 					'</div>' +
 					'<div class="movie_rating form-field-container">' +
 						'<label for="movie_rating_' + movie_recid + '">Rating</label>' +
@@ -258,10 +260,67 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			if (ogVal !== currVal) {
 				$(this).addClass('valChg');
 
-				/** If a .valChgMsg isn't already present, add it */
-				/*if ( $(this).nextAll('.valChgMsg').length === 0 ) {
-					$(this).after('<small class="text-muted valChgMsg">Unsaved change</small>');
-				}*/
+				/** Do some exhaustive validation */
+				var fld_name = $(this).attr('data-fldname');
+				var fld_el = $(this)[0];
+				
+				// console.log(fld_el.validity);
+
+				fld_el.setCustomValidity('');
+
+				switch (fld_name) {
+					case 'Title':
+							var chk_title = $(this).val().length > 0 && $(this).val().length < 51;
+					
+							console.log('chk_title: ' + chk_title);
+							
+							if (!chk_title) {
+								fld_el.setCustomValidity('Title must be 1 to 50 characters');
+							} else {
+								fld_el.setCustomValidity('');
+							}
+					break;
+					case 'Year':
+						/** Only allow numbers */
+						// var fld_val = fld_val.replace(/[^0-9]+/g, '');
+						var fld_val = utils.input_numbers_only(currVal);
+						$(this).val(fld_val);
+
+						var chk_yr = $(this).val().length === 4 && ( parseInt( $(this).val() ) >= 1800 && parseInt( $(this).val() ) <= 2100 );
+					
+						console.log('chk_yr: ' + chk_yr);
+						
+						if (!chk_yr) {
+							fld_el.setCustomValidity('Must be a 4 digit number between 1800 and 2100');
+						} else {
+							fld_el.setCustomValidity('');
+						}
+					break;
+					case 'Length':
+						/** Only allow numbers */
+						// var fld_val = fld_val.replace(/[^0-9]+/g, '');
+						var fld_val = utils.input_numbers_only(currVal);
+						$(this).val(fld_val);
+
+						var chk_len = ( parseInt( $(this).val() ) >= 1 && parseInt( $(this).val() ) <= 999 );
+					
+						console.log('chk_len: ' + chk_len);
+						
+						if ( !chk_len ) {
+							fld_el.setCustomValidity('Must be a 3 digit number greater than 1');
+						} else {
+							fld_el.setCustomValidity('');
+						}
+					break;
+				}
+
+				var fld_isValid = fld_el.checkValidity();
+
+				if (!fld_isValid) {
+					
+					console.log(fld_el.validationMessage);
+
+				}
 			} else {
 				$(this).removeClass('valChg').nextAll('.valChgMsg').remove();
 			}
@@ -276,11 +335,6 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			/** If the current value isn't the original value, mark the field */
 			if (ogVal !== currVal) {
 				$(this).addClass('valChg');
-
-				/** If a .valChgMsg isn't already present, add it */
-				/*if ( $(this).nextAll('.valChgMsg').length === 0 ) {
-					$(this).after('<small class="text-muted valChgMsg">Unsaved change</small>');
-				}*/
 			} else {
 				$(this).removeClass('valChg').nextAll('.valChgMsg').remove();
 			}
