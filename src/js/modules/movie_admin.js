@@ -290,7 +290,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					case 'Title':
 							var chk_title = $(this).val().length > 0 && $(this).val().length < 51;
 					
-							console.log('chk_title: ' + chk_title);
+							// console.log('chk_title: ' + chk_title);
 							
 							if (!chk_title) {
 								fld_el.setCustomValidity('Title must be 1 to 50 characters');
@@ -306,7 +306,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 
 						var chk_yr = $(this).val().length === 4 && ( parseInt( $(this).val() ) >= 1800 && parseInt( $(this).val() ) <= 2100 );
 					
-						console.log('chk_yr: ' + chk_yr);
+						// console.log('chk_yr: ' + chk_yr);
 						
 						if (!chk_yr) {
 							fld_el.setCustomValidity('Must be a 4 digit number between 1800 and 2100');
@@ -322,7 +322,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 
 						var chk_len = ( parseInt( $(this).val() ) >= 1 && parseInt( $(this).val() ) <= 999 );
 					
-						console.log('chk_len: ' + chk_len);
+						// console.log('chk_len: ' + chk_len);
 						
 						if ( !chk_len ) {
 							fld_el.setCustomValidity('Must be a 3 digit number greater than 1');
@@ -331,19 +331,18 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 						}
 					break;
 				}
-
-				
 			} else {
 				$(this).removeClass('valChg').nextAll('.valChgMsg').remove();
 			}
 
-			var fld_isValid = fld_el.checkValidity();
+			/** This delivers the custom validation messages */
+			/* var fld_isValid = fld_el.checkValidity();
 
 			if (!fld_isValid) {
 				
 				console.log(fld_el.validationMessage);
 
-			}
+			} */
 
 			movie_admin.track_changes_listing( $(this) );
 		});
