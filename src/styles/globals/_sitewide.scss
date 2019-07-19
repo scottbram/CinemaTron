@@ -99,9 +99,22 @@ select.valChg,
 	background-color: $primary_color_bg !important;
 }
 
+.is-new {
+	input:not([type='checkbox']):not([type='radio']).valChg,
+	input:not([type='checkbox']):not([type='radio']).valChg.form-control:focus
+	textarea.valChg,
+	textarea.valChg.form-control:focus,
+	select.valChg,
+	.valChg-colorsOnly {
+		border-color: rgb(34, 145, 8) !important;
+		background-color: rgb(230, 255, 224) !important;
+	}
+}
+
 input:invalid,
 input:not([type='checkbox']):not([type='radio']).valChg:invalid {
-	border-color: red !important;
+	border-color: rgb(196, 39, 8) !important;
+	background-color: rgb(255, 233, 224) !important;
 }
 
 @media (min-width: 1000px) {

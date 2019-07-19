@@ -163,7 +163,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		var movie_recid = Date.now();
 		var movie_rating_stars = movie_admin.seeing_stars('1');
 
-		var movie_listing = '<div class="movie_listing form-group" ' +
+		var movie_listing = '<div class="movie_listing is-new form-group" ' +
 				'data-recid="' + movie_recid +'"' +
 				// 'data-recid="new"' +
 				'data-haschgs="false"' +
@@ -213,14 +213,14 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							' value="1"' +
 							' data-fldname="Rating"' +
 							// ' data-ogval="' + movie_rating + '"' +
-							' class="form-control"' +
+							' class="form-control valChg"' +
 							' type="number" min="1" max="5" hidden required' + 
 							'>' +
 					'</div>' +
 					'<div class="movie_format form-field-container">' +
 						'<label for="movie_format_' + movie_recid + '">Format</label>' +
 						// '<select id="movie_format_' + movie_recid + '" class="custom-select"' +
-						'<select id="movie_format_' + movie_recid + '" class="form-control"' +
+						'<select id="movie_format_' + movie_recid + '" class="form-control valChg"' +
 							' data-fldname="Format"' +
 							// ' data-ogval="' + movie_format + '"' +
 							'>' +
@@ -235,6 +235,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		;
 
 		$('#movie_admin_list').prepend(movie_listing);
+		$('.is-new .movie_rating_stars').addClass('valChg-colorsOnly');
 	}
 	,
 	seeing_stars : (movie_rating) => {
