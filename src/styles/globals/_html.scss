@@ -134,6 +134,10 @@ label {
 input {
 	border-radius: $border-radius;
 
+	/* &:[type='checkbox'] {
+
+	} */
+
 	&:invalid {
 		border-color: red !important;
 	}

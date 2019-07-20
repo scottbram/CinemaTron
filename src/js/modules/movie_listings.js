@@ -7,8 +7,8 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 			dataType: 'json'
 		}).done( function (resp) {
 
-			/*console.log('resp: ');
-			console.log(resp);*/
+			console.log('resp: ');
+			console.log(resp);
 
 			if (resp.length > 0) {
 				$.each(resp, function (idx, itm) {
@@ -97,7 +97,7 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 						movie_rating_stars += '</span>';
 						
 						var movie_listing = '<div class="movie_listing" ' +
-							'data-recid="' + movie_recid + '"">' +
+							'data-recid="' + movie_recid + '">' +
 							'<span class="movie_title">' + movie_title + '</span>' +
 								'<div class="movie_details">' +
 									movie_year + ' | ' + movie_length + ' minutes | ' + movie_rating_stars + ' | ' + movie_format +

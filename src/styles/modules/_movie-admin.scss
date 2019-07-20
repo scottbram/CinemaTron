@@ -8,7 +8,8 @@
 		display: block;
 	}
 
-	input, select, textarea {
+	input:not([type='checkbox']):not([type='radio']),
+	select, textarea {
 		font-size: 2.8rem;
 	}
 
@@ -118,7 +119,8 @@
 
 		.movie_title,
 		.movie_details,
-		input, select, textarea {
+		input:not([type='checkbox']):not([type='radio']),
+		select, textarea {
 			font-size: 1.1rem;
 		}
 

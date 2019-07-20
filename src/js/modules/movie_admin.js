@@ -25,6 +25,12 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					var movie_rating 	= movie_obj.Rating;
 					var movie_format 	= movie_obj.Format;
 					var movie_art 		= movie_obj.Art;
+					var movie_active 	= movie_obj.Active;
+					
+					var movie_active_checked = '';
+					if (movie_active) {
+						movie_active_checked = ' checked';
+					}
 
 					var movie_rating_stars = movie_admin.seeing_stars(movie_rating);
 
@@ -41,7 +47,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 						break;
 					}
 					
-					var movie_listing = '<div class="movie_listing form-group" ' +
+					var movie_listing = '<div class="movie_listing" ' +
 							'data-recid="' + movie_recid +'"' +
 							'data-haschgs="false"' +
 							'id="movie_listing_' + movie_recid + '"' +
@@ -109,6 +115,21 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										'<option value="Streaming"' + STRsel + '>Streaming</option>' +
 										'<option value="VHS"' + VHSsel + '>VHS</option>' +
 									'</select>' +
+								'</div>' +
+								'<div class="movie_rating form-field-container form-check">' +
+									'<input id="movie_active_' + movie_recid + '"' +
+										' data-fldname="Active"' +
+										' data-ogval="' + movie_active + '"' +
+										' class="form-check-input"' +
+										' type="checkbox"' + 
+										movie_active_checked +
+									'>' +
+									'<label' +
+										' for="movie_active_' + movie_recid + '"' +
+										' class="lbl_checkbox form-check-label"' +
+										'>' +
+										'Active' +
+									'</label>' +
 								'</div>' +
 							'</div>' +
 						'</div>'
@@ -229,6 +250,21 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'<option value="Streaming" selected>Streaming</option>' +
 							'<option value="VHS">VHS</option>' +
 						'</select>' +
+					'</div>' +
+					'<div class="movie_rating form-field-container form-check">' +
+						'<input id="movie_active_' + movie_recid + '"' +
+							' data-fldname="Active"' +
+							// ' data-ogval="' + movie_active + '"' +
+							' class="form-check-input"' +
+							' type="checkbox"' + 
+							' checked' +
+						'>' +
+						'<label' +
+							' for="movie_active_' + movie_recid + '"' +
+							' class="lbl_checkbox form-check-label"' +
+							'>' +
+							'Active' +
+						'</label>' +
 					'</div>' +
 				'</div>' +
 			'</div>'
@@ -508,6 +544,10 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			req_obj_flds[fldName] = fldVal;
 		});
 
+		var movie_active = $('#movie_active_' + movie_recid).is(':checked');
+
+		req_obj_flds['Active'] = movie_active;
+
 		req_obj.fields = req_obj_flds;
 
 		console.log(req_obj);
@@ -524,15 +564,23 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					success: function (resp, textStatus, jqXhr) {
 	
 						console.log('success event');
-						console.log(resp);
-	
-						/** Reset fields to unchanged styles */
-						$('#movie_listing_' + movie_recid).removeClass('is-new');
-						$('#movie_listing_' + movie_recid).find('.valChg, .valChg-colorsOnly').removeClass('valChg valChg-colorsOnly');
-						$('#movie_listing_' + movie_recid).find('.movie_rating_stars').removeClass('valChg-colorsOnly');
 						
-						/** Replace millisecond stamp with returned ID */
-						$('#movie_listing_' + movie_recid).attr('id', 'movie_listing_' + resp);
+						var movie_recid_new = resp.id;
+
+						/** Replace occurences of millisecond stamp ID with newly-created returned ID */
+						$('#movie_listing_' + movie_recid).attr('id', 'movie_listing_' + movie_recid_new);
+						$('#movie_listing_' + movie_recid_new).attr('data-recid', 'movie_listing_' + movie_recid_new);
+
+						/** 
+						 * Need solution for finding all occurences of temporary ID with new one 
+						 * Possible solution is to eliminate all the places where that unique ID is used
+						 * i.e., just rely on parent element attributes
+						 */
+
+						/** Reset fields to unchanged styles */
+						$('#movie_listing_' + movie_recid_new).removeClass('is-new');
+						$('#movie_listing_' + movie_recid_new).find('.valChg, .valChg-colorsOnly').removeClass('valChg valChg-colorsOnly');
+						$('#movie_listing_' + movie_recid_new).find('.movie_rating_stars').removeClass('valChg-colorsOnly');
 	
 						promSuccess(resp);
 					},
