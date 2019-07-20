@@ -481,10 +481,11 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		});
 	}
 	,
-	save_item : (movie_recid) => {
+	save_item : (movie_recid, isNew) => {
 		var req_obj = {
 			'ID': movie_recid
 		};
+
 		var req_obj_flds = {};
 		var chgdFldsArr = $('#movie_listing_' + movie_recid).find('.valChg');
 
@@ -509,60 +510,120 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 
 		req_obj.fields = req_obj_flds;
 
+		console.log(req_obj);
+
 		var req_str = JSON.stringify(req_obj);
 
 		var saveItemProm = new Promise( function (promSuccess, promError) {
-			$.ajax({
-				url: '/.netlify/functions/at_update_movie',
-				type: 'PATCH',
-				contentType: 'application/json',
-				data: req_str,
-				success: function (resp, textStatus, jqXhr) {
-
-					console.log('success event');
-
-					/** Reset fields to unchanged style */
-					$('#movie_listing_' + movie_recid).find('.valChg, .valChg-colorsOnly').removeClass('valChg valChg-colorsOnly');
-
-					$(this).closest('.movie_rating_stars').removeClass('valChg-colorsOnly');
-
-					promSuccess();
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-
-					console.log('error event');
-					
-					console.log('jqXHR: ');
-					console.log(jqXHR);
-
-					console.log('textStatus: ');
-					console.log(textStatus);
-					
-					console.log('errorThrown: ');
-					console.log(errorThrown);
-					
-					var err_disp;
-
-					if (typeof jqXHR.responseJSON !== 'undefined') {
-						let err_statusCode = jqXHR.responseJSON['statusCode'];
-						let err_is = jqXHR.responseJSON['error'];
-						let err_msg = jqXHR.responseJSON['message'];
-
-						err_disp = err_statusCode + '\n' + err_is + '\n' + err_msg;
-					} else {
-						err_disp = jqXHR.responseText;
+			if (isNew) {
+				$.ajax({
+					url: '/.netlify/functions/at_create_movie',
+					type: 'POST',
+					contentType: 'application/json',
+					data: req_str,
+					success: function (resp, textStatus, jqXhr) {
+	
+						console.log('success event');
+						console.log(resp);
+	
+						/** Reset fields to unchanged styles */
+						$('#movie_listing_' + movie_recid).removeClass('is-new');
+						$('#movie_listing_' + movie_recid).find('.valChg, .valChg-colorsOnly').removeClass('valChg valChg-colorsOnly');
+						$('#movie_listing_' + movie_recid).find('.movie_rating_stars').removeClass('valChg-colorsOnly');
+						
+						/** Replace millisecond stamp with returned ID */
+						$('#movie_listing_' + movie_recid).attr('id', 'movie_listing_' + resp);
+	
+						promSuccess(resp);
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+	
+						console.log('error event');
+						
+						console.log('jqXHR: ');
+						console.log(jqXHR);
+	
+						console.log('textStatus: ');
+						console.log(textStatus);
+						
+						console.log('errorThrown: ');
+						console.log(errorThrown);
+						
+						var err_disp;
+	
+						if (typeof jqXHR.responseJSON !== 'undefined') {
+							let err_statusCode = jqXHR.responseJSON['statusCode'];
+							let err_is = jqXHR.responseJSON['error'];
+							let err_msg = jqXHR.responseJSON['message'];
+	
+							err_disp = err_statusCode + '\n' + err_is + '\n' + err_msg;
+						} else {
+							err_disp = jqXHR.responseText;
+						}
+						
+						promError();
+	
+						alert('Error:\n' + err_disp);
+					},
+					complete: function() {
+	
+						console.log('complete event');
+	
 					}
-					
-					promError();
-
-					alert('Error:\n' + err_disp);
-				},
-				complete: function() {
-
-					console.log('complete event');
-
-				}
-			});
+				});
+			} else {
+				$.ajax({
+					url: '/.netlify/functions/at_update_movie',
+					type: 'PATCH',
+					contentType: 'application/json',
+					data: req_str,
+					success: function (resp, textStatus, jqXhr) {
+	
+						console.log('success event');
+	
+						/** Reset fields to unchanged style */
+						$('#movie_listing_' + movie_recid).find('.valChg, .valChg-colorsOnly').removeClass('valChg valChg-colorsOnly');
+	
+						$('#movie_listing_' + movie_recid).find('.movie_rating_stars').removeClass('valChg-colorsOnly');
+	
+						promSuccess();
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+	
+						console.log('error event');
+						
+						console.log('jqXHR: ');
+						console.log(jqXHR);
+	
+						console.log('textStatus: ');
+						console.log(textStatus);
+						
+						console.log('errorThrown: ');
+						console.log(errorThrown);
+						
+						var err_disp;
+	
+						if (typeof jqXHR.responseJSON !== 'undefined') {
+							let err_statusCode = jqXHR.responseJSON['statusCode'];
+							let err_is = jqXHR.responseJSON['error'];
+							let err_msg = jqXHR.responseJSON['message'];
+	
+							err_disp = err_statusCode + '\n' + err_is + '\n' + err_msg;
+						} else {
+							err_disp = jqXHR.responseText;
+						}
+						
+						promError();
+	
+						alert('Error:\n' + err_disp);
+					},
+					complete: function() {
+	
+						console.log('complete event');
+	
+					}
+				});
+			}
 		});
 
 		return saveItemProm;
@@ -607,9 +668,14 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		var chgdMoviesArr = $('.movie_listing[data-haschgs="true"]');
 
 		$.each(chgdMoviesArr, function (idx, itm) {
+			var isNew = false;
 			var movie_recid = $(itm).attr('data-recid');
+			
+			if ( $(itm).hasClass('is-new') ) {
+				isNew = true;
+			}
 
-			var saveItem = movie_admin.save_item(movie_recid);
+			var saveItem = movie_admin.save_item(movie_recid, isNew);
 
 			saveItem.then(
 				function () {

@@ -16,12 +16,12 @@ const at_table_movies = at_base('movies')
 exports.handler = async (event, context, callback) => {
 	var resp
 	var req_obj = JSON.parse(event.body)
-	var rec_id = req_obj.ID
 	var rec_fields = req_obj.fields
 
+	console.log(rec_fields)
+
 	try {
-		resp = await at_table_movies.update(
-				rec_id,
+		resp = await at_table_movies.create(
 				rec_fields
 			)
 
