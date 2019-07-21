@@ -26,11 +26,11 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-terser": "^1.1.7",
-    "netlify-lambda": "^1.5.0"
+    "netlify-lambda": "^1.5.0",
+    "node-fetch": "^2.6.0"
   },
   "dependencies": {
     "airtable": "^0.7.0",
-    "gotrue-js": "^0.9.25",
-    "node-fetch": "^2.6.0"
+    "gotrue-js": "^0.9.25"
   }
 }
