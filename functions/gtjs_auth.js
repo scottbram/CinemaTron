@@ -2,9 +2,8 @@ const GoTrue = require('gotrue-js')
 
 const auth = new GoTrue({
 	APIUrl: 'https://cinematron.site/.netlify/identity',
-	audience: '',
 	setCookie: false
-});
+})
 
 exports.handler = async (event, context, callback) => {
 	
@@ -24,7 +23,7 @@ exports.handler = async (event, context, callback) => {
 	console.log(req_obj)
 
 	try {
-		resp = await auth.login(req_obj.email, req_obj.pw)
+		resp = await auth.login(req_obj['login-email'], req_obj['login-pw'])
 
 		return {
 			statusCode: 200,
@@ -32,6 +31,10 @@ exports.handler = async (event, context, callback) => {
 			body: JSON.stringify(resp)
 		}
 	} catch (errObj) {
+
+		console.log('- - - errObj - - -')
+		console.log(errObj)
+
 		return {
 			statusCode: errObj.statusCode,
 			headers: { 'Content-Type': 'application/json' },
