@@ -37,4 +37,4 @@ exports.handler = async (event, context, callback) => {
 			body: JSON.stringify(errObj)
 		}
 	}
-};
+}

@@ -1,8 +1,7 @@
 const GoTrue = require('gotrue-js')
 
 const auth = new GoTrue({
-	APIUrl: 'https://cinematron.site/.netlify/identity',
-	setCookie: false
+	APIUrl: '/.netlify/identity'
 })
 
 exports.handler = async (event, context, callback) => {
@@ -41,4 +40,4 @@ exports.handler = async (event, context, callback) => {
 			body: JSON.stringify(errObj)
 		}
 	}
-};
+}

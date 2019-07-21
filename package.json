@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "airtable": "^0.7.0",
-    "gotrue-js": "^0.9.25"
+    "gotrue-js": "^0.9.25",
+    "node-fetch": "^2.6.0"
   }
 }

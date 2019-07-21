@@ -1,4 +1,5 @@
 const Airtable = require('airtable')
+
 /** 
  * The following 2 lines refer to environment variables.
  * These are configured online in Netlify settings (found in "Site settings > Build & deploy > Environment" as of this writing)
@@ -37,4 +38,4 @@ exports.handler = async (event, context, callback) => {
 			body: JSON.stringify(errObj)
 		}
 	}
-};
+}
