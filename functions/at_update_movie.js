@@ -1,17 +1,15 @@
 const Airtable = require('airtable')
-
 /** 
  * The following 2 lines refer to environment variables.
  * These are configured online in Netlify settings (found in "Site settings > Build & deploy > Environment" as of this writing)
  * For local development via Netlify CLI, they go in netlify.toml under "[build.environment]"
  */
 const { AIRTABLE_API_KEY } = process.env
-/** Didn't work locally via Netlify CLI, so just using direct value for now */
-// const { AIRTABLE_BASE_ID } = process.env
+const { AIRTABLE_BASE_ID } = process.env
 const at_base = new Airtable({
 		apiKey: AIRTABLE_API_KEY
 	})
-	.base('appESVtnPeSwbPbUA')
+	.base(AIRTABLE_BASE_ID)
 const at_table_movies = at_base('movies')
 
 exports.handler = async (event, context, callback) => {

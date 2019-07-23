@@ -5,7 +5,7 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 		$('#login').on('submit', function (e) {
 			e.preventDefault();
 
-			if ( $.trim( $('#login-email').val() ) !== '' && $.trim( $('#login-pw').val() ) !== '' ) {
+			if ( $.trim( $('#login_email').val() ) !== '' && $.trim( $('#login_pw').val() ) !== '' ) {
 				
 				console.log('submit');
 				

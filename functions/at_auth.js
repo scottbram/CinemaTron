@@ -6,56 +6,102 @@ const bcrypt = require('bcryptjs')
  * For local development via Netlify CLI, they go in netlify.toml under "[build.environment]"
  */
 const { AIRTABLE_API_KEY } = process.env
-/** Didn't work locally via Netlify CLI, so just using direct value for now */
-// const { AIRTABLE_BASE_ID } = process.env
+const { AIRTABLE_BASE_ID } = process.env
+const { TESTUSER_RECORD_ID } = process.env
 const at_base = new Airtable({
 		apiKey: AIRTABLE_API_KEY
 	})
-	.base('appESVtnPeSwbPbUA')
+	.base(AIRTABLE_BASE_ID)
 const at_table_users = at_base('users')
 
-exports.handler = async (event, context, callback) => {
-	var resp
-	var req_obj = JSON.parse(event.body)
-	var rec_fields = req_obj.fields
+exports.handler = (event, context, callback) => {
+	const req_obj = JSON.parse(event.body)
 
-	console.log(rec_fields)
+	console.log('req_obj: ')
+	console.log(req_obj)
 
-	const { login_email, login_pw } = req_obj.body;
+	const { login_pw } = req_obj
 
-	try {
-		resp = await bcrypt.hash(login_pw, 10, function (err, hash) {
-			if (err) {
-				console.error(err);
-				return;
-			}
-	
-			var upd_result = at_table_users.update(
-				login_email,
+	console.log('login_pw: ')
+	console.log(login_pw)
+
+	function doHash (login_pw) {
+
+		console.log('doHash login_pw: ')
+		console.log(login_pw)
+
+		return new Promise( (resolve, reject) => {
+			bcrypt.hash(login_pw, 10, function (err, hash) {
+				if (err) {
+					console.error(err)
+					reject(err)
+				}
+				else {
+					resolve({
+						hash: hash
+					})
+				}
+			})
+		})
+	}
+
+	function storeHash (hash) {
+
+		console.log('storeHash hash: ')
+		console.log(hash)
+
+		console.log('storeHash TESTUSER_RECORD_ID: ')
+		console.log(TESTUSER_RECORD_ID)
+
+		return new Promise( (resolve, reject) => {
+			at_table_users.update(
+				TESTUSER_RECORD_ID,
 				{
 					password: hash
 				},
-				function (err) {
+				function (err, record) {
 					if (err) {
-						console.error(err);
-						return;
+						console.error(err)
+						reject(err)
+					} else {
+						resolve(record)
 					}
 				}
-			);
+			)
+		})
+	}
+
 	
-			return upd_result;
-		});
+	doHash(login_pw)
+	.then( function (hashObj) {
+
+		console.log('then hashObj: ')
+		console.log(hashObj)
+
+		console.log('hashObj.hash: ')
+		console.log(hashObj.hash)
+
+		return storeHash(hashObj.hash);
+	})
+	.then( function (resp) {
 		
-		return {
+		console.log('resp: ')
+		console.log(resp)
+		
+		callback(null, {
 			statusCode: 200,
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(resp)
-		}
-	} catch (errObj) {
-		return {
+		})
+	})
+	.catch( function (errObj) {
+
+		console.error(errObj);
+
+		callback( {
 			statusCode: errObj.statusCode,
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(errObj)
-		}
-	}
+		})
+	});
 }
