@@ -98,7 +98,7 @@ exports.handler = (event, context, callback) => {
 
 		console.error(errObj);
 
-		callback( {
+		callback({
 			statusCode: errObj.statusCode,
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(errObj)
