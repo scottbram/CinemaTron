@@ -9,12 +9,6 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 				
 				console.log('submit');
 				
-				/* var ser_data = $(this).serialize();
-				
-				console.log( $(this).serialize() );
-
-				$.post('/.netlify/functions/gtjs_auth', ser_data); */
-
 				sitewide.login_do();
 			} else {
 				
@@ -47,7 +41,7 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 		var req_str = JSON.stringify(req_obj);
 
 		$.ajax({
-			url: '/.netlify/functions/gtjs_auth',
+			url: '/.netlify/functions/at_auth',
 			type: 'POST',
 			contentType: 'application/json',
 			data: req_str,
