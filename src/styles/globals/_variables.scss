@@ -27,8 +27,10 @@ $frosted_glass_bg: rgba(255, 255, 255, 0.7);
 /** Matched to Bootstrap alerts */
 $msg_primary_color: rgb(0, 64, 133);
 $msg_secondary_color: rgb(56, 61, 65);
-$msg_success_color: rgb(21, 87, 36);
-$msg_danger_color: rgb(114, 28, 36);
+// $msg_success_color: rgb(21, 87, 36);
+$msg_success_color: rgb(19, 144, 48);
+// $msg_danger_color: rgb(114, 28, 36);
+$msg_danger_color: rgb(191, 34, 49);
 $msg_warning_color: rgb(133, 100, 4);
 $msg_info_color: rgb(12, 84, 96);
 $msg_light_color: rgb(129, 129, 130);

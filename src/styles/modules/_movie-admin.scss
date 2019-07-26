@@ -4,16 +4,6 @@
  */
 
 #movie_admin {
-	label {
-		display: block;
-	}
-
-	input:not([type='checkbox']):not([type='radio']),
-	select, textarea {
-		font-size: 2.8rem;
-	}
-
-	input, select, textarea,
 	.movie_rating_stars {
 		margin-bottom: 0;
 	}
@@ -35,16 +25,7 @@
 			border-bottom-width: 0;
 		}
 	}
-
-	.movie_title,
-	.movie_details {
-		font-size: 2.8rem;
-	}
 	
-	.movie_title input {
-		width: 100%;
-	}
-
 	.movie_format .custom-select {
 		display: block;
 	}
@@ -96,14 +77,9 @@
 
 	#movie_admin_list_actions_msgs {
 		padding-left: 16px;
-
-		small, .small {
-			font-size: 2.4rem;
-		}
 	}
 
 	@media (min-width: 1000px) {
-		input, select, textarea,
 		.movie_rating_stars {
 			margin-bottom: 0;
 		}
@@ -115,13 +91,6 @@
 		.movie_listing {
 			padding: 0 0 0.2rem;
 			border-bottom-width: 1px;
-		}
-
-		.movie_title,
-		.movie_details,
-		input:not([type='checkbox']):not([type='radio']),
-		select, textarea {
-			font-size: 1.1rem;
 		}
 
 		.movie_title input {

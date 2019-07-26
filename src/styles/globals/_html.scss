@@ -113,8 +113,33 @@ dd {
 	color: $secondary_color;
 }
 
+button {
+	border-radius: $border-radius;
+}
+
+a {
+	color: $secondary_color;
+	text-decoration: underline;
+
+	&:hover {
+		background-color: $secondary_color_bg;
+		color: $secondary_color_intense;
+	}
+}
+
+label,
+input:not([type='checkbox']):not([type='radio']),
+select, textarea {
+	font-size: 2.8rem;
+}
+
 label {
+	display: block;
 	margin-bottom: 0.2rem;
+
+	small, .small {
+		font-size: 2.4rem;
+	}
 }
 
 ::placeholder {
@@ -129,6 +154,10 @@ label {
 }
 ::-ms-input-placeholder {
 	color: $secondary_color_bg;
+}
+
+input, select, textarea {
+	margin-bottom: 0;
 }
 
 input {
@@ -157,20 +186,6 @@ input {
 	}
 }
 
-button {
-	border-radius: $border-radius;
-}
-
-a {
-	color: $secondary_color;
-	text-decoration: underline;
-
-	&:hover {
-		background-color: $secondary_color_bg;
-		color: $secondary_color_intense;
-	}
-}
-
 @media (min-width: 1000px) {
 	body {
 		font-size: 0.9rem;
@@ -192,6 +207,16 @@ a {
 	main {
 		padding: 16px 20px;
 		width: 960px;
+	}
+
+	label,
+	input:not([type='checkbox']):not([type='radio']),
+	select, textarea {
+		font-size: 1.1rem;
+	}
+
+	input, select, textarea {
+		margin-bottom: 0;
 	}
 }
 

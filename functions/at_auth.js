@@ -20,18 +20,18 @@ exports.handler = (event, context, callback) => {
 	console.log('req_obj: ')
 	console.log(req_obj)
 
-	const { login_pw } = req_obj
+	const { auth_task, auth_eml, auth_pw } = req_obj
 
-	console.log('login_pw: ')
-	console.log(login_pw)
+	console.log('auth_pw: ')
+	console.log(auth_pw)
+	
+	function doHash (auth_pw) {
 
-	function doHash (login_pw) {
-
-		console.log('doHash login_pw: ')
-		console.log(login_pw)
+		console.log('doHash auth_pw: ')
+		console.log(auth_pw)
 
 		return new Promise( (resolve, reject) => {
-			bcrypt.hash(login_pw, 10, function (err, hash) {
+			bcrypt.hash(auth_pw, 10, function (err, hash) {
 				if (err) {
 					console.error(err)
 					reject(err)
@@ -71,37 +71,43 @@ exports.handler = (event, context, callback) => {
 		})
 	}
 
-	
-	doHash(login_pw)
-	.then( function (hashObj) {
-
-		console.log('then hashObj: ')
-		console.log(hashObj)
-
-		console.log('hashObj.hash: ')
-		console.log(hashObj.hash)
-
-		return storeHash(hashObj.hash);
-	})
-	.then( function (resp) {
+	switch (auth_task) {
+		case 'auth_pw_set':
+			doHash(auth_pw)
+			.then( function (hashObj) {
 		
-		console.log('resp: ')
-		console.log(resp)
+				console.log('then hashObj: ')
+				console.log(hashObj)
 		
-		callback(null, {
-			statusCode: 200,
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(resp)
-		})
-	})
-	.catch( function (errObj) {
-
-		console.error(errObj);
-
-		callback({
-			statusCode: errObj.statusCode,
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(errObj)
-		})
-	});
+				console.log('hashObj.hash: ')
+				console.log(hashObj.hash)
+		
+				return storeHash(hashObj.hash);
+			})
+			.then( function (resp) {
+				
+				console.log('resp: ')
+				console.log(resp)
+				
+				callback(null, {
+					statusCode: 200,
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(resp)
+				})
+			})
+			.catch( function (errObj) {
+		
+				console.error(errObj);
+		
+				callback({
+					statusCode: errObj.statusCode,
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(errObj)
+				})
+			});
+		break;
+		case 'auth_login':
+			// 
+		break;
+	}
 }
