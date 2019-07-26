@@ -57,7 +57,7 @@ exports.handler = (event, context, callback) => {
 			at_table_users.update(
 				TESTUSER_RECORD_ID,
 				{
-					password: hash
+					pwhash: hash
 				},
 				function (err, record) {
 					if (err) {
@@ -68,6 +68,25 @@ exports.handler = (event, context, callback) => {
 					}
 				}
 			)
+		})
+	}
+
+	function getUsers (auth_eml) {
+		const filterFormula = "({email} = '" + auth_eml + "')"
+
+		return new Promise( (resolve, reject) => {
+			at_table_users.select({
+				maxRecords: 10,
+				filterByFormula: filterFormula
+			})
+			.firstPage( function (err, records) {
+				if (err) {
+					console.error(err)
+					reject(err)
+				}
+				
+				resolve(records)
+			})
 		})
 	}
 
@@ -107,7 +126,81 @@ exports.handler = (event, context, callback) => {
 			});
 		break;
 		case 'auth_login':
-			// 
+
+			console.log('oh, you wanna log in')
+			
+			getUsers(auth_eml)
+			.then( users => {
+
+				console.log('then users: ')
+				console.log(users)
+
+				if ( users.length > 0) {
+					users.forEach( function (userObj) {
+						bcrypt.compare(auth_pw, userObj.get("pwhash") )
+						.then( matched => {
+							if (matched) {
+								/** Password is good! */
+								console.log('userObj.fields: ')
+								console.log(userObj.fields)
+								
+								let resp = {
+									'message': 'User is confirmed'
+								}
+
+								callback(null, {
+									statusCode: 200,
+									headers: { 'Content-Type': 'application/json' },
+									body: JSON.stringify(resp)
+								})
+							} else {
+								/** Password fail */
+	
+								console.log('Password fail')
+								
+								let resp = {
+									'statusCode': 401,
+									'error': 'Incorrect Password',
+									'message': 'Password is incorrect'
+								}
+
+								callback(null, {
+									statusCode: 401,
+									headers: { 'Content-Type': 'application/json' },
+									body: JSON.stringify(resp)
+								})
+							}
+						})
+					})
+				} else {
+					/** User not found */
+	
+					console.log('User not found')
+					
+					let resp = {
+						'statusCode': 401,
+						'error': 'User Not Found',
+						'message': 'That user was not found'
+					}
+					
+					callback(null, {
+						statusCode: 401,
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(resp)
+					})
+				}
+			})
+			.catch( errObj => {
+				
+				console.log('Catch happens')
+				console.error(errObj);
+		
+				callback(null, {
+					statusCode: errObj.statusCode,
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(errObj)
+				})
+			})
 		break;
 	}
 }

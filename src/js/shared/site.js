@@ -71,8 +71,8 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 					valid_pw, 
 					valid_pw_length, 
 					valid_pw_length_msg, 
-					valid_cases, 
-					valid_cases_msg, 
+					valid_ltrCases, 
+					valid_ltrCases_msg, 
 					valid_pw_spcChar, 
 					valid_pw_spcChar_msg 
 				} = utils.validate_pw(fld_val);
@@ -82,34 +82,32 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 				
 				if ( valid_pw ) {
 					fld_el.setCustomValidity('');
-					
-					// return;
 				}
 
 				let customValidationMsg = '';
 				
 				if ( !valid_pw_length ) {
-					$(fld_parentForm).find('#auth_pw_set_hint_minLength').removeClass('valid').addClass('invalid');
+					$(fld_parentForm).find('.validHelp_minLength').removeClass('valid').addClass('invalid');
 					
 					customValidationMsg += valid_pw_length_msg;
 				} else {
-					$(fld_parentForm).find('#auth_pw_set_hint_minLength').removeClass('invalid').addClass('valid');
+					$(fld_parentForm).find('.validHelp_minLength').removeClass('invalid').addClass('valid');
 				}
 
-				if ( !valid_cases ) {
-					$(fld_parentForm).find('#auth_pw_set_hint_cases').removeClass('valid').addClass('invalid');
+				if ( !valid_ltrCases ) {
+					$(fld_parentForm).find('.validHelp_ltrCases').removeClass('valid').addClass('invalid');
 
-					customValidationMsg += valid_cases_msg;
+					customValidationMsg += valid_ltrCases_msg;
 				} else {
-					$(fld_parentForm).find('#auth_pw_set_hint_cases').removeClass('invalid').addClass('valid');
+					$(fld_parentForm).find('.validHelp_ltrCases').removeClass('invalid').addClass('valid');
 				}
 
 				if ( !valid_pw_spcChar ) {
-					$(fld_parentForm).find('#auth_pw_set_hint_spcChar').removeClass('valid').addClass('invalid');
+					$(fld_parentForm).find('.validHelp_spcChar').removeClass('valid').addClass('invalid');
 
 					customValidationMsg += valid_pw_spcChar_msg;
 				} else {
-					$(fld_parentForm).find('#auth_pw_set_hint_spcChar').removeClass('invalid').addClass('valid');
+					$(fld_parentForm).find('.validHelp_spcChar').removeClass('invalid').addClass('valid');
 				}
 
 				fld_el.setCustomValidity(customValidationMsg);
@@ -158,10 +156,10 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 
 		switch (form_is) {
 			case 'auth_pw_set':
-				auth_task = 'pw_set';
+				auth_task = 'auth_pw_set';
 			break;
 			case 'auth_login':
-				auth_task = 'login';
+				auth_task = 'auth_login';
 			break;
 		}
 		var req_obj = {
@@ -213,11 +211,18 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 					let err_msg = jqXHR.responseJSON['message'];
 
 					err_disp = err_statusCode + '\n' + err_is + '\n' + err_msg;
+
+					if (err_statusCode === 401) {
+						/** The user entered invalid credentials */
+						
+						console.log('Communicate the specific authentication problem to user')
+
+					}
 				} else {
 					err_disp = jqXHR.responseText;
 				}
 
-				alert('Error:\n' + err_disp);
+				console.error('Error:\n' + err_disp);
 			},
 			complete: function() {
 
@@ -293,7 +298,7 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 	,
 	auth_login_do : () => {
 		var req_obj = {
-			'task': 'login'
+			'task': 'auth_login'
 		};
 
 		$.each( $('#auth_login input'), function (idx, itm) {

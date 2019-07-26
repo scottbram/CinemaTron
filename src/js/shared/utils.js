@@ -22,8 +22,8 @@ var utils = ( typeof (utils) === 'object' ) ? utils : {};
 			'valid_pw': false,
 			'valid_pw_length': false,
 			'valid_pw_length_msg': 'Need more password. ',
-			'valid_cases': false,
-			'valid_cases_msg': 'At least one upper case and one lower case letter required. ',
+			'valid_ltrCases': false,
+			'valid_ltrCases_msg': 'At least one upper case and one lower case letter required. ',
 			'valid_pw_spcChar': false,
 			'valid_pw_spcChar_msg': 'At least one special character required. '
 		}
@@ -32,17 +32,17 @@ var utils = ( typeof (utils) === 'object' ) ? utils : {};
 			validation_resp.valid_pw_length = true;
 		}
 
-		// let regex_numNcases = /^(?:(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*)$/;
-		// let regex_numNcases = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).*$/;
+		// let regex_numNltrCases = /^(?:(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*)$/;
+		// let regex_numNltrCases = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).*$/;
 
-		let regex_cases = /^(?:(?=.*[a-z])(?=.*[A-Z]).*)$/;
-		// let regex_cases = /^(?=.*[a-z])(?=.*[A-Z]).*$/;
+		let regex_ltrCases = /^(?:(?=.*[a-z])(?=.*[A-Z]).*)$/;
+		// let regex_ltrCases = /^(?=.*[a-z])(?=.*[A-Z]).*$/;
 
-		/* console.log('regex_cases: ');
-		console.log(regex_cases.test(str)); */
+		/* console.log('regex_ltrCases: ');
+		console.log(regex_ltrCases.test(str)); */
 
-		if ( regex_cases.test(str) ) {
-			validation_resp.valid_cases = true;
+		if ( regex_ltrCases.test(str) ) {
+			validation_resp.valid_ltrCases = true;
 		}
 
 		// let regex_spcChar = /^(?:(?=.*\W).*)$/;
@@ -55,7 +55,7 @@ var utils = ( typeof (utils) === 'object' ) ? utils : {};
 			validation_resp.valid_pw_spcChar = true;
 		}
 
-		var allValid = validation_resp.valid_pw_length && validation_resp.valid_cases && validation_resp.valid_pw_spcChar;
+		var allValid = validation_resp.valid_pw_length && validation_resp.valid_ltrCases && validation_resp.valid_pw_spcChar;
 
 		if ( allValid ) {
 			validation_resp.valid_pw = true;

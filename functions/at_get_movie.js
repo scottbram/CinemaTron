@@ -14,7 +14,7 @@ exports.handler = async (event, context, callback) => {
 
 	try {
 		// https://community.airtable.com/t/variable-in-filterbyformula/2251
-		// filterFormula = "({mydocid} = '" + mydocid_query + "')"
+		// filterFormula = "({field_name} = '" + value_to_filter_by + "')"
 
 		console.log('record id: ' + rec_id_qs)
 
