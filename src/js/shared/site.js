@@ -52,33 +52,11 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 			var fld_parentForm_valid = false;
 			var fld_parentForm_allFlds_notEmpty = false;
 			var fld_parentForm_allFlds_valid = false;
-			
-			if ( $.trim( fld_parentForm.find('input[type=email]').val() ) !== '' && $.trim( fld_parentForm.find('input[type=password]').val() ) !== '' ) {
-				fld_parentForm_allFlds_notEmpty = true;
-			}
-
-			/* console.log('email valid:');
-			console.log( fld_parentForm.find('input[type=email]').is(':valid') );
-
-			console.log('pw valid');
-			console.log( fld_parentForm.find('input[type=password]').is(':valid') ); */
-
-			if ( fld_parentForm.find('input[type=email]').is(':valid') && fld_parentForm.find('input[type=password]').is(':valid') ) {
-				fld_parentForm_allFlds_valid = true;
-			}
-
-			if (fld_parentForm_allFlds_notEmpty && fld_parentForm_allFlds_valid) {
-				fld_parentForm_valid = true;
-				fld_parentForm.find('button[type=submit]').attr('disabled', false);
-			}
 
 			/** Do some validation */
 			fld_el.setCustomValidity('');
 			
 			if ( $(this).attr('type') === 'email' ) {
-				
-				// console.log('gonna validate an email');
-
 				let { valid_eml } = utils.validate_email(fld_val);
 
 				if ( valid_eml ) {
@@ -89,9 +67,6 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 			}
 
 			if ( $(this).attr('type') === 'password' ) {
-				
-				// console.log('gonna validate a password');
-				
 				let { 
 					valid_pw, 
 					valid_pw_length, 
@@ -113,9 +88,6 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 
 				let customValidationMsg = '';
 				
-				/* console.log('valid_pw_length: ');
-				console.log(valid_pw_length); */
-
 				if ( !valid_pw_length ) {
 					$(fld_parentForm).find('#auth_pw_set_hint_minLength').removeClass('valid').addClass('invalid');
 					
@@ -124,9 +96,6 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 					$(fld_parentForm).find('#auth_pw_set_hint_minLength').removeClass('invalid').addClass('valid');
 				}
 
-				/* console.log('valid_cases: ');
-				console.log(valid_cases); */
-
 				if ( !valid_cases ) {
 					$(fld_parentForm).find('#auth_pw_set_hint_cases').removeClass('valid').addClass('invalid');
 
@@ -134,9 +103,6 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 				} else {
 					$(fld_parentForm).find('#auth_pw_set_hint_cases').removeClass('invalid').addClass('valid');
 				}
-
-				/* console.log('valid_pw_spcChar: ');
-				console.log(valid_pw_spcChar); */
 
 				if ( !valid_pw_spcChar ) {
 					$(fld_parentForm).find('#auth_pw_set_hint_spcChar').removeClass('valid').addClass('invalid');
@@ -167,6 +133,22 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 				
 				console.log('Fld is valid!');
 
+			}
+
+			if ( $.trim( fld_parentForm.find('input[type=email]').val() ) !== '' && $.trim( fld_parentForm.find('input[type=password]').val() ) !== '' ) {
+				fld_parentForm_allFlds_notEmpty = true;
+			}
+
+			if ( fld_parentForm.find('input[type=email]').is(':valid') && fld_parentForm.find('input[type=password]').is(':valid') ) {
+				fld_parentForm_allFlds_valid = true;
+			}
+
+			if (fld_parentForm_allFlds_notEmpty && fld_parentForm_allFlds_valid) {
+				fld_parentForm_valid = true;
+				fld_parentForm.find('button[type=submit]').attr('disabled', false);
+			} else {
+				fld_parentForm_valid = false;
+				fld_parentForm.find('button[type=submit]').attr('disabled', true);
 			}
 		});
 	}
