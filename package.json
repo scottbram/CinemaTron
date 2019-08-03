@@ -31,6 +31,6 @@
   "dependencies": {
     "airtable": "^0.7.0",
     "bcryptjs": "^2.4.3",
-    "gotrue-js": "^0.9.25"
+    "client-sessions": "^0.8.0"
   }
 }

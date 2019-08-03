@@ -2,6 +2,11 @@
 var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 (movie_admin = {
 	init : () => {
+		// auth.check_sesh('cinesesh')
+		movie_admin.load_movie_list();
+	}
+	,
+	load_movie_list : () => {
 		$.ajax({
 			url: '/.netlify/functions/at_get_movie?recid=all',
 			dataType: 'json'
@@ -54,7 +59,9 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'>' +
 							// '<div class="movie_poster"></div>' +
 							'<div class="movie_title form-field-container">' +
-								'<label for="movie_title_' + movie_recid + '">Title <small class="text-muted">(50 characters or less)</small></label>' +
+								'<label for="movie_title_' + movie_recid + '">Title' +
+								'</label>' +
+								' <small class="text-muted">(50 characters or less)</small>' +
 								'<input id="movie_title_' + movie_recid + '"' +
 									' value="' + movie_title + '"' +
 									' data-fldname="Title"' +
@@ -65,7 +72,9 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'</div>' +
 							'<div class="movie_details">' +
 								'<div class="movie_year form-field-container">' +
-									'<label for="movie_year_' + movie_recid + '">Year <small class="text-muted">(from 1800 to 2100)</small></label>' +
+									'<label for="movie_year_' + movie_recid + '">Year' +
+									'</label>' +
+									'<small class="text-muted">(from 1800 to 2100)</small>' +
 									'<input id="movie_year_' + movie_recid + '"' +
 										' value="' + movie_year + '"' +
 										' data-fldname="Year"' +
@@ -83,7 +92,9 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										'>' +
 								'</div>' +
 								'<div class="movie_length form-field-container">' +
-									'<label for="movie_length_' + movie_recid + '">Length <small class="text-muted">(in minutes)</small></label>' +
+									'<label for="movie_length_' + movie_recid + '">Length' +
+									'</label>' +
+									'<small class="text-muted">(in minutes)</small>' +
 									'<input id="movie_length_' + movie_recid + '"' +
 										' value="' + movie_length + '"' +
 										' data-fldname="Length"' +
@@ -193,7 +204,9 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				'>' +
 				// '<div class="movie_poster"></div>' +
 				'<div class="movie_title form-field-container">' +
-					'<label for="movie_title_' + movie_recid + '">Title <small class="text-muted">(50 characters or less)</small></label>' +
+					'<label for="movie_title_' + movie_recid + '">Title' +
+					'</label>' +
+					'<small class="text-muted">(50 characters or less)</small>' +
 					'<input id="movie_title_' + movie_recid + '"' +
 						' value=""' +
 						' data-fldname="Title"' +
@@ -205,7 +218,9 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				'</div>' +
 				'<div class="movie_details">' +
 					'<div class="movie_year form-field-container">' +
-						'<label for="movie_year_' + movie_recid + '">Year <small class="text-muted">(from 1800 to 2100)</small></label>' +
+						'<label for="movie_year_' + movie_recid + '">Year' +
+						'</label>' +
+						'<small class="text-muted">(from 1800 to 2100)</small>' +
 						'<input id="movie_year_' + movie_recid + '"' +
 							' value=""' +
 							' data-fldname="Year"' +
@@ -216,7 +231,9 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'>' +
 					'</div>' +
 					'<div class="movie_length form-field-container">' +
-						'<label for="movie_length_' + movie_recid + '">Length <small class="text-muted">(in minutes)</small></label>' +
+						'<label for="movie_length_' + movie_recid + '">Length' +
+						'</label>' +
+						'<small class="text-muted">(in minutes)</small>' +
 						'<input id="movie_length_' + movie_recid + '"' +
 							' value=""' +
 							' data-fldname="Length"' +

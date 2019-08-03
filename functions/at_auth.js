@@ -1,13 +1,18 @@
 const Airtable = require('airtable')
 const bcrypt = require('bcryptjs')
+const clientSessions = require('client-sessions')
+
 /** 
- * The following 2 lines refer to environment variables.
+ * The following lines refer to environment variables.
  * These are configured online in Netlify settings (found in "Site settings > Build & deploy > Environment" as of this writing)
  * For local development via Netlify CLI, they go in netlify.toml under "[build.environment]"
  */
-const { AIRTABLE_API_KEY } = process.env
-const { AIRTABLE_BASE_ID } = process.env
-const { TESTUSER_RECORD_ID } = process.env
+const {
+	AIRTABLE_API_KEY,
+	AIRTABLE_BASE_ID,
+	CLIENT_SESSIONS_SECRET,
+	TESTUSER_RECORD_ID
+} = process.env
 const at_base = new Airtable({
 		apiKey: AIRTABLE_API_KEY
 	})
@@ -15,23 +20,22 @@ const at_base = new Airtable({
 const at_table_users = at_base('users')
 
 exports.handler = (event, context, callback) => {
-	const req_obj = JSON.parse(event.body)
 
-	console.log('req_obj: ')
-	console.log(req_obj)
+	/* console.log('event: ')
+	console.log(event) */
 
-	const { auth_task, auth_eml, auth_pw } = req_obj
+	const req_cooks = event.headers['cookie']
 
-	console.log('auth_pw: ')
-	console.log(auth_pw)
-	
-	function doHash (auth_pw) {
+	console.log('req_cooks: ')
+	console.log(req_cooks)
 
-		console.log('doHash auth_pw: ')
-		console.log(auth_pw)
+	function doHash (val_to_hash) {
+
+		console.log('doHash val_to_hash: ')
+		console.log(val_to_hash)
 
 		return new Promise( (resolve, reject) => {
-			bcrypt.hash(auth_pw, 10, function (err, hash) {
+			bcrypt.hash(val_to_hash, 10, function (err, hash) {
 				if (err) {
 					console.error(err)
 					reject(err)
@@ -45,7 +49,10 @@ exports.handler = (event, context, callback) => {
 		})
 	}
 
-	function storeHash (hash) {
+	function storeHash (storeAtFld, hash) {
+
+		console.log('storeHash storeAtFld: ')
+		console.log(storeAtFld)
 
 		console.log('storeHash hash: ')
 		console.log(hash)
@@ -53,12 +60,13 @@ exports.handler = (event, context, callback) => {
 		console.log('storeHash TESTUSER_RECORD_ID: ')
 		console.log(TESTUSER_RECORD_ID)
 
+		const hashStoreObj = {}
+		hashStoreObj[storeAtFld] = hash
+
 		return new Promise( (resolve, reject) => {
 			at_table_users.update(
 				TESTUSER_RECORD_ID,
-				{
-					pwhash: hash
-				},
+				hashStoreObj,
 				function (err, record) {
 					if (err) {
 						console.error(err)
@@ -90,40 +98,30 @@ exports.handler = (event, context, callback) => {
 		})
 	}
 
+	if (event.httpMethod !== 'GET') {
+		const req_obj = JSON.parse(event.body)
+		
+		/* console.log('req_obj: ')
+		console.log(req_obj) */
+
+		var { auth_task, auth_eml, auth_pw } = req_obj
+
+		console.log('auth_pw: ')
+		console.log(auth_pw)
+	}
+
 	switch (auth_task) {
-		case 'auth_pw_set':
-			doHash(auth_pw)
-			.then( function (hashObj) {
+		case 'auth_check':
+			console.log('event.headers[cookie]: ')
+			console.log(event.headers['cookie'])
 		
-				console.log('then hashObj: ')
-				console.log(hashObj)
+			// const reqCooky = event.headers['cookie']
 		
-				console.log('hashObj.hash: ')
-				console.log(hashObj.hash)
+			// console.log('clientSessions.reqCooky: ')
+			// console.log(clientSessions.reqCooky)
 		
-				return storeHash(hashObj.hash);
-			})
-			.then( function (resp) {
-				
-				console.log('resp: ')
-				console.log(resp)
-				
-				callback(null, {
-					statusCode: 200,
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(resp)
-				})
-			})
-			.catch( function (errObj) {
-		
-				console.error(errObj);
-		
-				callback({
-					statusCode: errObj.statusCode,
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(errObj)
-				})
-			});
+			/* console.log('reqCooky.cookieName: ')
+			console.log(reqCooky.cookieName) */
 		break;
 		case 'auth_login':
 
@@ -132,8 +130,8 @@ exports.handler = (event, context, callback) => {
 			getUsers(auth_eml)
 			.then( users => {
 
-				console.log('then users: ')
-				console.log(users)
+				/* console.log('then users: ')
+				console.log(users) */
 
 				if ( users.length > 0) {
 					users.forEach( function (userObj) {
@@ -141,6 +139,7 @@ exports.handler = (event, context, callback) => {
 						.then( matched => {
 							if (matched) {
 								/** Password is good! */
+								
 								console.log('userObj.fields: ')
 								console.log(userObj.fields)
 								
@@ -148,10 +147,52 @@ exports.handler = (event, context, callback) => {
 									'message': 'User is confirmed'
 								}
 
-								callback(null, {
-									statusCode: 200,
-									headers: { 'Content-Type': 'application/json' },
-									body: JSON.stringify(resp)
+								/* clientSessions({
+									cookieName: 'cinesesh',
+									secret: CLIENT_SESSIONS_SECRET,
+									duration: 24 * 60 * 60 * 1000,
+									activeDuration: 1000 * 60 * 5 // if expiresIn < activeDuration, the session will be extended by activeDuration milliseconds
+								}) */
+
+								let val_to_hash = Date.now()
+								val_to_hash = val_to_hash.toString()
+
+								doHash(val_to_hash)
+								.then( function (hashObj) {
+		
+									console.log('then hashObj: ')
+									console.log(hashObj)
+							
+									console.log('hashObj.hash: ')
+									console.log(hashObj.hash)
+							
+									return storeHash('sesh', hashObj.hash);
+								})					
+								.then( function (resp) {
+
+									// console.log('sesh store good')
+
+									// console.log('resp: ')
+									// console.log(resp)
+
+									callback(null, {
+										statusCode: 200,
+										headers: { 
+											'Content-Type': 'application/json',
+											'Set-Cookie': 'cinesesh=' + resp.fields['sesh'] + ';path=/;HttpOnly'
+										},
+										body: JSON.stringify(resp)
+									})
+								})
+								.catch( function (errObj) {
+							
+									console.error(errObj);
+							
+									callback({
+										statusCode: errObj.statusCode,
+										headers: { 'Content-Type': 'application/json' },
+										body: JSON.stringify(errObj)
+									})
 								})
 							} else {
 								/** Password fail */
@@ -202,5 +243,41 @@ exports.handler = (event, context, callback) => {
 				})
 			})
 		break;
+		case 'auth_pw_set': {
+			const val_to_hash = auth_pw
+			doHash(val_to_hash)
+			.then( function (hashObj) {
+		
+				console.log('then hashObj: ')
+				console.log(hashObj)
+		
+				console.log('hashObj.hash: ')
+				console.log(hashObj.hash)
+		
+				return storeHash('pwhash', hashObj.hash);
+			})
+			.then( function (resp) {
+				
+				console.log('resp: ')
+				console.log(resp)
+				
+				callback(null, {
+					statusCode: 200,
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(resp)
+				})
+			})
+			.catch( function (errObj) {
+		
+				console.error(errObj);
+		
+				callback({
+					statusCode: errObj.statusCode,
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(errObj)
+				})
+			})
+		break;
+		}
 	}
 }

@@ -4,6 +4,16 @@
  */
 
 #movie_admin {
+	.form-field-container {
+		label {
+			display: inline-block;
+		}
+		small {
+			display: inline-block;
+			margin-left: 4px;
+		}
+	}
+	
 	.movie_rating_stars {
 		margin-bottom: 0;
 	}
@@ -80,7 +90,13 @@
 	}
 
 	@media (min-width: 1000px) {
+		.movie_rating {
+			display: flex;
+			flex-direction: column;
+		}
+
 		.movie_rating_stars {
+			display: inline-table; // Inelegant but effective stand-in for width: max-content (poor support)
 			margin-bottom: 0;
 		}
 
