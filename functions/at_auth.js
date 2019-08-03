@@ -1,6 +1,6 @@
 const Airtable = require('airtable')
 const bcrypt = require('bcryptjs')
-const clientSessions = require('client-sessions')
+// const clientSessions = require('client-sessions')
 
 /** 
  * The following lines refer to environment variables.
@@ -24,11 +24,22 @@ exports.handler = (event, context, callback) => {
 	/* console.log('event: ')
 	console.log(event) */
 
+	var doSeshChk = false
 	const req_cooks = event.headers['cookie']
+	if (typeof req_cooks !== 'undefined') {
+		doSeshChk = true
 
-	console.log('req_cooks: ')
-	console.log(req_cooks)
-
+		var req_cooks_arr = req_cooks.split(';')
+			.map( itm => itm.trim() )
+			.map( itm => {
+				var arr = itm.split('=')
+				return {
+					cooknom: arr[0],
+					cookval: arr[1]
+				}
+			})
+	}
+	
 	function doHash (val_to_hash) {
 
 		console.log('doHash val_to_hash: ')
@@ -49,10 +60,10 @@ exports.handler = (event, context, callback) => {
 		})
 	}
 
-	function storeHash (storeAtFld, hash) {
+	function storeHash (inFld, hash) {
 
-		console.log('storeHash storeAtFld: ')
-		console.log(storeAtFld)
+		console.log('storeHash inFld: ')
+		console.log(inFld)
 
 		console.log('storeHash hash: ')
 		console.log(hash)
@@ -61,7 +72,7 @@ exports.handler = (event, context, callback) => {
 		console.log(TESTUSER_RECORD_ID)
 
 		const hashStoreObj = {}
-		hashStoreObj[storeAtFld] = hash
+		hashStoreObj[inFld] = hash
 
 		return new Promise( (resolve, reject) => {
 			at_table_users.update(
@@ -79,8 +90,8 @@ exports.handler = (event, context, callback) => {
 		})
 	}
 
-	function getUsers (auth_eml) {
-		const filterFormula = "({email} = '" + auth_eml + "')"
+	function getUsers (byFld, fldVal) {
+		const filterFormula = "({" + byFld + "} = '" + fldVal + "')"
 
 		return new Promise( (resolve, reject) => {
 			at_table_users.select({
@@ -100,34 +111,59 @@ exports.handler = (event, context, callback) => {
 
 	if (event.httpMethod !== 'GET') {
 		const req_obj = JSON.parse(event.body)
-		
-		/* console.log('req_obj: ')
-		console.log(req_obj) */
-
 		var { auth_task, auth_eml, auth_pw } = req_obj
-
-		console.log('auth_pw: ')
-		console.log(auth_pw)
+	} else {
+		var auth_task = 'auth_check'
 	}
 
 	switch (auth_task) {
-		case 'auth_check':
-			console.log('event.headers[cookie]: ')
-			console.log(event.headers['cookie'])
-		
-			// const reqCooky = event.headers['cookie']
-		
-			// console.log('clientSessions.reqCooky: ')
-			// console.log(clientSessions.reqCooky)
-		
-			/* console.log('reqCooky.cookieName: ')
-			console.log(reqCooky.cookieName) */
+		case 'auth_check': {
+			if (doSeshChk) {
+				const cinesesh_str = req_cooks_arr.find( itm => itm.cooknom == 'cinesesh' )
+
+				console.log('cinesesh_str.cookval: ')
+				console.log(cinesesh_str.cookval)
+
+				getUsers('sesh', cinesesh_str.cookval)
+				.then( resp => {
+					if (resp.length > 0) {
+						callback(null, {
+							statusCode: 200,
+							headers: {'Content-Type': 'application/json'},
+							body: JSON.stringify(resp)
+						})
+					} else {
+						callback(null, {
+							statusCode: 401,
+							headers: {'Content-Type': 'application/json'},
+							body: JSON.stringify([{validSesh: false}])
+						})
+					}
+				})
+				.catch( function (errObj) {
+					
+					console.error(errObj);
+			
+					callback({
+						statusCode: errObj.statusCode,
+						headers: {'Content-Type': 'application/json'},
+						body: JSON.stringify(errObj)
+					})
+				})
+			} else {
+				callback(null, {
+					statusCode: 401,
+					headers: {'Content-Type': 'application/json'},
+					body: JSON.stringify([{validSesh: false}])
+				})
+			}
 		break;
+		}
 		case 'auth_login':
 
 			console.log('oh, you wanna log in')
 			
-			getUsers(auth_eml)
+			getUsers('email', auth_eml)
 			.then( users => {
 
 				/* console.log('then users: ')

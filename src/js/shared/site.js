@@ -43,6 +43,25 @@ var sitewide = ( typeof (sitewide) === 'object' ) ? sitewide : {};
 		}, 200);
 	}
 	,
+	auth_sesh_check : () => {
+		return new Promise( (resolve, reject) => {
+				$.ajax({
+				url: '/.netlify/functions/at_auth',
+				dataType: 'json'
+			}).done( function ( resp, textStatus, jqXHR ) {
+
+				console.log('auth_sesh_check resp: ');
+				console.log(resp);
+
+				if (resp.length > 0) {
+					resolve(resp);
+				}
+			}).fail( function ( jqXHR, textStatus, errorThrown ) {
+				reject(jqXHR, textStatus, errorThrown);
+			});
+		})
+	}
+	,
 	track_changes_auth : () => {
 		$('body').on('input change', '.auth_form input', function (e) {
 			var fld_el = $(this)[0];

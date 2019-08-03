@@ -2,8 +2,27 @@
 var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 (movie_admin = {
 	init : () => {
-		// auth.check_sesh('cinesesh')
-		movie_admin.load_movie_list();
+		sitewide.auth_sesh_check()
+		.then( function (resp) {
+			
+			console.log('movie_admin init auth_sesh_check resp: ');
+			console.log(resp);
+
+			$('#movie_admin_list_actions').css('visibility', 'visible');
+			
+			movie_admin.load_movie_list();
+		}).catch( function ( errObj ) {
+			$('#movie_list_status').alert('close');
+
+			console.log('errObj: ');
+			console.log(errObj);
+			
+			var errMsg = '<div id="movie_list_status" class="alert alert-danger fade show" role="alert">' +
+					'<span id="movie_list_status_msg">Access not authorized.</span>' +
+				'</div>';
+			
+			$('#movie_admin').prepend(errMsg);
+		});
 	}
 	,
 	load_movie_list : () => {
