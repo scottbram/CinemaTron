@@ -9,18 +9,18 @@ const at_base = new Airtable({
 const at_table_movies = at_base('movies')
 
 exports.handler = async (event, context, callback) => {
-	const rec_id_qs = event.queryStringParameters.recid
+	const qs_val_recid = event.queryStringParameters.recid
 	var resp, sendBack
 
 	try {
 		// https://community.airtable.com/t/variable-in-filterbyformula/2251
 		// filterFormula = "({field_name} = '" + value_to_filter_by + "')"
 
-		console.log('record id: ' + rec_id_qs)
+		console.log('record id: ' + qs_val_recid)
 
-		if ( typeof rec_id_qs !== 'undefined' && rec_id_qs !== '' && rec_id_qs !== 'all' ) {
-			resp = await at_table_movies.find(rec_id_qs);
-		} else if (rec_id_qs === 'all') {
+		if ( typeof qs_val_recid !== 'undefined' && qs_val_recid !== '' && qs_val_recid !== 'all' ) {
+			resp = await at_table_movies.find(qs_val_recid);
+		} else if (qs_val_recid === 'all') {
 			resp = await at_table_movies.select({
 					maxRecords: 20,
 					// filterByFormula: filterFormula

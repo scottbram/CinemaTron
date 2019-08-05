@@ -109,11 +109,28 @@ exports.handler = (event, context, callback) => {
 		})
 	}
 
+	if (event.httpMethod === 'GET') {
+		var auth_task = 'auth_check'
+
+		const qs_val_auth_task = event.queryStringParameters.auth_task
+		if (qs_val_auth_task === 'logout') {
+			var auth_task = 'auth_logout'
+		}
+	}
+
 	if (event.httpMethod !== 'GET') {
 		const req_obj = JSON.parse(event.body)
 		var { auth_task, auth_eml, auth_pw } = req_obj
-	} else {
-		var auth_task = 'auth_check'
+
+		console.log('auth_task: ')
+		console.log(auth_task)
+
+		console.log('auth_eml: ')
+		console.log(auth_eml)
+
+		console.log('auth_pw: ')
+		console.log(auth_pw)
+
 	}
 
 	switch (auth_task) {
@@ -157,7 +174,7 @@ exports.handler = (event, context, callback) => {
 					body: JSON.stringify([{validSesh: false}])
 				})
 			}
-		break;
+			break;
 		}
 		case 'auth_login':
 
@@ -278,7 +295,18 @@ exports.handler = (event, context, callback) => {
 					body: JSON.stringify(errObj)
 				})
 			})
-		break;
+
+			break;
+		case 'auth_logout':
+			callback(null, {
+				statusCode: 200,
+				headers: { 
+					'Content-Type': 'application/json',
+					'Set-Cookie': 'cinesesh=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT;HttpOnly'
+				},
+				body: JSON.stringify([{validSesh: false}])
+			})
+			break;
 		case 'auth_pw_set': {
 			const val_to_hash = auth_pw
 			doHash(val_to_hash)
@@ -313,7 +341,8 @@ exports.handler = (event, context, callback) => {
 					body: JSON.stringify(errObj)
 				})
 			})
-		break;
+			
+			break;
 		}
 	}
 }

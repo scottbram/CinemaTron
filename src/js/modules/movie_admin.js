@@ -2,30 +2,36 @@
 var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 (movie_admin = {
 	init : () => {
-		sitewide.auth_sesh_check()
+		auth.sesh_check()
 		.then( function (resp) {
 			
 			console.log('movie_admin init auth_sesh_check resp: ');
 			console.log(resp);
-
-			$('#movie_admin_list_actions').css('visibility', 'visible');
 			
 			movie_admin.load_movie_list();
 		}).catch( function ( errObj ) {
-			$('#movie_list_status').alert('close');
-
+			
 			console.log('errObj: ');
 			console.log(errObj);
-			
-			var errMsg = '<div id="movie_list_status" class="alert alert-danger fade show" role="alert">' +
-					'<span id="movie_list_status_msg">Access not authorized.</span>' +
+
+			/** No valid session found */
+
+			$('#movie_list_status').alert('close');
+
+			var errMsg = '<div id="movie_list_status" class="alert alert-warning fade show" role="alert">' +
+					'<span id="movie_list_status_msg">Please log in to edit.</span>' +
 				'</div>';
 			
 			$('#movie_admin').prepend(errMsg);
+
+			auth.show_login_modal();
 		});
 	}
 	,
 	load_movie_list : () => {
+		$('#movie_list_status_msg').text('Movies loading');
+		$('#movie_admin_list_actions').css('visibility', 'visible');
+
 		$.ajax({
 			url: '/.netlify/functions/at_get_movie?recid=all',
 			dataType: 'json'
