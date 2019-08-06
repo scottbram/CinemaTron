@@ -1,10 +1,6 @@
 /** auth.js */
 var auth = ( typeof (auth) === 'object' ) ? auth : {};
 (auth = {
-	init : () => {
-		// auth.sesh_check();
-	}
-	,
 	sesh_check : () => {
 		return new Promise( (resolve, reject) => {
 				$.ajax({
@@ -139,6 +135,10 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			$('#auth_login_modal').on('show.bs.modal', function (e) {
 				auth.input_validation();
 
+				setTimeout( function () {
+					$('.auth_form').trigger('change');
+				}, 500);
+
 				$('#auth_login input').off('keypress');
 				$('#auth_login input').keypress( function (e) {
 					if (e.which === 13) {
@@ -162,8 +162,16 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 
 					// }
 				});
-			})
+			});
 
+			$('#auth_login_modal').on('hidden.bs.modal', function (e) {
+				$('#auth_login_modal').modal('dispose');
+				$('#auth_login_modal').remove();
+			});
+
+			$('#auth_login_modal').modal({
+				backdrop: 'static'
+			});
 			$('#auth_login_modal').modal('show');
 		});
 	}
@@ -306,7 +314,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 					err_disp = jqXHR.responseText;
 				}
 
-				alert('Error:\n' + err_disp);
+				console.error('Error:\n' + err_disp);
 			},
 			complete: function() {
 
@@ -375,7 +383,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 					err_disp = jqXHR.responseText;
 				}
 
-				alert('Error:\n' + err_disp);
+				console.error('Error:\n' + err_disp);
 			},
 			complete: function() {
 
@@ -385,7 +393,18 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 		});
 	}
 	,
-	login_success : (respObj) => {
-		location.reload();
+	login_success : () => {
+		if ( $('.valChg').length === 0 ) {
+			location.reload();
+		} else {
+			var saveBtns = $('.save:disabled');
+			$.each(saveBtns, function (idx, item) {
+				if ( $(this).is(':visible') ) {
+					$(this).prop('disabled', false)
+				}
+			});
+
+			$('#auth_login_modal').modal('hide');
+		}
 	}
-}).init();
+});

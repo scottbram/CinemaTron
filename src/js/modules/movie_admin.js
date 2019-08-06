@@ -4,10 +4,6 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	init : () => {
 		auth.sesh_check()
 		.then( function (resp) {
-			
-			console.log('movie_admin init auth_sesh_check resp: ');
-			console.log(resp);
-			
 			movie_admin.load_movie_list();
 		}).catch( function ( errObj ) {
 			
@@ -15,14 +11,17 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			console.log(errObj);
 
 			/** No valid session found */
-
 			$('#movie_list_status').alert('close');
 
 			var errMsg = '<div id="movie_list_status" class="alert alert-warning fade show" role="alert">' +
-					'<span id="movie_list_status_msg">Please log in to edit.</span>' +
+					'<span id="movie_list_status_msg"><a id="log_in_prompt" href="#">Log in to edit</a></span>' +
 				'</div>';
 			
 			$('#movie_admin').prepend(errMsg);
+
+			$('#log_in_prompt').click( function (e) {
+				auth.show_login_modal('toggle');
+			});
 
 			auth.show_login_modal();
 		});
@@ -199,7 +198,6 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 
 		movie_admin.add_movie_click();
 		$('.add-movie').prop('disabled', false);
-
 		
 		movie_admin.track_changes_field();
 		movie_admin.rating_hover();
@@ -585,8 +583,6 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 
 		req_obj.fields = req_obj_flds;
 
-		console.log(req_obj);
-
 		var req_str = JSON.stringify(req_obj);
 
 		var saveItemProm = new Promise( function (promSuccess, promError) {
@@ -646,7 +642,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 						
 						promError();
 	
-						alert('Error:\n' + err_disp);
+						console.error('Error:\n' + err_disp);
 					},
 					complete: function() {
 	
@@ -698,7 +694,11 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 						
 						promError();
 	
-						alert('Error:\n' + err_disp);
+						console.error('Error:\n' + err_disp);
+
+						if (jqXHR.status === 401) {
+							auth.show_login_modal();
+						}
 					},
 					complete: function() {
 	

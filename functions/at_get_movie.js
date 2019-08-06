@@ -6,70 +6,11 @@ const at_base = new Airtable({
 		apiKey: AIRTABLE_API_KEY
 	})
 	.base(AIRTABLE_BASE_ID)
-const at_table_users = at_base('users')
 const at_table_movies = at_base('movies')
 
 exports.handler = async (event, context, callback) => {
 	const qs_val_recid = event.queryStringParameters.recid
 	var resp, sendBack
-
-	var doSeshChk = false
-	var cinesesh_str
-	const req_cooks = event.headers['cookie']
-	
-	if (typeof req_cooks !== 'undefined') {
-		doSeshChk = true
-
-		var req_cooks_arr = req_cooks.split(';')
-			.map( itm => itm.trim() )
-			.map( itm => {
-				var arr = itm.split('=')
-				return {
-					cooknom: arr[0],
-					cookval: arr[1]
-				}
-			})
-
-		cinesesh_str = req_cooks_arr.find( itm => itm.cooknom == 'cinesesh' )
-
-		console.log('cinesesh_str.cookval: ')
-		console.log(cinesesh_str.cookval)
-
-	}
-
-	function findUserBy (byFld, fldVal) {
-		const filterFormula = "({" + byFld + "} = '" + fldVal + "')"
-
-		return new Promise( (resolve, reject) => {
-			at_table_users.select({
-				maxRecords: 1,
-				filterByFormula: filterFormula
-			})
-			.firstPage( function (err, records) {
-				if (err) {
-					console.error(err)
-					reject(err)
-				}
-				
-				resolve(records)
-			})
-		})
-	}
-	
-	const checkSesh = await findUserBy('sesh', cinesesh_str.cookval)
-
-	console.log('get_movvies checkSesh: ')
-	console.log(checkSesh)
-
-	if ( checkSesh.length === 0 ) {
-		return {
-			statusCode: 401,
-			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify([{validSesh: false}])
-		}
-	}
-
-	// const userUid = checkSesh.uid
 
 	try {
 		// https://community.airtable.com/t/variable-in-filterbyformula/2251
