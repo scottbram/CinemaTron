@@ -2,7 +2,7 @@
 var auth = ( typeof (auth) === 'object' ) ? auth : {};
 (auth = {
 	init : () => {
-		auth.sesh_check();
+		// auth.sesh_check();
 	}
 	,
 	sesh_check : () => {
@@ -169,6 +169,8 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 	}
 	,
 	auth_do : (form_is) => {
+		console.log(req_obj);
+
 		var auth_task;
 
 		switch (form_is) {

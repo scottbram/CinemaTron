@@ -9,9 +9,7 @@ const bcrypt = require('bcryptjs')
  */
 const {
 	AIRTABLE_API_KEY,
-	AIRTABLE_BASE_ID,
-	CLIENT_SESSIONS_SECRET,
-	TESTUSER_RECORD_ID
+	AIRTABLE_BASE_ID
 } = process.env
 const at_base = new Airtable({
 		apiKey: AIRTABLE_API_KEY
@@ -25,7 +23,9 @@ exports.handler = (event, context, callback) => {
 	console.log(event) */
 
 	var doSeshChk = false
+	var cinesesh_str
 	const req_cooks = event.headers['cookie']
+	
 	if (typeof req_cooks !== 'undefined') {
 		doSeshChk = true
 
@@ -38,6 +38,12 @@ exports.handler = (event, context, callback) => {
 					cookval: arr[1]
 				}
 			})
+
+		cinesesh_str = req_cooks_arr.find( itm => itm.cooknom == 'cinesesh' )
+
+		console.log('cinesesh_str.cookval: ')
+		console.log(cinesesh_str.cookval)
+
 	}
 	
 	function doHash (val_to_hash) {
@@ -51,32 +57,26 @@ exports.handler = (event, context, callback) => {
 					console.error(err)
 					reject(err)
 				}
-				else {
-					resolve({
-						hash: hash
-					})
-				}
+				
+				resolve({hash: hash})
 			})
 		})
 	}
 
-	function storeHash (inFld, hash) {
+	function storeVal (userUid, inFld, hash) {
 
-		console.log('storeHash inFld: ')
+		console.log('storeVal inFld: ')
 		console.log(inFld)
 
-		console.log('storeHash hash: ')
+		console.log('storeVal hash: ')
 		console.log(hash)
-
-		console.log('storeHash TESTUSER_RECORD_ID: ')
-		console.log(TESTUSER_RECORD_ID)
 
 		const hashStoreObj = {}
 		hashStoreObj[inFld] = hash
 
 		return new Promise( (resolve, reject) => {
 			at_table_users.update(
-				TESTUSER_RECORD_ID,
+				userUid,
 				hashStoreObj,
 				function (err, record) {
 					if (err) {
@@ -90,12 +90,12 @@ exports.handler = (event, context, callback) => {
 		})
 	}
 
-	function getUsers (byFld, fldVal) {
+	function findUserBy (byFld, fldVal) {
 		const filterFormula = "({" + byFld + "} = '" + fldVal + "')"
 
 		return new Promise( (resolve, reject) => {
 			at_table_users.select({
-				maxRecords: 10,
+				maxRecords: 1,
 				filterByFormula: filterFormula
 			})
 			.firstPage( function (err, records) {
@@ -136,12 +136,7 @@ exports.handler = (event, context, callback) => {
 	switch (auth_task) {
 		case 'auth_check': {
 			if (doSeshChk) {
-				const cinesesh_str = req_cooks_arr.find( itm => itm.cooknom == 'cinesesh' )
-
-				console.log('cinesesh_str.cookval: ')
-				console.log(cinesesh_str.cookval)
-
-				getUsers('sesh', cinesesh_str.cookval)
+				findUserBy('sesh', cinesesh_str.cookval)
 				.then( resp => {
 					if (resp.length > 0) {
 						callback(null, {
@@ -180,7 +175,7 @@ exports.handler = (event, context, callback) => {
 
 			console.log('oh, you wanna log in')
 			
-			getUsers('email', auth_eml)
+			findUserBy('email', auth_eml)
 			.then( users => {
 
 				/* console.log('then users: ')
@@ -195,11 +190,9 @@ exports.handler = (event, context, callback) => {
 								
 								console.log('userObj.fields: ')
 								console.log(userObj.fields)
-								
-								let resp = {
-									'message': 'User is confirmed'
-								}
 
+								const userUid = userObj.fields['uid']
+								
 								/* clientSessions({
 									cookieName: 'cinesesh',
 									secret: CLIENT_SESSIONS_SECRET,
@@ -219,7 +212,7 @@ exports.handler = (event, context, callback) => {
 									console.log('hashObj.hash: ')
 									console.log(hashObj.hash)
 							
-									return storeHash('sesh', hashObj.hash);
+									return storeVal(userUid, 'sesh', hashObj.hash)
 								})					
 								.then( function (resp) {
 
@@ -298,14 +291,31 @@ exports.handler = (event, context, callback) => {
 
 			break;
 		case 'auth_logout':
-			callback(null, {
-				statusCode: 200,
-				headers: { 
-					'Content-Type': 'application/json',
-					'Set-Cookie': 'cinesesh=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT;HttpOnly'
-				},
-				body: JSON.stringify([{validSesh: false}])
+			findUserBy('sesh', cinesesh_str)
+			.then( function () {
+				return storeVal(userUid, 'sesh', '')
 			})
+			.then( function () {
+				callback(null, {
+					statusCode: 200,
+					headers: { 
+						'Content-Type': 'application/json',
+						'Set-Cookie': 'cinesesh=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT;HttpOnly'
+					},
+					body: JSON.stringify([{validSesh: false}])
+				})
+			})
+			.catch( function (errObj) {
+		
+				console.error(errObj);
+		
+				callback({
+					statusCode: errObj.statusCode,
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(errObj)
+				})
+			})
+
 			break;
 		case 'auth_pw_set': {
 			const val_to_hash = auth_pw
@@ -318,7 +328,7 @@ exports.handler = (event, context, callback) => {
 				console.log('hashObj.hash: ')
 				console.log(hashObj.hash)
 		
-				return storeHash('pwhash', hashObj.hash);
+				return storeVal(userUid, 'pwhash', hashObj.hash);
 			})
 			.then( function (resp) {
 				
