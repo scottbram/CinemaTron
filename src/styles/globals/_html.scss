@@ -16,9 +16,21 @@ body {
 	font-weight: 400;
 }
 
-main {
+main, nav {
 	margin: auto;
 	width: 100%;
+}
+
+nav {
+	a {
+		background-color: $primary_color;
+		color: white;
+		text-decoration: none;
+
+		&:hover {
+			background-color: $primary_color_subdued;
+		}
+	}
 }
 
 header {
@@ -202,6 +214,10 @@ input {
 	footer {
 		bottom: 18px;
 		font-size: 0.8rem;
+	}
+	
+	nav {
+		width: 960px;
 	}
 
 	main {

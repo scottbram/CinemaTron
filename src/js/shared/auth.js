@@ -394,6 +394,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 	}
 	,
 	login_success : () => {
+		/** When there's no recently edited fields present, refresh page */
 		if ( $('.valChg').length === 0 ) {
 			location.reload();
 		} else {

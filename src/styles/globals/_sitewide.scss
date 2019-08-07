@@ -52,6 +52,14 @@
 	right: 6px;
 }
 
+.alert {
+	a {
+		&:hover {
+			background-color: transparent;
+		}
+	}
+}
+
 .msg-primary {
 	color: $msg_primary_color;
 }

@@ -3,6 +3,19 @@
  * Bootstrap overrides
  */
 
+ .h5, h5 {
+    font-size: 2.2rem;
+}
+
+ .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+	background-color: $primary_color_bg;
+	color: $secondary_color;
+ }
+
+ .nav-pills .nav-link {
+	 border-radius: 0;
+ }
+
 .form-control {
 	&::placeholder {
 		color: $secondary_color_bg;
@@ -49,4 +62,54 @@
 
 .carousel-indicators {
 	width: auto;
+}
+
+.modal-header .close {
+    padding: 1rem 1.5rem;
+}
+
+.close {
+	font-size: 3rem;
+}
+
+@media (min-width: 576px) {
+	.modal-dialog {
+		margin: 9rem auto 1.75rem;
+		max-width: 94vw;
+	}
+
+	.modal-content {
+		width: 94vw;
+	}
+}
+
+@media (min-width: 1000px) {
+	.h5, h5 {
+		font-size: 1rem;
+	}
+
+	.nav-pills .nav-link:first-child {
+		border-radius: 0 0 0 $border-radius;
+	}
+
+	.nav-pills .nav-link:last-child {
+		border-radius: 0 0 $border-radius 0;
+	}
+
+	.modal-header .close {
+		padding: 1rem 1rem;
+	}
+
+	.close {
+		font-size: 1.5rem;
+	}
+
+	.modal-dialog {
+		margin: 7rem auto 1.75rem;
+		max-width: 500px;
+	}
+
+	.modal-content {
+		width: auto;
+	}
 }
