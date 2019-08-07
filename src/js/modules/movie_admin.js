@@ -83,7 +83,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'>' +
 							// '<div class="movie_poster"></div>' +
 							'<div class="movie_title form-field-container">' +
-								'<label for="movie_title_' + movie_recid + '">Title' +
+								'<label for="movie_title_' + movie_recid + '">' +
+									'Title' +
 								'</label>' +
 								' <small class="text-muted">(50 characters or less)</small>' +
 								'<input id="movie_title_' + movie_recid + '"' +
@@ -96,7 +97,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'</div>' +
 							'<div class="movie_details">' +
 								'<div class="movie_year form-field-container">' +
-									'<label for="movie_year_' + movie_recid + '">Year' +
+									'<label for="movie_year_' + movie_recid + '">' +
+										'Year' +
 									'</label>' +
 									'<small class="text-muted">(from 1800 to 2100)</small>' +
 									'<input id="movie_year_' + movie_recid + '"' +
@@ -116,7 +118,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										'>' +
 								'</div>' +
 								'<div class="movie_length form-field-container">' +
-									'<label for="movie_length_' + movie_recid + '">Length' +
+									'<label for="movie_length_' + movie_recid + '">' +
+										'Length' +
 									'</label>' +
 									'<small class="text-muted">(in minutes)</small>' +
 									'<input id="movie_length_' + movie_recid + '"' +
@@ -129,7 +132,10 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										'>' +
 								'</div>' +
 								'<div class="movie_rating form-field-container">' +
-									'<label for="movie_rating_' + movie_recid + '">Rating</label>' +
+									'<label for="movie_rating_' + movie_recid + '">' +
+										'Rating' +
+									'</label>' +
+									'<small class="text-muted">(Select a rating)</small>' +
 									movie_rating_stars +
 									'<input id="movie_rating_' + movie_recid + '"' +
 										' value="' + movie_rating + '"' +
@@ -140,7 +146,9 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										'>' +
 								'</div>' +
 								'<div class="movie_format form-field-container">' +
-									'<label for="movie_format_' + movie_recid + '">Format</label>' +
+									'<label for="movie_format_' + movie_recid + '">' +
+										'Format' +
+									'</label>' +
 									// '<select id="movie_format_' + movie_recid + '" class="custom-select"' +
 									'<select id="movie_format_' + movie_recid + '" class="form-control"' +
 										' data-fldname="Format"' +
@@ -151,7 +159,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										'<option value="VHS"' + VHSsel + '>VHS</option>' +
 									'</select>' +
 								'</div>' +
-								'<div class="movie_rating form-field-container form-check">' +
+								'<div class="movie_active form-field-container form-check">' +
 									'<input id="movie_active_' + movie_recid + '"' +
 										' data-fldname="Active"' +
 										' data-ogval="' + movie_active + '"' +
@@ -227,7 +235,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				'>' +
 				// '<div class="movie_poster"></div>' +
 				'<div class="movie_title form-field-container">' +
-					'<label for="movie_title_' + movie_recid + '">Title' +
+					'<label for="movie_title_' + movie_recid + '">' +
+						'Title' +
 					'</label>' +
 					'<small class="text-muted">(50 characters or less)</small>' +
 					'<input id="movie_title_' + movie_recid + '"' +
@@ -241,7 +250,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				'</div>' +
 				'<div class="movie_details">' +
 					'<div class="movie_year form-field-container">' +
-						'<label for="movie_year_' + movie_recid + '">Year' +
+						'<label for="movie_year_' + movie_recid + '">' +
+							'Year' +
 						'</label>' +
 						'<small class="text-muted">(from 1800 to 2100)</small>' +
 						'<input id="movie_year_' + movie_recid + '"' +
@@ -254,7 +264,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'>' +
 					'</div>' +
 					'<div class="movie_length form-field-container">' +
-						'<label for="movie_length_' + movie_recid + '">Length' +
+						'<label for="movie_length_' + movie_recid + '">' +
+							'Length' +
 						'</label>' +
 						'<small class="text-muted">(in minutes)</small>' +
 						'<input id="movie_length_' + movie_recid + '"' +
@@ -268,7 +279,10 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'>' +
 					'</div>' +
 					'<div class="movie_rating form-field-container">' +
-						'<label for="movie_rating_' + movie_recid + '">Rating</label>' +
+						'<label for="movie_rating_' + movie_recid + '">' +
+							'Rating' +
+						'</label>' +
+						'<small class="text-muted">(Select a rating)</small>' +
 						movie_rating_stars +
 						'<input id="movie_rating_' + movie_recid + '"' +
 							' value="1"' +
@@ -279,7 +293,9 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'>' +
 					'</div>' +
 					'<div class="movie_format form-field-container">' +
-						'<label for="movie_format_' + movie_recid + '">Format</label>' +
+						'<label for="movie_format_' + movie_recid + '">' +
+							'Format' +
+						'</label>' +
 						// '<select id="movie_format_' + movie_recid + '" class="custom-select"' +
 						'<select id="movie_format_' + movie_recid + '" class="form-control valChg"' +
 							' data-fldname="Format"' +
@@ -291,7 +307,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'<option value="VHS">VHS</option>' +
 						'</select>' +
 					'</div>' +
-					'<div class="movie_rating form-field-container form-check">' +
+					'<div class="movie_active form-field-container form-check">' +
 						'<input id="movie_active_' + movie_recid + '"' +
 							' data-fldname="Active"' +
 							// ' data-ogval="' + movie_active + '"' +

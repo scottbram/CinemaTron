@@ -32,8 +32,16 @@
 	}
 }
 
+select.form-control {
+	font-size: 2.8rem;
+}
+
 .form-check-input {
-	margin-top: 0.4rem;
+	margin-top: 0.9rem;
+}
+
+.form-check-label {
+    padding-left: 1.6rem;
 }
 
 .btn {
@@ -72,14 +80,16 @@
 	font-size: 3rem;
 }
 
+$modal_width_fix: 90vw;
+
 @media (min-width: 576px) {
 	.modal-dialog {
 		margin: 9rem auto 1.75rem;
-		max-width: 94vw;
+		max-width: $modal_width_fix;
 	}
 
 	.modal-content {
-		width: 94vw;
+		width: $modal_width_fix;
 	}
 }
 
@@ -111,5 +121,17 @@
 
 	.modal-content {
 		width: auto;
+	}
+
+	select.form-control {
+		font-size: 1.1rem;
+	}
+
+	.form-check-input {
+		margin-top: 0.2rem;
+	}
+
+	.form-check-label {
+		padding-left: 0.2rem;
 	}
 }

@@ -154,6 +154,11 @@ label {
 	}
 }
 
+input[type=checkbox], input[type=radio] {
+	width: 32px;
+    height: 32px;
+}
+
 ::placeholder {
 	color: $secondary_color_bg;
 	opacity: 0.8;
@@ -233,6 +238,11 @@ input {
 
 	input, select, textarea {
 		margin-bottom: 0;
+	}
+
+	input[type=checkbox], input[type=radio] {
+		width: 18px;
+		height: 18px;
 	}
 }
 

@@ -13,6 +13,11 @@
 			margin-left: 4px;
 		}
 	}
+
+	/* .movie_rating {
+		display: flex;
+		flex-direction: column;
+	} */
 	
 	.movie_rating_stars {
 		margin-bottom: 0;
@@ -41,15 +46,16 @@
 	}
 
 	.movie_rating_stars {
-		display: inline-block;
+		// display: inline-block;
 		padding: 0 6px 3px;
-		border: 1px solid rgb(206, 212, 218);
+		// border: 1px solid rgb(206, 212, 218);
 		border-radius: 4px;
 		line-height: normal;
 
 		.movie_rating_star {
 			display: inline-block;
-			padding: 0 3px;
+			padding: 0 12px;
+			font-size: 3.4rem;
 
 			cursor: pointer;
 		}
@@ -91,16 +97,6 @@
 	}
 
 	@media (min-width: 1000px) {
-		.movie_rating {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.movie_rating_stars {
-			display: inline-table; // Inelegant but effective stand-in for width: max-content (poor support)
-			margin-bottom: 0;
-		}
-
 		#movie_admin_list {
 			padding-bottom: 58px;
 		}
@@ -120,7 +116,13 @@
 		}
 
 		.movie_rating_stars {
-			font-size: 1.6rem;
+			display: inline-table; // Inelegant but effective stand-in for (poorly-supported) width: max-content
+			margin-bottom: 0;
+
+			.movie_rating_star {
+				padding: 0 8px;
+				font-size: 1.6rem;
+			}
 		}
 
 		.movie_format select {
