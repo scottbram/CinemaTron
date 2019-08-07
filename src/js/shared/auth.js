@@ -136,7 +136,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				auth.input_validation();
 
 				setTimeout( function () {
-					$('.auth_form').trigger('change');
+					$('.auth_form input').trigger('change');
 				}, 500);
 
 				$('#auth_login input').off('keypress');
