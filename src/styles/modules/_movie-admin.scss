@@ -116,7 +116,6 @@
 		}
 
 		.movie_rating_stars {
-			display: inline-table; // Inelegant but effective stand-in for (poorly-supported) width: max-content
 			margin-bottom: 0;
 
 			.movie_rating_star {

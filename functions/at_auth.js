@@ -152,7 +152,7 @@ exports.handler = (event, context, callback) => {
 						})
 					}
 				})
-				.catch( function (errObj) {
+				.catch( errObj => {
 					
 					console.error(errObj);
 			
@@ -182,7 +182,7 @@ exports.handler = (event, context, callback) => {
 				console.log(users) */
 
 				if ( users.length > 0) {
-					users.forEach( function (userObj) {
+					users.forEach( userObj => {
 						bcrypt.compare(auth_pw, userObj.get("pwhash") )
 						.then( matched => {
 							if (matched) {
@@ -291,9 +291,20 @@ exports.handler = (event, context, callback) => {
 
 			break;
 		case 'auth_logout':
+
+			console.log('auth_task: auth_logout')
+			
 			findUserBy('sesh', cinesesh_str)
-			.then( function () {
-				return storeVal(userUid, 'sesh', '')
+			.then( users => {
+				if ( users.length > 0) {
+					users.forEach( userObj => {
+						const userUid = userObj.fields['uid']
+						
+						storeVal(userUid, 'sesh', '')
+					})
+				}
+							
+				return
 			})
 			.then( function () {
 				callback(null, {
@@ -305,7 +316,7 @@ exports.handler = (event, context, callback) => {
 					body: JSON.stringify([{validSesh: false}])
 				})
 			})
-			.catch( function (errObj) {
+			.catch( errObj => {
 		
 				console.error(errObj);
 		
@@ -320,7 +331,7 @@ exports.handler = (event, context, callback) => {
 		case 'auth_pw_set': {
 			const val_to_hash = auth_pw
 			doHash(val_to_hash)
-			.then( function (hashObj) {
+			.then( hashObj => {
 		
 				console.log('then hashObj: ')
 				console.log(hashObj)
@@ -330,7 +341,7 @@ exports.handler = (event, context, callback) => {
 		
 				return storeVal(userUid, 'pwhash', hashObj.hash);
 			})
-			.then( function (resp) {
+			.then( resp => {
 				
 				console.log('resp: ')
 				console.log(resp)
@@ -341,7 +352,7 @@ exports.handler = (event, context, callback) => {
 					body: JSON.stringify(resp)
 				})
 			})
-			.catch( function (errObj) {
+			.catch( errObj => {
 		
 				console.error(errObj);
 		

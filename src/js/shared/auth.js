@@ -6,11 +6,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				$.ajax({
 				url: '/.netlify/functions/at_auth',
 				dataType: 'json'
-			}).done( function ( resp, textStatus, jqXHR ) {
-
-				// console.log('auth_sesh_check resp: ');
-				// console.log(resp);
-
+			}).done( function (resp) {
 				if (resp.length > 0) {
 					resolve(resp);
 				}
@@ -21,11 +17,11 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 	}
 	,
 	input_validation : () => {
-		$('body').on('input change', '.auth_form input', function (e) {
+		$('body').on('input change', '.auth_form input', function () {
 			var fld_el = $(this)[0];
 			var fld_val = $(this).val();
 			var fld_parentForm = $(this).closest('form');
-			var fld_parentForm_id = fld_parentForm.attr('id');
+			// var fld_parentForm_id = fld_parentForm.attr('id');
 			var fld_parentForm_valid = false;
 			var fld_parentForm_allFlds_notEmpty = false;
 			var fld_parentForm_allFlds_valid = false;
@@ -104,10 +100,6 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				console.log('Fld invalid. fld_el.validationMessage: ');
 				console.log(fld_el.validationMessage);
 
-			} else {
-				
-				// console.log('Fld is valid!');
-
 			}
 
 			if ( $.trim( fld_parentForm.find('input[type=email]').val() ) !== '' && $.trim( fld_parentForm.find('input[type=password]').val() ) !== '' ) {
@@ -132,13 +124,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 		$.get('components/_auth_login.html', function (theGotten) {
 			$('body').append(theGotten);
 
-			$('#auth_login_modal').on('show.bs.modal', function (e) {
-				auth.input_validation();
-
-				setTimeout( function () {
-					$('.auth_form input').trigger('change');
-				}, 500);
-
+			$('#auth_login_modal').on('show.bs.modal', function () {
 				$('#auth_login input').off('keypress');
 				$('#auth_login input').keypress( function (e) {
 					if (e.which === 13) {
@@ -152,19 +138,25 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				$('#auth_login_do').on('click', function (e) {
 					e.preventDefault();
 
-					// if ( $.trim( $('#auth_login').find('input[type=email]').val() ) !== '' && $.trim( $('#auth_login').find('input[type=password]').val() ) !== '' ) {
-						$('#auth_login_do').attr('disabled', true);
+					$('#auth_login_do').attr('disabled', true);
 						
-						auth.login_do();
-					// } else {
-						
-						// console.log('not so submit...');
-
-					// }
+					auth.login_do();
 				});
 			});
 
-			$('#auth_login_modal').on('hidden.bs.modal', function (e) {
+			$('#auth_login_modal').on('shown.bs.modal', function () {
+				auth.input_validation();
+
+				setTimeout( function () {
+					$('.auth_form input').trigger('change');
+				}, 500);
+				
+				if ( $.trim( $('#auth_login').find('input[type=email]').val() ) === '' && $.trim( $('#auth_login').find('input[type=password]').val() ) === '' ) {
+					$('#auth_login_email').focus();
+				}
+			});
+
+			$('#auth_login_modal').on('hidden.bs.modal', function () {
 				$('#auth_login_modal').modal('dispose');
 				$('#auth_login_modal').remove();
 			});
@@ -209,13 +201,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			type: 'POST',
 			contentType: 'application/json',
 			data: req_str,
-			success: function (resp, textStatus, jqXhr) {
-
-				console.log('success event');
-
-				console.log('resp: ');
-				console.log(resp);
-
+			success: function () {
 				window.location.reload(true);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -288,6 +274,12 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				console.log('resp: ');
 				console.log(resp);
 
+				console.log('textStatus: ');
+				console.log(textStatus);
+
+				console.log('jqXhr: ');
+				console.log(jqXhr);
+
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 
@@ -349,13 +341,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			type: 'POST',
 			contentType: 'application/json',
 			data: req_str,
-			success: function (resp, textStatus, jqXhr) {
-
-				console.log('success event');
-
-				console.log('resp: ');
-				console.log(resp);
-
+			success: function (resp) {
 				auth.login_success(resp);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -399,7 +385,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			location.reload();
 		} else {
 			var saveBtns = $('.save:disabled');
-			$.each(saveBtns, function (idx, item) {
+			$.each(saveBtns, function () {
 				if ( $(this).is(':visible') ) {
 					$(this).prop('disabled', false)
 				}

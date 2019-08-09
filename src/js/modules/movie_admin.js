@@ -3,12 +3,12 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 (movie_admin = {
 	init : () => {
 		auth.sesh_check()
-		.then( function (resp) {
+		.then( function () {
 			movie_admin.load_movie_list();
-		}).catch( function ( errObj ) {
+		}).catch( errObj => {
 			
-			console.log('errObj: ');
-			console.log(errObj);
+			// console.log('errObj: ');
+			// console.log(errObj);
 
 			/** No valid session found */
 			$('#movie_list_status').alert('close');
@@ -19,7 +19,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			
 			$('#movie_admin').prepend(errMsg);
 
-			$('#log_in_prompt').click( function (e) {
+			$('#log_in_prompt').click( function () {
 				auth.show_login_modal('toggle');
 			});
 
@@ -34,7 +34,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		$.ajax({
 			url: '/.netlify/functions/at_get_movie?recid=all',
 			dataType: 'json'
-		}).done( function ( resp, textStatus, jqXHR ) {
+		}).done( function (resp) {
 			if (resp.length > 0) {
 				$.each(resp, function(idx, itm) {
 					var movie_recid = itm.id;
@@ -53,7 +53,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					var movie_length 	= movie_obj.Length;
 					var movie_rating 	= movie_obj.Rating;
 					var movie_format 	= movie_obj.Format;
-					var movie_art 		= movie_obj.Art;
+					// var movie_art 		= movie_obj.Art;
 					var movie_active 	= movie_obj.Active;
 					
 					var movie_active_checked = '';
@@ -215,7 +215,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	add_movie_click : () => {
-		$('.add-movie').click( function (e) {
+		$('.add-movie').click( function () {
 			movie_admin.add_movie();
 
 			$('input').first().focus();
@@ -362,7 +362,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	track_changes_field : () => {
-		$('#movie_admin_list').on('input change', 'input', function (e) {
+		$('#movie_admin_list').on('input change', 'input', function () {
 			var ogVal = $(this).attr('data-ogval');
 			var currVal = $(this).val();
 			var fld_name = $(this).attr('data-fldname');
@@ -432,7 +432,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			movie_admin.track_changes_listing( $(this) );
 		});
 
-		$('#movie_admin_list').on('change', 'select', function (e) {
+		$('#movie_admin_list').on('change', 'select', function () {
 			var ogVal = $(this).attr('data-ogval');
 			var currVal = $(this).val();
 
@@ -462,7 +462,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	rating_hover : () => {
 		/** Have to use delegated approach to work with injected elements (e.g., new movie) */
 		$('#movie_admin_list')
-			.on('mouseenter', '.movie_rating_star', function (e) {
+			.on('mouseenter', '.movie_rating_star', function () {
 		
 				/** Make hovered item into selected state */
 				$(this).html('&#9733 ');
@@ -479,7 +479,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				 */
 				$(this).nextAll('.movie_rating_star').html('&#9734 ').addClass('movie_rating_hover_nextSib');
 			})
-			.on('mouseleave', '.movie_rating_star', function (e) {
+			.on('mouseleave', '.movie_rating_star', function () {
 				$(this).siblings().removeClass('movie_rating_hover_prevSib').removeClass('movie_rating_hover_nextSib');
 				
 				/** Reset all stars to original state */
@@ -496,7 +496,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	,
 	rating_click : () => {
 		// $('.movie_rating_star').click( function (e) {
-		$('#movie_admin_list').on('click', '.movie_rating_star', function (e) {
+		$('#movie_admin_list').on('click', '.movie_rating_star', function () {
 			var movie_rating_sel = $(this).attr('data-ratingstar');
 			var movie_recid = $(this).closest('.movie_listing').attr('data-recid');
 			
@@ -550,7 +550,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	save_one_click : () => {
-		$('.save_item').click( function (e) {
+		$('.save_item').click( function () {
 			$(this).prop('disabled', true);
 			var movie_recid = $(this).attr('data-recid');
 
@@ -559,7 +559,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	save_all_click : () => {
-		$('.save-all').click( function (e) {
+		$('.save-all').click( function () {
 			$('.save-all').prop('disabled', true);
 
 			movie_admin.save_all();
@@ -608,10 +608,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					type: 'POST',
 					contentType: 'application/json',
 					data: req_str,
-					success: function (resp, textStatus, jqXhr) {
-	
-						console.log('success event');
-						
+					success: function (resp) {
 						var movie_recid_new = resp.id;
 
 						/** Replace occurences of millisecond stamp ID with newly-created returned ID */
@@ -633,7 +630,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					},
 					error: function (jqXHR, textStatus, errorThrown) {
 	
-						console.log('error event');
+						console.error('error event');
 						
 						console.log('jqXHR: ');
 						console.log(jqXHR);
@@ -660,11 +657,11 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	
 						console.error('Error:\n' + err_disp);
 					},
-					complete: function() {
+					/* complete: function() {
 	
 						console.log('complete event');
 	
-					}
+					} */
 				});
 			} else {
 				$.ajax({
@@ -672,10 +669,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					type: 'PATCH',
 					contentType: 'application/json',
 					data: req_str,
-					success: function (resp, textStatus, jqXhr) {
-	
-						console.log('success event');
-	
+					success: function () {
 						/** Reset fields to unchanged style */
 						$('#movie_listing_' + movie_recid).find('.valChg, .valChg-colorsOnly').removeClass('valChg valChg-colorsOnly');
 	
@@ -685,7 +679,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 					},
 					error: function (jqXHR, textStatus, errorThrown) {
 	
-						console.log('error event');
+						console.error('error event');
 						
 						console.log('jqXHR: ');
 						console.log(jqXHR);
@@ -716,11 +710,11 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							auth.show_login_modal();
 						}
 					},
-					complete: function() {
+					/* complete: function() {
 	
 						console.log('complete event');
 	
-					}
+					} */
 				});
 			}
 		});
@@ -805,7 +799,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 
 				/** After specificed delay, fade the message, then remove from DOM */
 				window.setTimeout( function () {
-					$('#movie_admin_list_actions_msgs .msg_chgsSaved').fadeOut('slow', function (e) {
+					$('#movie_admin_list_actions_msgs .msg_chgsSaved').fadeOut('slow', function () {
 						$(this).remove();
 					});
 				}, 2000);
