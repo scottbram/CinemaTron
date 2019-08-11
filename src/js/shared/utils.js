@@ -8,13 +8,17 @@ var utils = ( typeof (utils) === 'object' ) ? utils : {};
 	}
 	,
 	validate_email : (str) => {
+		let validation_resp = {
+			'valid_eml': false
+		}
+
 		let regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 		
-		if ( !regex.test(str) ) {
-			return { 'valid_eml': false };
-		} else {
-			return { 'valid_eml': true };
+		if ( regex.test(str) ) {
+			validation_resp['valid_eml'] = true;
 		}
+
+		return validation_resp;
 	}
 	,
 	validate_pw : (str) => {

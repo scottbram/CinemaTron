@@ -35,7 +35,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				if ( valid_eml ) {
 					fld_el.setCustomValidity('');
 				} else {
-					fld_el.setCustomValidity('Gonna need a valid email there, chief.');
+					fld_el.setCustomValidity('Please check that the email is correct.');
 				}
 			}
 
@@ -112,45 +112,51 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 
 			if (fld_parentForm_allFlds_notEmpty && fld_parentForm_allFlds_valid) {
 				fld_parentForm_valid = true;
-				$('#auth_login_do').attr('disabled', false);
+				$('#auth_login_do').prop('disabled', false);
 			} else {
 				fld_parentForm_valid = false;
-				$('#auth_login_do').attr('disabled', true);
+				$('#auth_login_do').prop('disabled', true);
 			}
 		});
 	}
 	,
 	show_login_modal : () => {
+		function login_modal_go () {
+			$('#auth_login_actions_msgs').empty();
+
+			$('#auth_login_do').prop('disabled', true);
+			$('#auth_login input').prop('disabled', true);
+			
+			$('#auth_login_modal .modal-body').prepend('<div class="overlay overlay-enlighten" aria-hidden="true"></div>');
+			$('#auth_login_modal .overlay').prepend('<span class="spinner spinner-border spinner-border-md" role="status" aria-hidden="true"></span>');
+
+			auth.login_do();
+		}
+
 		$.get('components/_auth_login.html', function (theGotten) {
 			$('body').append(theGotten);
 
 			$('#auth_login_modal').on('show.bs.modal', function () {
-				$('#auth_login input').off('keypress');
-				$('#auth_login input').keypress( function (e) {
-					if (e.which === 13) {
-						$('#auth_login_do').attr('disabled', true);
-						
-						auth.login_do();
-					}
-				});
-
-				$('#auth_login_do').off('click');
-				$('#auth_login_do').on('click', function (e) {
-					e.preventDefault();
-
-					$('#auth_login_do').attr('disabled', true);
-						
-					auth.login_do();
-				});
-			});
-
-			$('#auth_login_modal').on('shown.bs.modal', function () {
 				auth.input_validation();
 
 				setTimeout( function () {
 					$('.auth_form input').trigger('change');
 				}, 500);
 				
+				$('#auth_login input').off('keypress');
+				$('#auth_login input').keypress( function (e) {
+					if (e.which === 13 && !$('#auth_login_do').prop('disabled') ) {
+						login_modal_go();
+					}
+				});
+
+				$('#auth_login_do').off('click');
+				$('#auth_login_do').on('click', function (e) {
+					login_modal_go();
+				});
+			});
+
+			$('#auth_login_modal').on('shown.bs.modal', function () {
 				if ( $.trim( $('#auth_login').find('input[type=email]').val() ) === '' && $.trim( $('#auth_login').find('input[type=password]').val() ) === '' ) {
 					$('#auth_login_email').focus();
 				}
@@ -317,9 +323,6 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 	}
 	,
 	login_do : () => {
-
-		console.log('login_do');
-
 		var req_obj = {
 			'auth_task': 'auth_login'
 		};
@@ -358,18 +361,27 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				console.log(errorThrown);
 				
 				var err_disp;
+				var err_disp_msg;
 
 				if (typeof jqXHR.responseJSON !== 'undefined') {
 					let err_statusCode = jqXHR.responseJSON['statusCode'];
-					let err_is = jqXHR.responseJSON['error'];
+					err_disp_msg = jqXHR.responseJSON['error'];
 					let err_msg = jqXHR.responseJSON['message'];
 
-					err_disp = err_statusCode + '\n' + err_is + '\n' + err_msg;
+					err_disp = err_statusCode + '\n' + err_disp_msg + '\n' + err_msg;
 				} else {
 					err_disp = jqXHR.responseText;
 				}
 
 				console.error('Error:\n' + err_disp);
+
+				$('#auth_login_actions_msgs').prepend('<small class="msg_loginStatus msg-warning">Please check that the login info is correct</small>');
+
+				/** Reset the modal state */
+				$('#auth_login_do').prop('disabled', false);
+				$('#auth_login input').prop('disabled', false);
+				
+				$('#auth_login_modal .modal-body .overlay').remove();
 			},
 			complete: function() {
 

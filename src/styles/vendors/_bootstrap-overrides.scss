@@ -76,6 +76,10 @@ select.form-control {
     padding: 1rem 1.5rem;
 }
 
+.modal-footer {
+	justify-content: flex-start;
+}
+
 .close {
 	font-size: 3rem;
 }

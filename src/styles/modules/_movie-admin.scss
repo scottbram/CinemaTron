@@ -92,10 +92,6 @@
 		box-shadow: 0 -2px 3px silver;
 	}
 
-	#movie_admin_list_actions_msgs {
-		padding-left: 16px;
-	}
-
 	@media (min-width: 1000px) {
 		#movie_admin_list {
 			padding-bottom: 58px;
@@ -131,14 +127,6 @@
 		#movie_admin_list_actions {
 			padding: 8px 20px;
 			width: 960px;
-		}
-
-		#movie_admin_list_actions_msgs {
-			padding-left: 8px;
-			
-			small, .small {
-				font-size: 0.85rem;
-			}
 		}
 	}
 }

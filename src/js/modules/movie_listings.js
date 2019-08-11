@@ -6,10 +6,6 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 			url: '/.netlify/functions/at_get_movie?recid=all',
 			dataType: 'json'
 		}).done( function (resp) {
-
-			console.log('resp: ');
-			console.log(resp);
-
 			if (resp.length > 0) {
 				$.each(resp, function (idx, itm) {
 					var movie_recid = itm.id;
@@ -119,8 +115,6 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 		window.setTimeout( function () {
 			$('#movie_list_status').alert('close');
 			$('#movie_list').css('overflow', 'auto');
-
-			// $('#movie_list').css('visibility', 'visible');
 		}, 200);
 	}
 }).init();
