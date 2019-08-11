@@ -5,18 +5,15 @@
 
 #movie_listings {
 	#movie_list {
-		visibility: hidden;
-
-		display: flex;
-    	flex-direction: column;
-		width: 100%;
+		// visibility: hidden;
+		overflow: hidden;
 	}
 	
 	.movie_listing {
-		margin: 0 0 16px;
-		padding: 0 0 16px;
-		border-bottom-width: 4px;
-		border-bottom-style: dotted;
+		margin: 0 0 2rem;
+		padding: 0 0 1.6rem;
+		border-bottom-width: 2px;
+		border-bottom-style: solid;
 		border-bottom-color: $secondary_color_bg;
 
 		&:last-of-type {
@@ -27,10 +24,10 @@
 	}
 
 	.movie_title {
-		font-family: 'Krub';
-		font-size: 4rem;
+		font-family: 'Mada';
+		font-size: 3.5rem;
 		font-weight: 700;
-		line-height: 1.25;
+		line-height: 1;
 	}
 
 	.movie_details {
@@ -76,12 +73,18 @@
 	}
 
 	@media (min-width: 1000px) {
+		.movie_listing {
+			margin: 0 0 1.2rem;
+			padding: 0 0 1.2rem;
+			border-bottom-width: 1px;
+		}
+
 		.movie_title {
-			font-size: 2rem;
+			font-size: 1.4rem;
 		}
 
 		.movie_details {
-			font-size: 1.2rem;
+			font-size: 1rem;
 		}
 	}
 

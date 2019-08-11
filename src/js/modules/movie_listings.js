@@ -1,17 +1,13 @@
-/** index.js */
+/** movie_listings.js */
 var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings : {};
 (movie_listings = {
-	init : function () {
+	init : () => {
 		$.ajax({
-			url: '/.netlify/functions/at_get_movie',
+			url: '/.netlify/functions/at_get_movie?recid=all',
 			dataType: 'json'
 		}).done( function (resp) {
-
-			/*console.log('resp: ');
-			console.log(resp);*/
-
 			if (resp.length > 0) {
-				$.each(resp, function(idx, itm) {
+				$.each(resp, function (idx, itm) {
 					var movie_recid = itm.id;
 					/**
 					  * Fields:
@@ -97,7 +93,7 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 						movie_rating_stars += '</span>';
 						
 						var movie_listing = '<div class="movie_listing" ' +
-							'data-recid="' + movie_recid + '"">' +
+							'data-recid="' + movie_recid + '">' +
 							'<span class="movie_title">' + movie_title + '</span>' +
 								'<div class="movie_details">' +
 									movie_year + ' | ' + movie_length + ' minutes | ' + movie_rating_stars + ' | ' + movie_format +
@@ -115,12 +111,10 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 		});
 	}
 	,
-	ready : function () {
+	ready : () => {
 		window.setTimeout( function () {
-			// $('#movie_list_status').hide();
 			$('#movie_list_status').alert('close');
-
-			$('#movie_list').css('visibility', 'visible');
+			$('#movie_list').css('overflow', 'auto');
 		}, 200);
 	}
 }).init();

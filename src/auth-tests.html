@@ -1,0 +1,74 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="Cinematron">
+	<meta name="author" content="Scott Bram">
+
+	<title>CinemaTron | Curated film favs</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC|Mada:300,400,500,700,900&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="styles/site.min.css">
+</head>
+
+<body>
+	<header id="site_header">
+		<h1><a href="/">CinemaTron</a></h1>
+	</header>
+
+	<main id="auth_tests">
+		<div class="main_content">
+			<!-- <form id="auth_pw_set" class="auth_form">
+				<div class="form-group" class="auth_form">
+					<label for="auth_pw_set_email">Email address</label>
+					<input id="auth_pw_set_email" name="auth_pw_set_email" data-authfld="auth_eml" class="form-control" type="email" aria-describedby="emailHelp" required>
+				</div>
+				<div class="form-group">
+					<label for="auth_pw_set_pw">Password</label>
+					<input id="auth_pw_set_pw" name="auth_pw_set_pw" data-authfld="auth_pw" class="form-control" type="password" minlength="8" required>
+				</div>
+				<button id="auth_pw_set_do" class="btn btn-primary" type="submit" disabled>Set password</button>
+				<div class="validHelp">
+					<small class="validHelp_ListHeader">Password must conatin at least:</small>
+					<ul>
+						<li id="auth_pw_set_hint_minLength" class="validHelp_ListItem validHelp_minLength small invalid">Eight characters</li>
+						<li id="auth_pw_set_hint_cases" class="validHelp_ListItem validHelp_ltrCases small invalid">One lower case and one upper case letter</li>
+						<li id="auth_pw_set_hint_spcChar" class="validHelp_ListItem validHelp_spcChar small invalid">One special character: # $ @ ! % & * ? _ + - . , :</li>
+					</ul>				
+				</div>
+			</form> -->
+
+			<form id="auth_login" class="auth_form">
+				<div class="form-group">
+					<label for="auth_login_email">Email address</label>
+					<input id="auth_login_email" name="auth_login_email" data-authfld="auth_eml" class="form-control" type="email" aria-describedby="emailHelp" required>
+				</div>
+				<div class="form-group">
+					<label for="auth_login_pw">Password</label>
+					<input id="auth_login_pw" name="auth_login_pw" data-authfld="auth_pw" class="form-control" type="password" minlength="8" required>
+				</div>
+				<button id="auth_login_do" class="btn btn-primary" type="submit" disabled>Login</button>
+				<!-- <div class="validHelp">
+					<small class="validHelp_ListHeader">Password must conatin at least:</small>
+					<ul>
+						<li id="auth_login_minLength" class="validHelp_ListItem validHelp_minLength small invalid">Eight characters</li>
+						<li id="auth_login_cases" class="validHelp_ListItem validHelp_ltrCases small invalid">One lower case and one upper case letter</li>
+						<li id="auth_login_spcChar" class="validHelp_ListItem validHelp_spcChar small invalid">One special character: # $ @ ! % & * ? _ + - . , :</li>
+					</ul>				
+				</div> -->
+			</form>
+		</div>
+	</main>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+	<script src="js/shared/utils.min.js"></script>
+	<script src="js/shared/site.min.js"></script>
+	<script src="js/shared/auth.min.js"></script>
+</body>
+</html>

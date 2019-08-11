@@ -15,15 +15,18 @@ const gulp 		= require('gulp'),
 
 	input = {
 		'html': in_root + '/**/*.html',
-	 	'styles': in_root + '/styles/**/*.scss',
+		'styles': in_root + '/styles/**/*.scss',
 		'js': in_root + '/js/**/*.js',
 		'images': in_root + '/assets/**/*',
 	},
 	output = {
 		'html': out_root,
 		'styles': out_root + '/styles',
-		'js': out_root + '/js',
-		'images': out_root + '/assets',
+		// 'js': out_root + '/js',
+		// 'images': out_root + '/assets',
+		// 'styles': out_root,
+		'js': out_root,
+		'images': out_root,
 	};
 
 /** Process HTML files */
@@ -39,35 +42,34 @@ gulp.task('build-html', function () {
 /** Process Sass files */
 gulp.task('build-styles', function () {
     return gulp.src(input.styles)
-    	.pipe(sourcemaps.init())
-    	.pipe(sass({
-        	errorLogToConsole: true,
-        	outputStyle: 'compressed'
+		.pipe(sourcemaps.init())
+		.pipe(sass({
+			errorLogToConsole: true,
+			outputStyle: 'compressed'
         }))
         .on('error', console.error.bind(console))
         // OR
         // .pipe(sass().on('error', sass.logError))
-        .pipe(rename('site.min.css'))
+		.pipe(rename({
+            suffix: '.min'
+        }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(output.styles));
 });
 
 /** Process JS files */
 gulp.task('build-js', function () {
-    return gulp.src(input.js)
-    	.pipe(sourcemaps.init())
+	// return gulp.src(input.js)
+	return gulp.src(input.js, { base: in_root })
+		.pipe(sourcemaps.init())
         // .pipe(concat('site.js'))
         .pipe(terser({
-			keep_fnames: false,
-			mangle: {
-				toplevel: true
-			}
-	    }))
-	    // .pipe(rename('site.min.js'))
+			keep_fnames: false
+		}))
         .pipe(rename({
             suffix: '.min'
         }))
-        .pipe(sourcemaps.write())
+		.pipe(sourcemaps.write())
         .pipe(gulp.dest(output.js));
 });
 
@@ -84,6 +86,21 @@ gulp.task('imagemin', function () {
 		.pipe(gulp.dest(output.images));
 });
 
+/** Copy _redirect file */
+gulp.task('copy_redir', function () {
+	return gulp.src(in_root + '/_redirects')
+		.pipe(gulp.dest(out_root));
+});
+
+
 /** Default task */
-/** Image processing starts first because it tends require the longest execution */
-gulp.task('default', gulp.parallel('imagemin', 'build-html', 'build-styles', 'build-js'));
+/** Image processing starts first, as it tends to require the longest execution */
+gulp.task('default', 
+	gulp.parallel(
+		'imagemin', 
+		'build-js', 
+		'build-styles', 
+		'build-html', 
+		'copy_redir'
+	)
+);

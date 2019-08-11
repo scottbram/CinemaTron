@@ -5,18 +5,18 @@ const Airtable = require('airtable')
  * For local development via Netlify CLI, they go in netlify.toml under "[build.environment]"
  */
 const { AIRTABLE_API_KEY } = process.env
-const { AIRTABLE_BASE_ID } = process.env
+/** Didn't work locally via Netlify CLI, so just using direct value for now */
+// const { AIRTABLE_BASE_ID } = process.env
 const at_base = new Airtable({
 		apiKey: AIRTABLE_API_KEY
 	})
-	.base(AIRTABLE_BASE_ID)
+	.base('appESVtnPeSwbPbUA')
 const at_table_movies = at_base('movies')
 const at_table_users = at_base('users')
 
 exports.handler = async (event, context, callback) => {
 	var resp
 	var req_obj = JSON.parse(event.body)
-	var rec_id = req_obj.ID
 	var rec_fields = req_obj.fields
 	var cinesesh_str
 	const req_cooks = event.headers['cookie']
@@ -71,10 +71,9 @@ exports.handler = async (event, context, callback) => {
 	}
 
 	try {
-		resp = await at_table_movies.update(
-			rec_id,
-			rec_fields
-		)
+		resp = await at_table_movies.create(
+				rec_fields
+			)
 
 		return {
 			statusCode: 200,

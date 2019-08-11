@@ -1,27 +1,26 @@
 const Airtable = require('airtable')
 /** The next 2 lines refer to environment variables configured in Netlify settings (found in "Site settings > Build & deploy > Environment" as of this writing) */
 const { AIRTABLE_API_KEY } = process.env
-/** Didn't work locally via Netlify CLI, so just using direct value */
-// const { AIRTABLE_BASE_ID } = process.env
+const { AIRTABLE_BASE_ID } = process.env
 const at_base = new Airtable({
 		apiKey: AIRTABLE_API_KEY
 	})
-	.base('appESVtnPeSwbPbUA')
+	.base(AIRTABLE_BASE_ID)
 const at_table_movies = at_base('movies')
 
 exports.handler = async (event, context, callback) => {
-	const rec_id_qs = event.queryStringParameters.recid
+	const qs_val_recid = event.queryStringParameters.recid
 	var resp, sendBack
 
 	try {
 		// https://community.airtable.com/t/variable-in-filterbyformula/2251
-		// filterFormula = "({mydocid} = '" + mydocid_query + "')"
+		// filterFormula = "({field_name} = '" + value_to_filter_by + "')"
 
-		console.log('record id: ' + rec_id_qs)
+		console.log('record id: ' + qs_val_recid)
 
-		if ( typeof rec_id_qs !== 'undefined' && rec_id_qs !== '' ) {
-			resp = await at_table_movies.find(rec_id_qs);
-		} else {
+		if ( typeof qs_val_recid !== 'undefined' && qs_val_recid !== '' && qs_val_recid !== 'all' ) {
+			resp = await at_table_movies.find(qs_val_recid);
+		} else if (qs_val_recid === 'all') {
 			resp = await at_table_movies.select({
 					maxRecords: 20,
 					// filterByFormula: filterFormula
@@ -62,4 +61,4 @@ exports.handler = async (event, context, callback) => {
 			body: JSON.stringify(errBody)
 		}
 	}
-};
+}
