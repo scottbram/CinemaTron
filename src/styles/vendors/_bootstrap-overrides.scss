@@ -13,7 +13,11 @@
  }
 
  .nav-pills .nav-link {
-	 border-radius: 0;
+	border-radius: 0;
+
+	&:hover {
+		color: $secondary_color_intense;
+	}
  }
 
 .form-control {

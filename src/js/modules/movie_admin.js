@@ -4,6 +4,11 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	init : () => {
 		auth.sesh_check()
 		.then( function () {
+			$('#site_nav').append('<a class="nav-item nav-link auth-logout" href="#">Logout</a>');
+			$('#site_nav').on('click', '.auth-logout', function (e) {
+				auth.logout_do();
+			});
+			
 			movie_admin.load_movie_list();
 		}).catch( errObj => {
 			

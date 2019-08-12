@@ -406,4 +406,53 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			$('#auth_login_modal').modal('hide');
 		}
 	}
+	,
+	logout_do : () => {
+		$.ajax({
+			url: '/.netlify/functions/at_auth?auth_task=logout',
+			type: 'GET',
+			success: function (resp) {
+				auth.logout_success();
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+
+				console.log('error event');
+				
+				console.log('jqXHR: ');
+				console.log(jqXHR);
+
+				console.log('textStatus: ');
+				console.log(textStatus);
+				
+				console.log('errorThrown: ');
+				console.log(errorThrown);
+				
+				var err_disp;
+				var err_disp_msg;
+
+				if (typeof jqXHR.responseJSON !== 'undefined') {
+					let err_statusCode = jqXHR.responseJSON['statusCode'];
+					err_disp_msg = jqXHR.responseJSON['error'];
+					let err_msg = jqXHR.responseJSON['message'];
+
+					err_disp = err_statusCode + '\n' + err_disp_msg + '\n' + err_msg;
+				} else {
+					err_disp = jqXHR.responseText;
+				}
+
+				console.error('Error:\n' + err_disp);
+
+				// $('#auth_login_actions_msgs').prepend('<small class="msg_loginStatus msg-warning">Please check that the login info is correct</small>');
+			},
+			complete: function() {
+
+				console.log('complete event');
+
+			}
+		});
+	}
+	,
+	logout_success : () => {
+		location.reload();
+	}
 });

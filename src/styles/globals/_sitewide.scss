@@ -35,6 +35,20 @@
 	}
 }
 
+#site_nav {
+	.auth-logout {
+		background-color: transparent;
+		color: $primary_color;
+		text-align: right;
+		text-decoration: underline;
+		flex-grow: unset;
+
+		&:hover {
+			color: $secondary_color_intense;
+		}
+	}
+}
+
 .main_content {
 	display: flex;
 	flex-direction: column;
