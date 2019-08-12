@@ -5,32 +5,14 @@
 
 body {
 	visibility: hidden;
-	display: flex;
-    flex-direction: column;
-    align-items: center;
+	display: grid;
+	grid-template-rows: auto auto;
 	margin: 0;
 	padding: 0;
 	color: $font_color;
 	font-family: 'Mada';
 	font-size: 2.2rem;
 	font-weight: 400;
-}
-
-main, nav {
-	margin: auto;
-	width: 100%;
-}
-
-nav {
-	a {
-		background-color: $primary_color;
-		color: white;
-		text-decoration: none;
-
-		&:hover {
-			background-color: $primary_color_subdued;
-		}
-	}
 }
 
 header {
@@ -60,14 +42,15 @@ footer {
 	}
 }
 
-main {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 16px 5vw;
+nav {
+	a {
+		// background-color: $primary_color;
+		// color: white;
+		// text-decoration: none;
 
-	header {
-		width: 100%;
+		&:hover {
+			// background-color: $primary_color_subdued;
+		}
 	}
 }
 
@@ -205,15 +188,12 @@ input {
 
 @media (min-width: 1000px) {
 	body {
+		grid-template-columns: auto 100px 860px auto;
 		font-size: 0.9rem;
 	}
 
-	h1 {
-		font-size: 6rem;
-	}
+	header {
 
-	h2 {
-		font-size: 3rem;
 	}
 
 	footer {
@@ -222,12 +202,15 @@ input {
 	}
 	
 	nav {
-		width: 960px;
+		
 	}
 
-	main {
-		padding: 16px 20px;
-		width: 960px;
+	h1 {
+		font-size: 6rem;
+	}
+
+	h2 {
+		font-size: 3rem;
 	}
 
 	label,
