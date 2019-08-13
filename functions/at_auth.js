@@ -40,17 +40,9 @@ exports.handler = (event, context, callback) => {
 			})
 
 		cinesesh_str = req_cooks_arr.find( itm => itm.cooknom == 'cinesesh' )
-
-		console.log('cinesesh_str.cookval: ')
-		console.log(cinesesh_str.cookval)
-
 	}
 	
 	function doHash (val_to_hash) {
-
-		console.log('doHash val_to_hash: ')
-		console.log(val_to_hash)
-
 		return new Promise( (resolve, reject) => {
 			bcrypt.hash(val_to_hash, 10, function (err, hash) {
 				if (err) {
@@ -63,21 +55,14 @@ exports.handler = (event, context, callback) => {
 		})
 	}
 
-	function storeVal (userUid, inFld, hash) {
-
-		console.log('storeVal inFld: ')
-		console.log(inFld)
-
-		console.log('storeVal hash: ')
-		console.log(hash)
-
-		const hashStoreObj = {}
-		hashStoreObj[inFld] = hash
+	function storeVal (userUid, inFld, val) {
+		const valStoreObj = {}
+		valStoreObj[inFld] = val
 
 		return new Promise( (resolve, reject) => {
 			at_table_users.update(
 				userUid,
-				hashStoreObj,
+				valStoreObj,
 				function (err, record) {
 					if (err) {
 						console.error(err)
@@ -122,14 +107,14 @@ exports.handler = (event, context, callback) => {
 		const req_obj = JSON.parse(event.body)
 		var { auth_task, auth_eml, auth_pw } = req_obj
 
-		console.log('auth_task: ')
-		console.log(auth_task)
+		// console.log('auth_task: ')
+		// console.log(auth_task)
 
-		console.log('auth_eml: ')
-		console.log(auth_eml)
+		// console.log('auth_eml: ')
+		// console.log(auth_eml)
 
-		console.log('auth_pw: ')
-		console.log(auth_pw)
+		// console.log('auth_pw: ')
+		// console.log(auth_pw)
 
 	}
 
@@ -206,11 +191,11 @@ exports.handler = (event, context, callback) => {
 								doHash(val_to_hash)
 								.then( function (hashObj) {
 		
-									console.log('then hashObj: ')
-									console.log(hashObj)
+									// console.log('then hashObj: ')
+									// console.log(hashObj)
 							
-									console.log('hashObj.hash: ')
-									console.log(hashObj.hash)
+									// console.log('hashObj.hash: ')
+									// console.log(hashObj.hash)
 							
 									return storeVal(userUid, 'sesh', hashObj.hash)
 								})					
@@ -243,7 +228,7 @@ exports.handler = (event, context, callback) => {
 							} else {
 								/** Password fail */
 	
-								console.log('Password fail')
+								// console.log('Password fail')
 								
 								let resp = {
 									'statusCode': 401,
@@ -262,7 +247,7 @@ exports.handler = (event, context, callback) => {
 				} else {
 					/** User not found */
 	
-					console.log('User not found')
+					// console.log('User not found')
 					
 					let resp = {
 						'statusCode': 401,
@@ -292,18 +277,18 @@ exports.handler = (event, context, callback) => {
 			break;
 		case 'auth_logout':
 
-			console.log('auth_task: auth_logout')
+			// console.log('auth_task: auth_logout')
 			
-			findUserBy('sesh', cinesesh_str)
+			findUserBy('sesh', cinesesh_str.cookval)
 			.then( users => {
 				if ( users.length > 0) {
 					users.forEach( userObj => {
 						const userUid = userObj.fields['uid']
 						
-						storeVal(userUid, 'sesh', '')
+						return storeVal(userUid, 'sesh', '')
 					})
 				}
-							
+				
 				return
 			})
 			.then( function () {
@@ -333,18 +318,18 @@ exports.handler = (event, context, callback) => {
 			doHash(val_to_hash)
 			.then( hashObj => {
 		
-				console.log('then hashObj: ')
-				console.log(hashObj)
+				// console.log('then hashObj: ')
+				// console.log(hashObj)
 		
-				console.log('hashObj.hash: ')
-				console.log(hashObj.hash)
+				// console.log('hashObj.hash: ')
+				// console.log(hashObj.hash)
 		
 				return storeVal(userUid, 'pwhash', hashObj.hash);
 			})
 			.then( resp => {
 				
-				console.log('resp: ')
-				console.log(resp)
+				// console.log('resp: ')
+				// console.log(resp)
 				
 				callback(null, {
 					statusCode: 200,

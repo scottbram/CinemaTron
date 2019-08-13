@@ -24,21 +24,50 @@
  }
 
 #site_header {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
+	grid-column: 1 / -1;
 	background-color: $primary_color;
 
-	h1 {
-		display: inline-flex;
+	/* h1 {
+		
+	} */
+}
+
+#site_footer {
+	grid-column: 1 / -1;
+}
+
+#site_nav {
+	border-bottom: 1px solid $primary_color_bg;
+
+	#site_nav_items {
+		a:not(:last-of-type) {
+			margin-right: 0.4rem;
+		}
+
+		.auth-loginout {
+			margin-left: auto;
+			border-radius: $border-radius;
+			background-color: $primary_color;
+			color: white;
+			text-decoration: none;
+
+			&.disabled {
+				background-color: $secondary_color_bg;
+			}
+	
+			&:hover {
+				color: $secondary_color_intense;
+			}
+		}
 	}
 }
 
-.main_content {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
+.site-main {
+	padding: 16px 5vw;
+
+	header {
+		width: 100%;
+	}
 }
 
 .form-field-container {
@@ -125,22 +154,24 @@ small.invalid,
 	color: $msg_dark_color;
 }
 
-#movie_list_status {
-	align-self: center;
+.status-container {
 	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	white-space: nowrap;
 
 	.spinner {
-		vertical-align: text-top;
+		vertical-align: baseline;
 		margin-right: 8px;
 	}
 
 	.spinner-border {
-		width: 1.6rem;
-		height: 1.6rem;
+		width: 2rem;
+		height: 2rem;
 		border-width: 0.15em;
 	}
 
-	#movie_list_status_msg {
+	.status-msg {
 		font-size: 2.8rem;
 	}
 }
@@ -175,6 +206,21 @@ input:not([type='checkbox']):not([type='radio']).valChg:invalid {
 }
 
 @media (min-width: 1000px) {
+	#site_header {
+		h1 {
+			place-self: center;
+		}
+	}
+
+	#site_nav {
+		grid-column: 2;
+	}
+
+	.site-main {
+		grid-column: 2;
+		padding: 16px 20px;
+	}
+
 	.form-field-container {
 		margin-bottom: 1rem;
 	}
@@ -193,7 +239,7 @@ input:not([type='checkbox']):not([type='radio']).valChg:invalid {
 		}
 	}
 
-	#movie_list_status {
+	.status-container {
 		.spinner {
 			vertical-align: middle;
 		}
@@ -204,7 +250,7 @@ input:not([type='checkbox']):not([type='radio']).valChg:invalid {
 			border-width: 0.25em;
 		}
 
-		#movie_list_status_msg {
+		.status-msg {
 			font-size: 1.1rem;
 		}
 	}

@@ -7,13 +7,31 @@
     font-size: 2.2rem;
 }
 
- .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+.nav-pills {
+	border-radius: $border-radius;
+}
+
+.nav-pills .nav-link.active, 
+.nav-pills .show > .nav-link {
 	background-color: $primary_color_bg;
 	color: $secondary_color;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: none;
+	}
  }
 
- .nav-pills .nav-link {
-	 border-radius: 0;
+ .nav-link {
+	 margin-right: .4rem;
+
+	&:focus, &:hover {
+		text-decoration: underline;
+	}
+
+	&:hover {
+		color: $secondary_color_intense;
+	}
  }
 
 .form-control {
@@ -64,6 +82,10 @@ select.form-control {
 	border-color: $primary_color_intense;
 }
 
+.alert {
+	padding: 0.75rem 1.85rem;
+}
+
 .alert-dismissible .close {
 	padding: .5rem 1.25rem;
 }
@@ -102,12 +124,12 @@ $modal_width_fix: 90vw;
 		font-size: 1rem;
 	}
 
-	.nav-pills .nav-link:first-child {
-		border-radius: 0 0 0 $border-radius;
+	.small, small {
+		font-size: 78%;
 	}
 
-	.nav-pills .nav-link:last-child {
-		border-radius: 0 0 $border-radius 0;
+	.alert {
+		padding: 0.75rem 1.25rem;
 	}
 
 	.modal-header .close {

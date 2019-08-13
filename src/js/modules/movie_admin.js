@@ -4,6 +4,14 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	init : () => {
 		auth.sesh_check()
 		.then( function () {
+			$('.auth-loginout').text('Log out');
+			$('.auth-loginout').removeClass('disabled');
+			$('.auth-loginout').removeAttr('tabindex');
+			$('.auth-loginout').removeAttr('aria-disabled');
+			$('.auth-loginout').click( function () {
+				auth.logout_do();
+			});
+			
 			movie_admin.load_movie_list();
 		}).catch( errObj => {
 			
@@ -11,15 +19,15 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			// console.log(errObj);
 
 			/** No valid session found */
-			$('#movie_list_status').alert('close');
+			$('#movie_admin .status-container').alert('close');
 
-			var errMsg = '<div id="movie_list_status" class="alert alert-warning fade show" role="alert">' +
-					'<span id="movie_list_status_msg"><a id="log_in_prompt" href="#">Log in to edit</a></span>' +
+			var errMsg = '<div class="status-container alert alert-warning fade show" role="alert">' +
+					'<span class="status-msg"><a id="log_in_prompt" href="#">Log in to edit</a></span>' +
 				'</div>';
 			
-			$('#movie_admin').prepend(errMsg);
+			$('#movie_admin_list').prepend(errMsg);
 
-			$('#log_in_prompt').click( function () {
+			$('.auth-loginout, #log_in_prompt').click( function () {
 				auth.show_login_modal('toggle');
 			});
 
@@ -28,7 +36,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	load_movie_list : () => {
-		$('#movie_list_status_msg').text('Movies loading');
+		$('#movie_admin .status-msg').text('Movies loading');
 		$('#movie_admin_list_actions').css('visibility', 'visible');
 
 		$.ajax({
@@ -186,23 +194,23 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 				});
 			}
 		}).fail( function ( jqXHR, textStatus, errorThrown ) {
-			$('#movie_list_status').alert('close');
+			$('#movie_admin .status-container').alert('close');
 
 			console.log('textStatus: ');
 			console.log(textStatus);
 			console.log('errorThrown: ');
 			console.log(errorThrown);
 
-			var errMsg = '<div id="movie_list_status" class="alert alert-warning fade show" role="alert">' +
-					'<span id="movie_list_status_msg">There was a problem loading the movies.</br>Try refreshing the page and if the problem persists, please contact us.</span>' +
+			var errMsg = '<div class="status-container alert alert-warning fade show" role="alert">' +
+					'<span class="status-msg">There was a problem loading the movies.</br>Try refreshing the page and if the problem persists, please contact us.</span>' +
 				'</div>';
 			
-			$('#movie_admin').prepend(errMsg);
+			$('#movie_admin_list').prepend(errMsg);
 		});
 	}
 	,
 	ready : () => {
-		$('#movie_list_status').alert('close');
+		$('#movie_admin .status-container').alert('close');
 
 		movie_admin.add_movie_click();
 		$('.add-movie').prop('disabled', false);

@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -13,25 +12,33 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="styles/site.min.css">
 </head>
-
 <body>
 	<header id="site_header">
 		<h1><a href="/">CinemaTron</a></h1>
 	</header>
 
-	<nav class="nav nav-pills nav-justified">
-		<!-- <a class="nav-item nav-link" href="/">Home</a> -->
-		<a class="nav-item nav-link" href="movie-listings">Movie List</a>
-		<a class="nav-item nav-link active" href="movie-admin">Admin</a>
+	<nav id="site_nav" class="navbar navbar-expand-sm navbar-light">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#site_nav_items" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div id="site_nav_items" class="nav-pills collapse navbar-collapse">
+			<a class="nav-item nav-link" href="movie-listings">Movie List</a>
+			<a class="nav-item nav-link active" href="movie-admin">Admin</a>
+			<a class="nav-item nav-link auth-loginout" href="#">Log in</a>
+		</div>
 	</nav>
 
-	<main id="movie_admin">
-		<div id="movie_list_status" class="alert alert-info fade show" role="alert">
-			<span class="spinner spinner-border spinner-border-md" role="status" aria-hidden="true"></span>
-			<span id="movie_list_status_msg">Checking authentication...</span>
-		</div>
+	<main id="movie_admin" class="site-main">
+		<header>
+			<h2>F.F.L. Admin</h2>
+		</header>
 
-		<div id="movie_admin_list" class="main_content"></div>
+		<div id="movie_admin_list" class="main_content">
+			<div class="status-container alert alert-info fade show" role="alert">
+				<span class="spinner spinner-border spinner-border-md" role="status" aria-hidden="true"></span>
+				<span class="status-msg">Checking authentication...</span>
+			</div>
+		</div>
 
 		<div id="movie_admin_list_actions">
 			<button class="btn btn-primary save save-all" type="button" disabled>Save all</button>
