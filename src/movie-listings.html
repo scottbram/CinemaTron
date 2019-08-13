@@ -19,19 +19,26 @@
 		<h1><a href="/">CinemaTron</a></h1>
 	</header>
 
-	<!-- <nav class="navbar">
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#site_nav" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+	<nav id="site_nav" class="navbar navbar-expand-lg navbar-light">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#site_nav_items" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-	</nav> -->
-
-	<nav id="site_nav" class="nav flex-column">
+		<div id="site_nav_items" class="collapse navbar-collapse flex-column">
+			<a class="nav-item nav-link active" href="movie-listings">Movie List</a>
+			<a class="nav-item nav-link" href="movie-admin">Admin</a>
+		</div>
+	</nav>
+	
+	<!-- <nav id="site_nav" class="nav flex-column"> -->
 	<!-- <nav id="site_nav" class="nav nav-pills nav-justified"> -->
 	<!-- <nav id="site_nav" class="collapse nav nav-pills nav-justified"> -->
+		<!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#site_nav" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button> -->
 		<!-- <a class="nav-item nav-link" href="/">Home</a> -->
-		<a class="nav-item nav-link active" href="movie-listings">Movie List</a>
-		<a class="nav-item nav-link" href="movie-admin">Admin</a>
-	</nav>
+		<!-- <a class="nav-item nav-link active" href="movie-listings">Movie List</a> -->
+		<!-- <a class="nav-item nav-link" href="movie-admin">Admin</a> -->
+	<!-- </nav> -->
 
 	<main id="movie_listings" class="site-main">
 		<header>

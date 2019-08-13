@@ -18,6 +18,8 @@
  }
 
  .nav-link {
+	width: 100%;
+	
 	&:focus, &:hover {
 		text-decoration: underline;
 	}
