@@ -6,7 +6,8 @@
 body {
 	visibility: hidden;
 	display: grid;
-	grid-template-rows: auto auto;
+	grid-template-columns: auto;
+	grid-template-rows: repeat(4, auto);
 	margin: 0;
 	padding: 0;
 	color: $font_color;
@@ -188,7 +189,7 @@ input {
 
 @media (min-width: 1000px) {
 	body {
-		grid-template-columns: auto 100px 860px auto;
+		grid-template-columns: auto 960px auto;
 		font-size: 0.9rem;
 	}
 

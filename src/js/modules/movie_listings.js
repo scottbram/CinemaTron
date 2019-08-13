@@ -113,7 +113,7 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 	,
 	ready : () => {
 		window.setTimeout( function () {
-			$('#movie_list_status').alert('close');
+			$('#movie_list .status-container').alert('close');
 			$('#movie_list').css('overflow', 'auto');
 		}, 200);
 	}

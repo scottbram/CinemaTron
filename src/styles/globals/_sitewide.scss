@@ -24,9 +24,7 @@
  }
 
 #site_header {
-	display: grid;
 	grid-column: 1 / -1;
-	grid-row: 1;
 	background-color: $primary_color;
 
 	/* h1 {
@@ -34,19 +32,24 @@
 	} */
 }
 
+#site_footer {
+	grid-column: 1 / -1;
+}
+
 #site_nav {
-	align-self: start;
-	padding-top: 16px;
+	border-bottom: 1px solid $primary_color_bg;
 
 	#site_nav_items {
-		white-space: nowrap;
-
-		.auth-logout {
-			margin-top: 16px;
+		.auth-loginout {
+			margin-left: auto;
 			border-radius: $border-radius;
 			background-color: $primary_color;
 			color: white;
 			text-decoration: none;
+
+			&.disabled {
+				background-color: $secondary_color_bg;
+			}
 	
 			&:hover {
 				color: $secondary_color_intense;
@@ -56,8 +59,6 @@
 }
 
 .site-main {
-	display: grid;
-	grid-row: 2;
 	padding: 16px 5vw;
 
 	header {
@@ -149,8 +150,10 @@ small.invalid,
 	color: $msg_dark_color;
 }
 
-#movie_list_status {
-	justify-self: center;
+.status-container {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
 
 	.spinner {
 		vertical-align: text-top;
@@ -163,7 +166,7 @@ small.invalid,
 		border-width: 0.15em;
 	}
 
-	#movie_list_status_msg {
+	.status-msg {
 		font-size: 2.8rem;
 	}
 }
@@ -205,13 +208,11 @@ input:not([type='checkbox']):not([type='radio']).valChg:invalid {
 	}
 
 	#site_nav {
-		display: grid;
 		grid-column: 2;
-		grid-row: 2;
 	}
 
 	.site-main {
-		grid-column: 3;
+		grid-column: 2;
 		padding: 16px 20px;
 }
 
@@ -233,7 +234,7 @@ input:not([type='checkbox']):not([type='radio']).valChg:invalid {
 		}
 	}
 
-	#movie_list_status {
+	.status-container {
 		.spinner {
 			vertical-align: middle;
 		}
@@ -244,7 +245,7 @@ input:not([type='checkbox']):not([type='radio']).valChg:invalid {
 			border-width: 0.25em;
 		}
 
-		#movie_list_status_msg {
+		.status-msg {
 			font-size: 1.1rem;
 		}
 	}

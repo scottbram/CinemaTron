@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -13,18 +12,20 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="styles/site.min.css">
 </head>
-
 <body>
 	<header id="site_header">
 		<h1><a href="/">CinemaTron</a></h1>
 	</header>
 	
-	<nav id="site_nav" class="nav flex-column">
-	<!-- <nav id="site_nav" class="nav nav-pills nav-justified"> -->
-	<!-- <nav id="site_nav" class="collapse nav nav-pills nav-justified"> -->
-		<a class="nav-item nav-link active" href="/">Home</a>
-		<a class="nav-item nav-link" href="movie-listings">Movie List</a>
-		<a class="nav-item nav-link" href="movie-admin">Admin</a>
+	<nav id="site_nav" class="navbar navbar-expand-sm navbar-light">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#site_nav_items" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div id="site_nav_items" class="nav-pills collapse navbar-collapse">
+			<a class="nav-item nav-link active" href="/">Home</a>
+			<a class="nav-item nav-link" href="movie-listings">Movie List</a>
+			<a class="nav-item nav-link" href="movie-admin">Admin</a>
+		</div>
 	</nav>
 	
 	<main id="homepage" class="site-main">
