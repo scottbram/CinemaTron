@@ -190,7 +190,7 @@ input {
 @media (min-width: 1000px) {
 	body {
 		grid-template-columns: auto 960px auto;
-		font-size: 1.1rem;
+		font-size: 1rem;
 	}
 
 	header {
@@ -217,7 +217,7 @@ input {
 	label,
 	input:not([type='checkbox']):not([type='radio']),
 	select, textarea {
-		font-size: 1.1rem;
+		font-size: 1rem;
 	}
 
 	input, select, textarea {

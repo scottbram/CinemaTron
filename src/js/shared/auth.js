@@ -375,7 +375,8 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 
 				console.error('Error:\n' + err_disp);
 
-				$('#auth_login_actions_msgs').prepend('<small class="msg_loginStatus msg-warning">Please check that the login info is correct</small>');
+				$('#auth_login_actions_msgs').prepend('<span class="msg_loginStatus msg-warning">Please check that the login info is correct</span>');
+				$('#auth_login_actions_msgs').show();
 
 				/** Reset the modal state */
 				$('#auth_login_do').prop('disabled', false);

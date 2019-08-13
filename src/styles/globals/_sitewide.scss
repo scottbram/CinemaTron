@@ -158,15 +158,16 @@ small.invalid,
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
+	white-space: nowrap;
 
 	.spinner {
-		vertical-align: text-top;
+		vertical-align: baseline;
 		margin-right: 8px;
 	}
 
 	.spinner-border {
-		width: 1.6rem;
-		height: 1.6rem;
+		width: 2rem;
+		height: 2rem;
 		border-width: 0.15em;
 	}
 

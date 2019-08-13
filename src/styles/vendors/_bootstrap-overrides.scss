@@ -24,7 +24,7 @@
 
  .nav-link {
 	 margin-right: .4rem;
-	 
+
 	&:focus, &:hover {
 		text-decoration: underline;
 	}
@@ -82,6 +82,10 @@ select.form-control {
 	border-color: $primary_color_intense;
 }
 
+.alert {
+	padding: 0.75rem 1.85rem;
+}
+
 .alert-dismissible .close {
 	padding: .5rem 1.25rem;
 }
@@ -118,6 +122,14 @@ $modal_width_fix: 90vw;
 @media (min-width: 1000px) {
 	.h5, h5 {
 		font-size: 1rem;
+	}
+
+	.small, small {
+		font-size: 78%;
+	}
+
+	.alert {
+		padding: 0.75rem 1.25rem;
 	}
 
 	.modal-header .close {
