@@ -23,6 +23,8 @@
  }
 
  .nav-link {
+	 margin-right: .4rem;
+	 
 	&:focus, &:hover {
 		text-decoration: underline;
 	}
