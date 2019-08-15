@@ -5,12 +5,11 @@ const Airtable = require('airtable')
  * For local development via Netlify CLI, they go in netlify.toml under "[build.environment]"
  */
 const { AIRTABLE_API_KEY } = process.env
-/** Didn't work locally via Netlify CLI, so just using direct value for now */
-// const { AIRTABLE_BASE_ID } = process.env
+const { AIRTABLE_BASE_ID } = process.env
 const at_base = new Airtable({
 		apiKey: AIRTABLE_API_KEY
 	})
-	.base('appESVtnPeSwbPbUA')
+	.base(AIRTABLE_BASE_ID)
 const at_table_movies = at_base('movies')
 const at_table_users = at_base('users')
 

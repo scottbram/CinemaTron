@@ -46,28 +46,12 @@
 
 		.auth-loginout {
 			margin-left: auto;
-			border-radius: $border-radius;
-			background-color: $primary_color;
-			color: white;
-			text-decoration: none;
-
-			&.disabled {
-				background-color: $secondary_color_bg;
-			}
-	
-			&:hover {
-				color: $secondary_color_intense;
-			}
 		}
 	}
 }
 
 .site-main {
 	padding: 16px 5vw;
-
-	header {
-		width: 100%;
-	}
 }
 
 .form-field-container {
