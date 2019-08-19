@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta name="description" content="CinemaTron">
+	<meta name="description" content="Cinematron">
 	<meta name="author" content="Scott Bram">
 
 	<title>CinemaTron | Curated film favs</title>
@@ -16,36 +16,67 @@
 	<header id="site_header">
 		<h1><a href="/">CinemaTron</a></h1>
 	</header>
-
+	
 	<nav id="site_nav" class="navbar navbar-expand-sm navbar-light">
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#site_nav_items" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div id="site_nav_items" class="nav-pills collapse navbar-collapse">
 			<a class="nav-item nav-link" href="movie-listings">Movie List</a>
-			<a class="nav-item nav-link active" href="movie-admin">Admin</a>
-			<a class="nav-item nav-link acct-main" href="acct-main">Account</a>
+			<a class="nav-item nav-link" href="movie-admin">Admin</a>
+			<a class="nav-item nav-link acct-main active" href="acct-main">Account</a>
 			<button class="btn btn-primary auth-loginout">Log in</button>
 		</div>
 	</nav>
-
-	<main id="movie_admin" class="site-main">
+	
+	<main id="acct_main" class="site-main">
 		<header>
-			<h2>F.F.L. Admin</h2>
+			<h2>Account</h2>
 		</header>
-
-		<div id="movie_admin_list" class="main_content">
+		
+		<div class="main-content">
 			<div class="status-container alert alert-info fade show" role="alert">
 				<span class="spinner spinner-border spinner-border-md" role="status" aria-hidden="true"></span>
 				<span class="status-msg">Checking authentication...</span>
 			</div>
-		</div>
 
-		<div id="movie_admin_list_actions">
-			<button class="btn btn-primary save save-all" type="button" disabled>Save all</button>
-			<span id="movie_admin_list_actions_msgs" class="actions-msgs"></span>
-			<button class="btn btn-primary add-movie" type="button" disabled>Add Movie</button>
-		</div>
+			<form id="auth_pw_set" class="auth_form" style="display: none;">
+				<div class="form-group" class="auth_form">
+					<label for="auth_pw_set_dispName">Name</label>
+					<input id="auth_pw_set_dispName" name="auth_pw_set_dispName" data-authfld="auth_dispname" class="form-control" type="text" required>
+				</div>
+
+				<hr />
+			
+				<div class="form-group" class="auth_form">
+					<label for="auth_pw_set_email">Email address</label>
+					<input id="auth_pw_set_email" name="auth_pw_set_email" data-authfld="auth_eml" class="form-control" type="email" aria-describedby="emailHelp" required>
+				</div>
+
+				<hr />
+
+				<div class="form-group">
+					<label for="auth_pw_set_pw">Password</label>
+					<input id="auth_pw_set_pw" name="auth_pw_set_pw" data-authfld="auth_pw" class="form-control" type="password" minlength="8" required>
+				</div>
+				<div class="validHelp">
+					<small class="validHelp_ListHeader">Password must conatin at least:</small>
+					<ul>
+						<li id="auth_pw_set_hint_minLength" class="validHelp_ListItem validHelp_minLength small invalid">Eight characters</li>
+						<li id="auth_pw_set_hint_cases" class="validHelp_ListItem validHelp_ltrCases small invalid">One lower case and one upper case letter</li>
+						<li id="auth_pw_set_hint_spcChar" class="validHelp_ListItem validHelp_spcChar small invalid">One special character: # $ @ ! % & * ? _ + - . , :</li>
+					</ul>				
+				</div>
+				<div class="form-group">
+					<label for="auth_pw_set_pw_dblChk">Retype password</label>
+					<input id="auth_pw_set_pw_dblChk" name="auth_pw_set_pw_dblChk" class="form-control" type="password" minlength="8" required>
+				</div>
+
+				<hr />
+
+				<button id="auth_pw_set_do" class="btn btn-primary" type="submit" disabled>Save all</button>
+			</form>
+		</div>		
 	</main>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
@@ -55,6 +86,6 @@
 	<script src="js/shared/utils.min.js"></script>
 	<script src="js/shared/site.min.js"></script>
 	<script src="js/shared/auth.min.js"></script>
-	<script src="js/modules/movie_admin.min.js"></script>
+	<script src="js/modules/account.min.js"></script>
 </body>
 </html>

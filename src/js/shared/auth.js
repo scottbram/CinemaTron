@@ -145,7 +145,15 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				
 				$('#auth_login input').off('keypress');
 				$('#auth_login input').keypress( function (e) {
+
+					// console.log(e.which === 13 && !$('#auth_login_do').prop('disabled') );
+					console.log(e.which === 13);
+					console.log(!$('#auth_login_do').prop('disabled'));
+
 					if (e.which === 13 && !$('#auth_login_do').prop('disabled') ) {
+
+						console.log('enter');
+
 						login_modal_go();
 					}
 				});
@@ -334,8 +342,8 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			req_obj[fldName] = fldVal;
 		});
 
-		console.log('req_obj: ');
-		console.log(req_obj);
+		// console.log('req_obj: ');
+		// console.log(req_obj);
 
 		var req_str = JSON.stringify(req_obj);
 
@@ -345,6 +353,9 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			contentType: 'application/json',
 			data: req_str,
 			success: function (resp) {
+
+				console.log('success event');
+
 				auth.login_success(resp);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

@@ -2,6 +2,32 @@
 var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings : {};
 (movie_listings = {
 	init : () => {
+		auth.sesh_check()
+		.then( function () {
+			$('.auth-loginout').text('Log out');
+			$('.auth-loginout').removeClass('disabled');
+			$('.auth-loginout').removeAttr('tabindex');
+			$('.auth-loginout').removeAttr('aria-disabled');
+			$('.auth-loginout').click( function () {
+				auth.logout_do();
+			});
+			
+			movie_listings.sesh_success();
+		}).catch( errObj => {
+			
+			// console.log('errObj: ');
+			// console.log(errObj);
+
+			/** No valid session found */
+			movie_listings.sesh_fail();
+
+			/* $('.auth-loginout, #log_in_prompt').click( function () {
+				auth.show_login_modal('toggle');
+			});
+
+			auth.show_login_modal(); */
+		});
+
 		$.ajax({
 			url: '/.netlify/functions/at_get_movie?recid=all',
 			dataType: 'json'
@@ -109,6 +135,20 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 				});
 			}
 		});
+	}
+	,
+	sesh_success : () => {
+		// movie_admin.load_movie_list();
+	}
+	,
+	sesh_fail : () => {
+		/* $('#movie_admin .status-container').alert('close');
+
+		var errMsg = '<div class="status-container alert alert-warning fade show" role="alert">' +
+				'<span class="status-msg"><a id="log_in_prompt" href="#">Log in to edit</a></span>' +
+			'</div>';
+		
+		$('#movie_admin_list').prepend(errMsg); */
 	}
 	,
 	ready : () => {
