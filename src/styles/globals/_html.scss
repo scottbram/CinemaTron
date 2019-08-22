@@ -139,8 +139,8 @@ label {
 }
 
 input[type=checkbox], input[type=radio] {
-	width: 32px;
-    height: 32px;
+	// width: 32px;
+    // height: 32px;
 }
 
 ::placeholder {
@@ -157,11 +157,11 @@ input[type=checkbox], input[type=radio] {
 	color: $secondary_color_bg;
 }
 
-input, select, textarea {
+input:not([type='checkbox']):not([type='radio']), select, textarea {
 	margin-bottom: 0;
 }
 
-input {
+input:not([type='checkbox']):not([type='radio']) {
 	border-radius: $border-radius;
 
 	/* &:[type='checkbox'] {
@@ -220,13 +220,13 @@ input {
 		font-size: 1rem;
 	}
 
-	input, select, textarea {
+	input:not([type='checkbox']):not([type='radio']), select, textarea {
 		margin-bottom: 0;
 	}
 
 	input[type=checkbox], input[type=radio] {
-		width: 18px;
-		height: 18px;
+		// width: 16px;
+		// height: 16px;
 	}
 }
 

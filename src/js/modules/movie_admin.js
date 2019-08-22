@@ -175,17 +175,20 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										'<option value="VHS"' + VHSsel + '>VHS</option>' +
 									'</select>' +
 								'</div>' +
-								'<div class="movie_active form-field-container form-check">' +
+								// '<div class="movie_active form-field-container form-check">' +
+								'<div class="movie_active form-field-container custom-control custom-checkbox">' +
 									'<input id="movie_active_' + movie_recid + '"' +
 										' data-fldname="Active"' +
 										' data-ogval="' + movie_active + '"' +
-										' class="form-check-input"' +
+										// ' class="form-check-input"' +
+										' class="custom-control-input"' +
 										' type="checkbox"' + 
 										movie_active_checked +
 									'>' +
 									'<label' +
 										' for="movie_active_' + movie_recid + '"' +
-										' class="lbl_checkbox form-check-label"' +
+										// ' class="lbl_checkbox form-check-label"' +
+										' class="lbl_checkbox custom-control-label"' +
 										'>' +
 										'Active' +
 									'</label>' +
@@ -323,17 +326,20 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'<option value="VHS">VHS</option>' +
 						'</select>' +
 					'</div>' +
-					'<div class="movie_active form-field-container form-check">' +
+					// '<div class="movie_active form-field-container form-check">' +
+					'<div class="movie_active form-field-container custom-control custom-checkbox">' +
 						'<input id="movie_active_' + movie_recid + '"' +
 							' data-fldname="Active"' +
 							// ' data-ogval="' + movie_active + '"' +
-							' class="form-check-input"' +
+							// ' class="form-check-input"' +
+							' class="custom-control-input"' +
 							' type="checkbox"' + 
 							' checked' +
 						'>' +
 						'<label' +
 							' for="movie_active_' + movie_recid + '"' +
-							' class="lbl_checkbox form-check-label"' +
+							// ' class="lbl_checkbox form-check-label"' +
+							' class="lbl_checkbox custom-control-label"' +
 							'>' +
 							'Active' +
 						'</label>' +
