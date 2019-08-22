@@ -26,10 +26,6 @@
 #site_header {
 	grid-column: 1 / -1;
 	background-color: $primary_color;
-
-	/* h1 {
-		
-	} */
 }
 
 #site_footer {
@@ -37,19 +33,10 @@
 }
 
 #site_nav {
-	// border-bottom: 1px solid $primary_color_bg;
-
 	#site_nav_items {
 		a {
+			margin: 0 1.2rem 1.2rem;
 			padding: 1.3rem 2.1rem;
-
-			&:not(:last-of-type) {
-				margin-right: 0.4rem;
-			}
-		}
-
-		.acct-main {
-			margin-left: auto;
 		}
 	}
 
@@ -209,7 +196,16 @@ input:not([type='checkbox']):not([type='radio']).valChg:invalid {
 
 		#site_nav_items {
 			a {
+				margin: 0 0.5rem 0 0;
 				padding: 0.5rem 1rem;
+
+				// &:not(:last-of-type) {
+					
+				// }
+			}
+
+			.acct-main {
+				margin-left: auto;
 			}
 		}
 	}
