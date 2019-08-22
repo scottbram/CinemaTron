@@ -7,6 +7,29 @@
     font-size: 2.2rem;
 }
 
+button {
+	&:focus {
+		outline: none;
+	}
+}
+
+.navbar {
+	padding: 1.2rem;
+}
+
+.navbar-toggler {
+	align-self: start;
+	margin-top: 1rem;
+	padding: 0;
+	border: none;
+	font-size: unset;
+    line-height: normal;
+}
+
+.navbar-collapse {
+	flex-basis: auto;
+}
+
 .nav-pills {
 	border-radius: $border-radius;
 }

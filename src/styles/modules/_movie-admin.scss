@@ -73,12 +73,13 @@
 	#movie_admin_list_actions {
 		visibility: hidden;
 		position: fixed;
+		left: 0;
 		bottom: 0;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
-		padding: 24px 5vw;
+		padding: 1.2rem;
 		width: 100%;
 		background: whitesmoke;
 		box-shadow: 0 -2px 3px silver;
