@@ -40,8 +40,12 @@
 	border-bottom: 1px solid $primary_color_bg;
 
 	#site_nav_items {
-		a:not(:last-of-type) {
-			margin-right: 0.4rem;
+		a {
+			padding: 1.3rem 2.1rem;
+
+			&:not(:last-of-type) {
+				margin-right: 0.4rem;
+			}
 		}
 
 		.acct-main {
@@ -198,6 +202,12 @@ input:not([type='checkbox']):not([type='radio']).valChg:invalid {
 
 	#site_nav {
 		grid-column: 2;
+
+		#site_nav_items {
+			a {
+				padding: 0.5rem 1rem;
+			}
+		}
 	}
 
 	.site-main {

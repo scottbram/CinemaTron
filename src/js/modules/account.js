@@ -5,8 +5,17 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 		auth.sesh_check()
 		.then( function (resp) {
 
-			console.log('resp[0].fields: ');
-			console.log(resp[0].fields);
+			// console.log('resp[0].fields: ');
+			// console.log(resp[0].fields);
+
+			/**
+			 * Fields:
+			 * display_name
+			 * email
+			 * ​pwhash
+			 * sesh
+			 * uid
+			 */
 
 			let acctDetails = resp[0].fields;
 
