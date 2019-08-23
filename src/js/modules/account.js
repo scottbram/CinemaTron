@@ -19,36 +19,21 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 
 			let acctDetails = resp[0].fields;
 
-			$('.auth-loginout').text('Log out');
-			$('.auth-loginout').removeClass('disabled');
-			$('.auth-loginout').removeAttr('tabindex');
-			$('.auth-loginout').removeAttr('aria-disabled');
-			$('.auth-loginout').click( function () {
-				auth.logout_do();
-			});
-			
 			account.sesh_success(acctDetails);
 		}).catch( errObj => {
-			
-			// console.log('errObj: ');
-			// console.log(errObj);
-
 			/** No valid session found */
 			account.sesh_fail();
-
-			$('.auth-loginout, #log_in_prompt').click( function () {
-				auth.show_login_modal('toggle');
-			});
-
-			auth.show_login_modal();
 		});
 	}
 	,
 	sesh_success : (acctDetails) => {
+		auth.logout_init();
 		account.load_acct_main(acctDetails);
 	}
 	,
 	sesh_fail : () => {
+		auth.login_modal_init();
+		
 		$('#acct_main .main-content .status-container').alert('close');
 
 		var errMsg = '<div class="status-container alert alert-warning fade show" role="alert">' +

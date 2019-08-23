@@ -120,6 +120,18 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 		});
 	}
 	,
+	login_btn_init : () => {
+		$('.auth-loginout, #log_in_prompt').click( function () {
+			auth.show_login_modal('toggle');
+		});
+	}
+	,
+	login_modal_init : () => {
+		auth.login_btn_init();
+
+		auth.show_login_modal();
+	}
+	,
 	show_login_modal : () => {
 		function login_modal_go () {
 			$('#auth_login_actions_msgs').empty();
@@ -417,6 +429,16 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 
 			$('#auth_login_modal').modal('hide');
 		}
+	}
+	,
+	logout_init : () => {
+		$('.auth-loginout').text('Log out');
+		$('.auth-loginout').removeClass('disabled');
+		$('.auth-loginout').removeAttr('tabindex');
+		$('.auth-loginout').removeAttr('aria-disabled');
+		$('.auth-loginout').click( function () {
+			auth.logout_do();
+		});
 	}
 	,
 	logout_do : () => {
