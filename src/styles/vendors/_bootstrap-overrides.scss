@@ -21,7 +21,7 @@ button {
 
 .fast-transition {
 	transition: height 0.1s;
-  }
+}
 
 .navbar {
 	padding: 1.2rem;
@@ -210,6 +210,10 @@ $modal_width_fix: 90vw;
 
 	.form-group {
 		margin-bottom: 1rem;
+	}
+
+	.navbar {
+		padding: 0.5rem;
 	}
 
 	select.form-control {
