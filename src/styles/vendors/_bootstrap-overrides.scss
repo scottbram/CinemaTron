@@ -37,13 +37,13 @@ button {
 }
 
 .navbar-collapse {
-	// flex-basis: auto;
+	z-index: 1;
 	position: absolute;
     top: 140px;
     left: 0;
 	width: 100%;
 	background-color: white;
-    box-shadow: 0 12px 10px rgba(80, 80, 80, 0.7);
+    box-shadow: 0 12px 10px rgba(100, 100, 100, 0.7);
 }
 
 .nav-pills {
@@ -220,6 +220,14 @@ $modal_width_fix: 90vw;
 
 	.navbar {
 		padding: 0.5rem;
+	}
+
+	.navbar-collapse {
+		position: relative;
+		top: auto;
+		left: auto;
+		width: auto;
+		box-shadow: none;
 	}
 
 	select.form-control {
