@@ -192,7 +192,9 @@ input:not([type='checkbox']):not([type='radio']).valChg:invalid {
 	}
 
 	#site_nav {
-		grid-column: 2;
+		// grid-column: 2;
+		margin: 0 auto;
+		width: 960px;
 
 		#site_nav_items {
 			a {
@@ -211,7 +213,9 @@ input:not([type='checkbox']):not([type='radio']).valChg:invalid {
 	}
 
 	.site-main {
-		grid-column: 2;
+		// grid-column: 2;
+		margin: 0 auto;
+		width: 960px;
 		padding: 16px 20px;
 	}
 

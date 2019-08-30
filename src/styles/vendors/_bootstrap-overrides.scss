@@ -37,7 +37,13 @@ button {
 }
 
 .navbar-collapse {
-	flex-basis: auto;
+	// flex-basis: auto;
+	position: absolute;
+    top: 140px;
+    left: 0;
+	width: 100%;
+	background-color: white;
+    box-shadow: 0 12px 10px rgba(80, 80, 80, 0.7);
 }
 
 .nav-pills {
