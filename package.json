@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/scottbram/cinematron#readme",
   "devDependencies": {
-    "eslint": "^6.0.1",
+    "eslint": "^6.2.2",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-htmlmin": "^5.0.1",
@@ -26,10 +26,10 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-terser": "^1.1.7",
-    "netlify-lambda": "^1.5.0"
+    "netlify-lambda": "^1.6.3"
   },
   "dependencies": {
-    "airtable": "^0.7.0",
+    "airtable": "^0.7.1",
     "bcryptjs": "^2.4.3",
     "client-sessions": "^0.8.0"
   }
