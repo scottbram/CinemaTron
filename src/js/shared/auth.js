@@ -121,7 +121,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 	}
 	,
 	login_btn_init : () => {
-		$('.auth-loginout, #log_in_prompt').click( function () {
+		$('.auth-loginout, #log_in_prompt').click( () => {	
 			auth.show_login_modal('toggle');
 		});
 	}

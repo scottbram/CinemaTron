@@ -32,8 +32,6 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 	}
 	,
 	sesh_fail : () => {
-		auth.login_modal_init();
-		
 		$('#acct_main .main-content .status-container').alert('close');
 
 		var errMsg = '<div class="status-container alert alert-warning fade show" role="alert">' +
@@ -41,6 +39,8 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 			'</div>';
 		
 		$('#acct_main .main-content').prepend(errMsg);
+
+		auth.login_modal_init();
 	}
 	,
 	load_acct_main : (acctDetails) => {

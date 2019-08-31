@@ -17,8 +17,6 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	sesh_fail : () => {
-		auth.login_modal_init();
-
 		$('#movie_admin .status-container').alert('close');
 
 		var errMsg = '<div class="status-container alert alert-warning fade show" role="alert">' +
@@ -26,6 +24,8 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 			'</div>';
 		
 		$('#movie_admin_list').prepend(errMsg);
+
+		auth.login_modal_init();
 	}
 	,
 	load_movie_list : () => {
