@@ -3,11 +3,7 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 (account = {
 	init : () => {
 		auth.sesh_check()
-		.then( function (resp) {
-
-			// console.log('resp[0].fields: ');
-			// console.log(resp[0].fields);
-
+		.then( (resp) => {
 			/**
 			 * Fields:
 			 * display_name
@@ -20,7 +16,8 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 			let acctDetails = resp[0].fields;
 
 			account.sesh_success(acctDetails);
-		}).catch( errObj => {
+		})
+		.catch( errObj => {
 			/** No valid session found */
 			account.sesh_fail();
 		});

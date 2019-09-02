@@ -3,21 +3,26 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 (auth = {
 	sesh_check : () => {
 		return new Promise( (resolve, reject) => {
-				$.ajax({
+			$.ajax({
 				url: '/.netlify/functions/at_auth',
 				dataType: 'json'
-			}).done( function (resp) {
+			})
+			.done( (resp) => {
 				if (resp.length > 0) {
 					resolve(resp);
 				}
-			}).fail( function ( jqXHR, textStatus, errorThrown ) {
+			})
+			.fail( ( jqXHR, textStatus, errorThrown ) => {
 				reject(jqXHR, textStatus, errorThrown);
 			});
 		})
 	}
 	,
 	input_validation : () => {
-		$('body').on('input change', '.auth_form input', function () {
+		$('body').on('input', '.auth_form input', function () {
+
+			console.log('input_validation() .auth_form input: input or chg');
+
 			var fld_el = $(this)[0];
 			var fld_val = $(this).val();
 			var fld_parentForm = $(this).closest('form');
@@ -95,12 +100,12 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			/** This delivers the custom validation messages */
 			var fld_isValid = fld_el.checkValidity();
 
-			if (!fld_isValid) {
+			/* if (!fld_isValid) {
 				
 				console.log('Fld invalid. fld_el.validationMessage: ');
 				console.log(fld_el.validationMessage);
 
-			}
+			} */
 
 			if ( $.trim( fld_parentForm.find('input[type=email]').val() ) !== '' && $.trim( fld_parentForm.find('input[type=password]').val() ) !== '' ) {
 				fld_parentForm_allFlds_notEmpty = true;
@@ -152,17 +157,29 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				auth.input_validation();
 
 				setTimeout( function () {
-					$('.auth_form input').trigger('change');
+					$('.auth_form input').trigger('input');
 				}, 500);
 				
-				$('#auth_login input').off('keypress');
-				$('#auth_login input').keypress( function (e) {
+				$('#auth_login input').off('keyup');
+				$('#auth_login input').keyup( function (e) {
+					var allFldsValid = true;
 
-					// console.log(e.which === 13 && !$('#auth_login_do').prop('disabled') );
-					console.log(e.which === 13);
-					console.log(!$('#auth_login_do').prop('disabled'));
+					let auth_inputs = document.getElementById('auth_login').getElementsByTagName('input');
+						auth_inputs = [...auth_inputs];
 
-					if (e.which === 13 && !$('#auth_login_do').prop('disabled') ) {
+					auth_inputs.forEach( (itm) => {
+						let fldIsValid = itm.checkValidity();
+
+						if (!fldIsValid) {
+							allFldsValid = false;
+							return;
+						}
+					});
+
+					console.log(`e.which === 13: ${e.which === 13}`);
+					console.log(`allFldsValid: ${allFldsValid}`);
+
+					if (e.which === 13 && allFldsValid ) {
 
 						console.log('enter');
 
@@ -171,7 +188,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				});
 
 				$('#auth_login_do').off('click');
-				$('#auth_login_do').on('click', function (e) {
+				$('#auth_login_do').on('click', function () {
 					login_modal_go();
 				});
 			});
@@ -442,6 +459,11 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 	}
 	,
 	logout_do : () => {
+
+		/**
+		 * Need some activity indication here
+		 */
+
 		$.ajax({
 			url: '/.netlify/functions/at_auth?auth_task=logout',
 			type: 'GET',
