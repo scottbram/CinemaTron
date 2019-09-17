@@ -21,13 +21,13 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 	input_validation : () => {
 		$('body').on('input', '.auth_form input', function () {
 
-			console.log('input_validation() .auth_form input: input or chg');
+			// console.log('input_validation() .auth_form input: input or chg');
 
 			var fld_el = $(this)[0];
 			var fld_val = $(this).val();
 			var fld_parentForm = $(this).closest('form');
-			// var fld_parentForm_id = fld_parentForm.attr('id');
-			var fld_parentForm_valid = false;
+			var fld_parentForm_id = fld_parentForm.attr('id');
+			var fld_parentForm_valid;
 			var fld_parentForm_allFlds_notEmpty = false;
 			var fld_parentForm_allFlds_valid = false;
 
@@ -91,6 +91,29 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				fld_el.setCustomValidity(customValidationMsg);
 			}
 
+			if ( $(this).attr('id') === 'auth_pw_set_pw_retype' ) {
+				let newPw = $('#auth_pw_set_pw').val();
+				let newPw_retype = $(this).val();
+
+				if (newPw !== newPw_retype) {
+					let customValidationMsg = 'Doesn\'t match new password!';
+
+					$(this).attr('title', 'Doesn\'t match new password!');
+					$(this).attr('data-toggle', 'tooltip');
+					$(this).attr('data-placement', 'top');
+
+					$(this).tooltip('show');
+					
+					fld_el.setCustomValidity(customValidationMsg);
+				} else {
+					fld_el.setCustomValidity('');
+					
+					$(this).attr('title', '');
+					
+					$(this).tooltip('hide');
+				}
+			}
+
 			/** https://developer.mozilla.org/en-US/docs/Web/API/ValidityState */
 			/* console.log('fld_el.validity: ');
 			console.log(fld_el.validity); */
@@ -110,10 +133,27 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			if ( $.trim( fld_parentForm.find('input[type=email]').val() ) !== '' && $.trim( fld_parentForm.find('input[type=password]').val() ) !== '' ) {
 				fld_parentForm_allFlds_notEmpty = true;
 			}
-
-			if ( fld_parentForm.find('input[type=email]').is(':valid') && fld_parentForm.find('input[type=password]').is(':valid') ) {
+			
+			/* if ( fld_parentForm.find('input[type=email]').is(':valid') && fld_parentForm.find('input[type=password]').is(':valid') ) {
 				fld_parentForm_allFlds_valid = true;
-			}
+			} */
+			
+			let auth_inputs = document.getElementById(fld_parentForm_id).getElementsByTagName('input');
+				auth_inputs = [...auth_inputs];
+
+			auth_inputs.forEach( (itm) => {
+				let fld_type = itm.getAttribute('type');
+
+				if (fld_type === 'email' || fld_type === 'password') {
+					let fldIsValid = itm.checkValidity();
+
+					if (!fldIsValid) {
+						return;
+					}
+
+					fld_parentForm_allFlds_valid = true;
+				}
+			});
 
 			if (fld_parentForm_allFlds_notEmpty && fld_parentForm_allFlds_valid) {
 				fld_parentForm_valid = true;
