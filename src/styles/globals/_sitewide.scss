@@ -72,6 +72,12 @@
 	}
 }
 
+.validHelp_ListItem {
+	&.valid {
+    	opacity: 0.6;
+	}
+}
+
 #index-link {
 	left: 6px;
 }

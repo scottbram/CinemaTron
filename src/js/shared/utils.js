@@ -26,8 +26,14 @@ var utils = ( typeof (utils) === 'object' ) ? utils : {};
 			'valid_pw': false,
 			'valid_pw_length': false,
 			'valid_pw_length_msg': 'Need more password. ',
-			'valid_ltrCases': false,
-			'valid_ltrCases_msg': 'At least one upper case and one lower case letter required. ',
+			// 'valid_ltrCases': false,
+			// 'valid_ltrCases_msg': 'At least one upper case and one lower case letter required. ',
+			'valid_ltrCases_upper': false,
+			'valid_ltrCases_upper_msg': 'At least one upper case letter required. ',
+			'valid_ltrCases_lower': false,
+			'valid_ltrCases_lower_msg': 'At least one lower case letter required. ',
+			'valid_number': false,
+			'valid_number_msg': 'At least one number required. ',
 			'valid_pw_spcChar': false,
 			'valid_pw_spcChar_msg': 'At least one special character required. '
 		}
@@ -36,24 +42,30 @@ var utils = ( typeof (utils) === 'object' ) ? utils : {};
 			validation_resp.valid_pw_length = true;
 		}
 
-		// let regex_numNltrCases = /^(?:(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*)$/;
+		// let regex_numNltrCases = /^(?:(?=.*[A-Z])(?=.*[a-z])(?=.*\d).*)$/;
 		// let regex_numNltrCases = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).*$/;
 
-		let regex_ltrCases = /^(?:(?=.*[a-z])(?=.*[A-Z]).*)$/;
-		// let regex_ltrCases = /^(?=.*[a-z])(?=.*[A-Z]).*$/;
-
-		/* console.log('regex_ltrCases: ');
-		console.log(regex_ltrCases.test(str)); */
-
+		/* let regex_ltrCases = /^(?:(?=.*[A-Z])(?=.*[a-z]).*)$/;
 		if ( regex_ltrCases.test(str) ) {
 			validation_resp.valid_ltrCases = true;
+		} */
+
+		let valid_ltrCases_upper = /^(?:(?=.*[A-Z]).*)$/;
+		if ( valid_ltrCases_upper.test(str) ) {
+			validation_resp.valid_ltrCases_upper = true;
 		}
 
-		// let regex_spcChar = /^(?:(?=.*\W).*)$/;
-		let regex_spcChar = /^(?:(?=.*[#$@!%&*?_+-.,:]).*)$/;
+		let valid_ltrCases_lower = /^(?:(?=.*[a-z]).*)$/;
+		if ( valid_ltrCases_lower.test(str) ) {
+			validation_resp.valid_ltrCases_lower = true;
+		}
 
-		/* console.log('regex_spcChar: ');
-		console.log(regex_spcChar.test(str)); */
+		let valid_number = /^(?:(?=.*\d).*)$/;
+		if ( valid_number.test(str) ) {
+			validation_resp.valid_number = true;
+		}
+
+		let regex_spcChar = /^(?:(?=.*[#$@!%&*?_+-.,:]).*)$/;
 
 		if ( regex_spcChar.test(str) ) {
 			validation_resp.valid_pw_spcChar = true;

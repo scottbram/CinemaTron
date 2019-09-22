@@ -47,12 +47,18 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			if ( $(this).attr('type') === 'password' ) {
 				let { 
 					valid_pw, 
-					valid_pw_length, 
-					valid_pw_length_msg, 
-					valid_ltrCases, 
-					valid_ltrCases_msg, 
-					valid_pw_spcChar, 
-					valid_pw_spcChar_msg 
+					valid_pw_length,
+					valid_pw_length_msg,
+					// valid_ltrCases,
+					// valid_ltrCases_msg,
+					valid_ltrCases_upper,
+					valid_ltrCases_upper_msg,
+					valid_ltrCases_lower,
+					valid_ltrCases_lower_msg,
+					valid_number,
+					valid_number_msg,
+					valid_pw_spcChar,
+					valid_pw_spcChar_msg
 				} = utils.validate_pw(fld_val);
 
 				// console.log('valid_pw: ');
@@ -72,12 +78,36 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 					$(fld_parentForm).find('.validHelp_minLength').removeClass('invalid').addClass('valid');
 				}
 
-				if ( !valid_ltrCases ) {
+				/* if ( !valid_ltrCases ) {
 					$(fld_parentForm).find('.validHelp_ltrCases').removeClass('valid').addClass('invalid');
 
 					customValidationMsg += valid_ltrCases_msg;
 				} else {
 					$(fld_parentForm).find('.validHelp_ltrCases').removeClass('invalid').addClass('valid');
+				} */
+
+				if ( !valid_ltrCases_upper ) {
+					$(fld_parentForm).find('.validHelp_ltrCases_upper').removeClass('valid').addClass('invalid');
+
+					customValidationMsg += valid_ltrCases_upper_msg;
+				} else {
+					$(fld_parentForm).find('.validHelp_ltrCases_upper').removeClass('invalid').addClass('valid');
+				}
+
+				if ( !valid_ltrCases_lower ) {
+					$(fld_parentForm).find('.validHelp_ltrCases_lower').removeClass('valid').addClass('invalid');
+
+					customValidationMsg += valid_ltrCases_lower_msg;
+				} else {
+					$(fld_parentForm).find('.validHelp_ltrCases_lower').removeClass('invalid').addClass('valid');
+				}
+
+				if ( !valid_number ) {
+					$(fld_parentForm).find('.validHelp_number').removeClass('valid').addClass('invalid');
+
+					customValidationMsg += valid_number_msg;
+				} else {
+					$(fld_parentForm).find('.validHelp_number').removeClass('invalid').addClass('valid');
 				}
 
 				if ( !valid_pw_spcChar ) {
@@ -89,6 +119,14 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				}
 
 				fld_el.setCustomValidity(customValidationMsg);
+
+				if (customValidationMsg === '') {
+					$('#auth_pw_set_pw_retype').prop('disabled', false);
+					$('#auth_pw_set_pw_retype').attr('placeholder', '');
+				} else {
+					$('#auth_pw_set_pw_retype').prop('disabled', true);
+					$('#auth_pw_set_pw_retype').attr('placeholder', 'Minimum password requirements unmet');
+				}
 			}
 
 			if ( $(this).attr('id') === 'auth_pw_set_pw_retype' ) {
