@@ -59,6 +59,12 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 	}
 	,
 	ready : () => {
+		$('#auth_pw_set_do').click( function () {
+			$(this).prop('disabled', true);
+
+			auth.pw_set_do();
+		});
+		
 		$('#acct_main .main-content .status-container').alert('close');
 		$('#auth_pw_set').removeAttr('style');
 		$('#acct_main .main-content').css('overflow', 'auto');

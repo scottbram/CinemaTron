@@ -567,7 +567,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	,
 	save_all_click : () => {
 		$('.save-all').click( function () {
-			$('.save-all').prop('disabled', true);
+			$(this).prop('disabled', true);
 
 			movie_admin.save_all();
 		});

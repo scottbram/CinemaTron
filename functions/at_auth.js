@@ -94,12 +94,14 @@ exports.handler = (event, context, callback) => {
 		})
 	}
 
+	var auth_task
+
 	if (event.httpMethod === 'GET') {
-		var auth_task = 'auth_check'
+		auth_task = 'auth_check'
 
 		const qs_val_auth_task = event.queryStringParameters.auth_task
 		if (qs_val_auth_task === 'logout') {
-			var auth_task = 'auth_logout'
+			auth_task = 'auth_logout'
 		}
 	}
 
@@ -313,8 +315,9 @@ exports.handler = (event, context, callback) => {
 			})
 
 			break;
-		case 'auth_pw_set': {
+		case 'auth_pw_chg_OG': {
 			const val_to_hash = auth_pw
+
 			doHash(val_to_hash)
 			.then( hashObj => {
 		
@@ -324,7 +327,7 @@ exports.handler = (event, context, callback) => {
 				// console.log('hashObj.hash: ')
 				// console.log(hashObj.hash)
 		
-				return storeVal(userUid, 'pwhash', hashObj.hash);
+				return storeVal(userUid, 'pwhash', hashObj.hash)
 			})
 			.then( resp => {
 				
@@ -347,6 +350,42 @@ exports.handler = (event, context, callback) => {
 					body: JSON.stringify(errObj)
 				})
 			})
+			
+			break;
+		}
+		case 'auth_pw_chg': {
+			const val_to_hash = auth_pw
+
+			console.log(`val_to_hash: ${val_to_hash}`);
+
+			const auth_pw_chg = async () => {
+				const userObj = await findUserBy('sesh', cinesesh_str.cookval)
+				const userUid = userObj[0].fields['uid']
+
+				console.log(`userUid: ${userUid}`);
+
+				const hashObj = await doHash(val_to_hash)
+				const hashResult = hashObj.hash
+
+				console.log(`hashResult: ${hashResult}`);
+				
+				const resp = await storeVal(userUid, 'pwhash', hashResult)
+				
+				return callback(null, {
+					statusCode: 200,
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(resp)
+				})
+			}
+
+			auth_pw_chg()
+				.catch( errObj => {
+					return {
+						statusCode: errObj.statusCode,
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(errObj)
+					}
+				})
 			
 			break;
 		}

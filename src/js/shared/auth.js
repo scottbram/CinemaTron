@@ -21,9 +21,8 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 	input_validation : () => {
 		$('body').on('input', '.auth_form input', function () {
 
-			// console.log('input_validation() .auth_form input: input or chg');
-
 			var fld_el = $(this)[0];
+			var fld_id = $(fld_el).attr('id');
 			var fld_val = $(this).val();
 			var fld_parentForm = $(this).closest('form');
 			var fld_parentForm_id = fld_parentForm.attr('id');
@@ -44,7 +43,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				}
 			}
 
-			if ( $(this).attr('type') === 'password' ) {
+			if ( $(this).attr('type') === 'password' && $(this).attr('id') !== 'auth_pw_set_pw_retype' ) {
 				let { 
 					valid_pw, 
 					valid_pw_length,
@@ -120,7 +119,9 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 
 				fld_el.setCustomValidity(customValidationMsg);
 
-				if (customValidationMsg === '') {
+				// console.log(`fld_id: ${fld_id}`);
+
+				if ( fld_id === 'auth_pw_set_pw' && customValidationMsg === '') {
 					$('#auth_pw_set_pw_retype').prop('disabled', false);
 					$('#auth_pw_set_pw_retype').attr('placeholder', '');
 				} else {
@@ -134,6 +135,8 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				let newPw_retype = $(this).val();
 
 				if (newPw !== newPw_retype) {
+					$('#auth_pw_set_do').prop('disabled', true);
+
 					let customValidationMsg = 'Doesn\'t match new password!';
 
 					$(this).attr('title', 'Doesn\'t match new password!');
@@ -144,6 +147,8 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 					
 					fld_el.setCustomValidity(customValidationMsg);
 				} else {
+					$('#auth_pw_set_do').prop('disabled', false);
+
 					fld_el.setCustomValidity('');
 					
 					$(this).attr('title', '');
@@ -369,15 +374,17 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 	,
 	pw_set_do : () => {
 		var req_obj = {
-			'task': 'pw_set'
+			'auth_task': 'auth_pw_chg'
 		};
 
-		$.each( $('#auth_pw_set input'), function (idx, itm) {
+		/* $.each( $('#auth_pw_set input'), function (idx, itm) {
 			var fldName = $(itm).attr('id');
 			var fldVal = $(itm).val();
 
 			req_obj[fldName] = fldVal;
-		});
+		}); */
+
+		req_obj['auth_pw'] = $('#auth_pw_set_pw').val();
 
 		console.log(req_obj);
 
