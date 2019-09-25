@@ -122,11 +122,15 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				// console.log(`fld_id: ${fld_id}`);
 
 				if ( fld_id === 'auth_pw_set_pw' && customValidationMsg === '') {
-					$('#auth_pw_set_pw_retype').prop('disabled', false);
-					$('#auth_pw_set_pw_retype').attr('placeholder', '');
+					/* $('#auth_pw_set_pw_retype').prop('disabled', false);
+					$('#auth_pw_set_pw_retype').attr('placeholder', ''); */
+
+					$('#auth_pw_set_do').prop('disabled', false);
 				} else {
-					$('#auth_pw_set_pw_retype').prop('disabled', true);
-					$('#auth_pw_set_pw_retype').attr('placeholder', 'Minimum password requirements unmet');
+					/* $('#auth_pw_set_pw_retype').prop('disabled', true);
+					$('#auth_pw_set_pw_retype').attr('placeholder', 'Minimum password requirements unmet'); */
+
+					$('#auth_pw_set_do').prop('disabled', true);
 				}
 			}
 
@@ -390,7 +394,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 
 		var req_str = JSON.stringify(req_obj);
 
-		$.ajax({
+		return $.ajax({
 			url: '/.netlify/functions/at_auth',
 			type: 'POST',
 			contentType: 'application/json',

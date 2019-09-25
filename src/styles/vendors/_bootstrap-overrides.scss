@@ -121,7 +121,6 @@ select.form-control {
 	}
 
 	&::after {
-		left: -1.5rem;
 		background-size: 70%;
 	}
 }
@@ -271,7 +270,7 @@ $modal_width_fix: 90vw;
 	}
 
 	.custom-control-label {
-		// vertical-align: text-top;
+		display: inline-block;
 		padding-left: 0;
 
 		&::before,
@@ -282,7 +281,6 @@ $modal_width_fix: 90vw;
 		}
 
 		&::after {
-			left: -1.5rem;
 			background-size: 60%;
 		}
 	}

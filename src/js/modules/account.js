@@ -58,11 +58,46 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 		}, 200);
 	}
 	,
+	save_details : () => {
+		//
+	}
+	,
+	save_pw : () => {
+		const acct_pw_chg = async () => {
+			const doPwSave = await auth.pw_set_do();
+			return await doPwSave;
+		}
+
+		acct_pw_chg()
+			.then( resp => {
+
+				console.log('acct_pw_chg then resp: ');
+				console.log(resp);
+				
+				$('#auth_pw_set_pw').val('').attr('type', 'password');
+				$('#auth_pw_set_pw_toggle_vis').prop('checked', false);
+			})
+			.catch( errObj => {
+				
+				console.error('Password save error');
+				console.log(errObj);
+
+			})
+	}
+	,
 	ready : () => {
+		$('#auth_pw_set_pw_toggle_vis').on('change', function () {
+			if ( $(this).prop('checked') ) {
+				$('#auth_pw_set_pw').attr('type', 'text');
+			} else {
+				$('#auth_pw_set_pw').attr('type', 'password');
+			}
+		});
+
 		$('#auth_pw_set_do').click( function () {
 			$(this).prop('disabled', true);
 
-			auth.pw_set_do();
+			account.save_pw();
 		});
 		
 		$('#acct_main .main-content .status-container').alert('close');
