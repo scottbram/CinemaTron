@@ -43,7 +43,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				}
 			}
 
-			if ( $(this).attr('type') === 'password' && $(this).attr('id') !== 'auth_pw_set_pw_retype' ) {
+			if ( $(this).attr('type') === 'password' && $(this).attr('id') !== 'acct_main_mgmt_pw_retype' ) {
 				let { 
 					valid_pw, 
 					valid_pw_length,
@@ -121,25 +121,25 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 
 				// console.log(`fld_id: ${fld_id}`);
 
-				if ( fld_id === 'auth_pw_set_pw' && customValidationMsg === '') {
-					/* $('#auth_pw_set_pw_retype').prop('disabled', false);
-					$('#auth_pw_set_pw_retype').attr('placeholder', ''); */
+				if ( fld_id === 'acct_main_mgmt_pw' && customValidationMsg === '') {
+					/* $('#acct_main_mgmt_pw_retype').prop('disabled', false);
+					$('#acct_main_mgmt_pw_retype').attr('placeholder', ''); */
 
-					$('#auth_pw_set_do').prop('disabled', false);
+					$('#acct_save_do').prop('disabled', false);
 				} else {
-					/* $('#auth_pw_set_pw_retype').prop('disabled', true);
-					$('#auth_pw_set_pw_retype').attr('placeholder', 'Minimum password requirements unmet'); */
+					/* $('#acct_main_mgmt_pw_retype').prop('disabled', true);
+					$('#acct_main_mgmt_pw_retype').attr('placeholder', 'Minimum password requirements unmet'); */
 
-					$('#auth_pw_set_do').prop('disabled', true);
+					$('#acct_save_do').prop('disabled', true);
 				}
 			}
 
-			if ( $(this).attr('id') === 'auth_pw_set_pw_retype' ) {
-				let newPw = $('#auth_pw_set_pw').val();
+			if ( $(this).attr('id') === 'acct_main_mgmt_pw_retype' ) {
+				let newPw = $('#acct_main_mgmt_pw').val();
 				let newPw_retype = $(this).val();
 
 				if (newPw !== newPw_retype) {
-					$('#auth_pw_set_do').prop('disabled', true);
+					$('#acct_save_do').prop('disabled', true);
 
 					let customValidationMsg = 'Doesn\'t match new password!';
 
@@ -151,7 +151,7 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 					
 					fld_el.setCustomValidity(customValidationMsg);
 				} else {
-					$('#auth_pw_set_do').prop('disabled', false);
+					$('#acct_save_do').prop('disabled', false);
 
 					fld_el.setCustomValidity('');
 					
@@ -304,8 +304,8 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 		var auth_task;
 
 		switch (form_is) {
-			case 'auth_pw_set':
-				auth_task = 'auth_pw_set';
+			case 'acct_main_mgmt':
+				auth_task = 'acct_main_mgmt';
 			break;
 			case 'auth_login':
 				auth_task = 'auth_login';
@@ -381,14 +381,14 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			'auth_task': 'auth_pw_chg'
 		};
 
-		/* $.each( $('#auth_pw_set input'), function (idx, itm) {
+		/* $.each( $('#acct_main_mgmt input'), function (idx, itm) {
 			var fldName = $(itm).attr('id');
 			var fldVal = $(itm).val();
 
 			req_obj[fldName] = fldVal;
 		}); */
 
-		req_obj['auth_pw'] = $('#auth_pw_set_pw').val();
+		req_obj['auth_pw'] = $('#acct_main_mgmt_pw').val();
 
 		console.log(req_obj);
 
