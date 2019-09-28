@@ -135,8 +135,14 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 	}
 	,
 	save_pw : () => {
+	    var passToPass = $('#acct_main_mgmt_pw').val();
+	    
+	    if (passToPass !== '' ) {
+	        //
+	    }
+	    
 		const acct_pw_chg = async () => {
-			const doPwSave = await auth.pw_set_do();
+			const doPwSave = await auth.pw_set_do(passToPass);
 			return await doPwSave;
 		}
 

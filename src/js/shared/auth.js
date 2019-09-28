@@ -376,21 +376,12 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 		});
 	}
 	,
-	pw_set_do : () => {
+	pw_set_do : (passToPass) => {
 		var req_obj = {
 			'auth_task': 'auth_pw_chg'
 		};
 
-		/* $.each( $('#acct_main_mgmt input'), function (idx, itm) {
-			var fldName = $(itm).attr('id');
-			var fldVal = $(itm).val();
-
-			req_obj[fldName] = fldVal;
-		}); */
-
-		req_obj['auth_pw'] = $('#acct_main_mgmt_pw').val();
-
-		console.log(req_obj);
+		req_obj['auth_pw'] = passToPass;
 
 		var req_str = JSON.stringify(req_obj);
 
