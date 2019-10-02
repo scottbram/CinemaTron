@@ -53,8 +53,6 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 	save_details : () => {
 		const acct_uid = document.getElementById('acct_main_mgmt').getAttribute('data-atrecid');
 
-		console.log(`acct_uid: ${acct_uid}`);
-
 		let req_obj = {
 			'ID': acct_uid
 		};
@@ -67,8 +65,6 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 			let fld_name = itm.getAttribute('data-atfld');
 			let fld_val = itm.value
 
-			console.log(`${fld_name}: ${fld_val}`);
-
 			req_obj_flds[fld_name] = fld_val;
 		});
 
@@ -76,7 +72,10 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 
 		var req_str = JSON.stringify(req_obj);
 
-		const saveAcctProm = new Promise( function (promSuccess, promError) {
+		console.log('save_details: ');
+		console.log(req_str);
+
+		const saveAcctDetails_promise = new Promise( function (promSuccess, promError) {
 			$.ajax({
 				url: '/.netlify/functions/at_update_acct',
 				type: 'PATCH',
@@ -131,36 +130,40 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 			});
 		});
 
-		return saveAcctProm;
+		return saveAcctDetails_promise;
 	}
 	,
 	save_pw : () => {
-	    var passToPass = $('#acct_main_mgmt_pw').val();
-	    
-	    if (passToPass !== '' ) {
-	        //
-	    }
-	    
+		var passToPass = $('#acct_main_mgmt_pw').val();
+
+		if (passToPass === '' ) {
+			return 'nopw';
+		}
+
 		const acct_pw_chg = async () => {
 			const doPwSave = await auth.pw_set_do(passToPass);
+
 			return await doPwSave;
 		}
 
-		acct_pw_chg()
-			.then( resp => {
+		const saveAcctPw_promise = new Promise( function (promSuccess, promError) {
+			acct_pw_chg()
+				.then( resp => {
+					$('#acct_main_mgmt_pw').val('').attr('type', 'password');
+					$('#acct_main_mgmt_pw_toggle_vis').prop('checked', false);
 
-				console.log('acct_pw_chg then resp: ');
-				console.log(resp);
-				
-				$('#acct_main_mgmt_pw').val('').attr('type', 'password');
-				$('#acct_main_mgmt_pw_toggle_vis').prop('checked', false);
-			})
-			.catch( errObj => {
-				
-				console.error('Password save error');
-				console.log(errObj);
+					promSuccess();
+				})
+				.catch( errObj => {
+					
+					console.error('Password save error');
+					console.log(errObj);
 
-			})
+					promError();
+				})
+		});
+
+		return saveAcctPw_promise;
 	}
 	,
 	ready : () => {
@@ -175,8 +178,26 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 		$('#acct_save_do').click( function () {
 			// $(this).prop('disabled', true);
 
-			account.save_pw();
-			account.save_details();
+			const saveBoth = async () => {
+				await account.save_pw();
+				await account.save_details();
+
+				// throw new Error('b0rked.');
+			}
+
+			saveBoth()
+				.catch( err => {
+					
+					console.log(err);
+
+				})
+
+			let respMsg = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+				<strong>Holy guacamole!</strong> You should check in on some of those fields below.
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>`;
 		});
 		
 		$('#acct_main .main-content .status-container').alert('close');
