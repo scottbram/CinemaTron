@@ -4,35 +4,28 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	init : () => {
 		auth.sesh_check()
 		.then( function () {
-			$('.auth-loginout').text('Log out');
-			$('.auth-loginout').removeClass('disabled');
-			$('.auth-loginout').removeAttr('tabindex');
-			$('.auth-loginout').removeAttr('aria-disabled');
-			$('.auth-loginout').click( function () {
-				auth.logout_do();
-			});
-			
-			movie_admin.load_movie_list();
-		}).catch( errObj => {
-			
-			// console.log('errObj: ');
-			// console.log(errObj);
-
+			movie_admin.sesh_success();
+		}).catch( () => {
 			/** No valid session found */
-			$('#movie_admin .status-container').alert('close');
-
-			var errMsg = '<div class="status-container alert alert-warning fade show" role="alert">' +
-					'<span class="status-msg"><a id="log_in_prompt" href="#">Log in to edit</a></span>' +
-				'</div>';
-			
-			$('#movie_admin_list').prepend(errMsg);
-
-			$('.auth-loginout, #log_in_prompt').click( function () {
-				auth.show_login_modal('toggle');
-			});
-
-			auth.show_login_modal();
+			movie_admin.sesh_fail();
 		});
+	}
+	,
+	sesh_success : () => {
+		auth.logout_init();
+		movie_admin.load_movie_list();
+	}
+	,
+	sesh_fail : () => {
+		$('#movie_admin .status-container').alert('close');
+
+		var errMsg = '<div class="status-container alert alert-warning fade show" role="alert">' +
+				'<span class="status-msg"><a id="log_in_prompt" href="#">Log in to edit</a></span>' +
+			'</div>';
+		
+		$('#movie_admin_list').prepend(errMsg);
+
+		auth.login_modal_init();
 	}
 	,
 	load_movie_list : () => {
@@ -167,17 +160,20 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 										'<option value="VHS"' + VHSsel + '>VHS</option>' +
 									'</select>' +
 								'</div>' +
-								'<div class="movie_active form-field-container form-check">' +
+								// '<div class="movie_active form-field-container form-check">' +
+								'<div class="movie_active form-field-container custom-control custom-checkbox">' +
 									'<input id="movie_active_' + movie_recid + '"' +
 										' data-fldname="Active"' +
 										' data-ogval="' + movie_active + '"' +
-										' class="form-check-input"' +
+										// ' class="form-check-input"' +
+										' class="custom-control-input"' +
 										' type="checkbox"' + 
 										movie_active_checked +
 									'>' +
 									'<label' +
 										' for="movie_active_' + movie_recid + '"' +
-										' class="lbl_checkbox form-check-label"' +
+										// ' class="lbl_checkbox form-check-label"' +
+										' class="lbl_checkbox custom-control-label"' +
 										'>' +
 										'Active' +
 									'</label>' +
@@ -315,17 +311,20 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 							'<option value="VHS">VHS</option>' +
 						'</select>' +
 					'</div>' +
-					'<div class="movie_active form-field-container form-check">' +
+					// '<div class="movie_active form-field-container form-check">' +
+					'<div class="movie_active form-field-container custom-control custom-checkbox">' +
 						'<input id="movie_active_' + movie_recid + '"' +
 							' data-fldname="Active"' +
 							// ' data-ogval="' + movie_active + '"' +
-							' class="form-check-input"' +
+							// ' class="form-check-input"' +
+							' class="custom-control-input"' +
 							' type="checkbox"' + 
 							' checked' +
 						'>' +
 						'<label' +
 							' for="movie_active_' + movie_recid + '"' +
-							' class="lbl_checkbox form-check-label"' +
+							// ' class="lbl_checkbox form-check-label"' +
+							' class="lbl_checkbox custom-control-label"' +
 							'>' +
 							'Active' +
 						'</label>' +
@@ -568,7 +567,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	,
 	save_all_click : () => {
 		$('.save-all').click( function () {
-			$('.save-all').prop('disabled', true);
+			$(this).prop('disabled', true);
 
 			movie_admin.save_all();
 		});

@@ -14,15 +14,6 @@
 		}
 	}
 
-	/* .movie_rating {
-		display: flex;
-		flex-direction: column;
-	} */
-	
-	.movie_rating_stars {
-		margin-bottom: 0;
-	}
-
 	#movie_admin_list {
 		padding-bottom: 158px;
 	}
@@ -47,46 +38,48 @@
 
 	.movie_rating_stars {
 		// display: inline-block;
+		margin-bottom: 0;
 		padding: 0 6px 3px;
 		// border: 1px solid rgb(206, 212, 218);
 		border-radius: 4px;
 		line-height: normal;
+	}
 
-		.movie_rating_star {
-			display: inline-block;
-			padding: 0 12px;
-			font-size: 3.4rem;
+	.movie_rating_star {
+		display: inline-block;
+		padding: 0 12px;
+		font-size: 3.4rem;
 
-			cursor: pointer;
-		}
-	
-		.movie_rating_star_selected, 
-		.movie_rating_star:hover {
-			color: rgb(245, 208, 0);
-		}
-	
-		.movie_rating_star_unselected {
-			color: rgb(216, 216, 216);
-		}
-	
-		.movie_rating_hover_prevSib {
-			color: rgb(245, 208, 0);
-		}
-	
-		.movie_rating_hover_nextSib {
-			color: rgb(216, 216, 216);
-		}
+		cursor: pointer;
+	}
+
+	.movie_rating_star_selected, 
+	.movie_rating_star:hover {
+		color: rgb(245, 208, 0);
+	}
+
+	.movie_rating_star_unselected {
+		color: rgb(216, 216, 216);
+	}
+
+	.movie_rating_hover_prevSib {
+		color: rgb(245, 208, 0);
+	}
+
+	.movie_rating_hover_nextSib {
+		color: rgb(216, 216, 216);
 	}
 
 	#movie_admin_list_actions {
 		visibility: hidden;
 		position: fixed;
+		left: 0;
 		bottom: 0;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
-		padding: 24px 5vw;
+		padding: 1.2rem;
 		width: 100%;
 		background: whitesmoke;
 		box-shadow: 0 -2px 3px silver;
@@ -111,13 +104,30 @@
 			width: 90px;
 		}
 
+		.movie_rating {
+			display: grid;
+			grid-template-columns: min-content max-content;
+
+			label {
+				grid-column: 1;
+			}
+
+			small {
+				grid-column: 2;
+				align-self: center;
+			}
+
+
+		}
+
 		.movie_rating_stars {
 			margin-bottom: 0;
+			grid-column: 1 / span 2;
+		}
 
-			.movie_rating_star {
-				padding: 0 8px;
-				font-size: 1.6rem;
-			}
+		.movie_rating_star {
+			padding: 0 8px;
+			font-size: 1.6rem;
 		}
 
 		.movie_format select {
@@ -125,7 +135,9 @@
 		}
 
 		#movie_admin_list_actions {
-			padding: 8px 20px;
+			left: 50%;
+			transform: translateX(-50%);
+			padding: 8px 16px;
 			width: 960px;
 		}
 	}

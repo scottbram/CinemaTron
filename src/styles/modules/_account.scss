@@ -1,0 +1,28 @@
+/** account.scss */
+/** 
+ * Account pages styles
+ */
+
+#acct_main {
+	.main-content {
+		overflow: hidden;
+	}
+
+	.form-group {
+		padding: 0 0 2.4rem;
+		border-bottom-width: 2px;
+		border-bottom-style: solid;
+		border-bottom-color: $secondary_color_bg;
+	}
+
+	@media (min-width: 1000px) {
+		.form-group {
+			padding: 0 0 1.2rem;
+			border-bottom-width: 1px;
+		}
+
+		input:not([type='checkbox']):not([type='radio']) {
+			width: 424px;
+		}
+	}
+}

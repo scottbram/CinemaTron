@@ -7,23 +7,62 @@
     font-size: 2.2rem;
 }
 
+button {
+	&:focus {
+		outline: none;
+	}
+}
+
+.btn {
+	padding: 1.3rem 2.1rem;
+	border: none;
+	font-size: 2.5rem;
+}
+
+.fast-transition {
+	transition: height 0.1s;
+}
+
+.navbar {
+	padding: 1.2rem;
+}
+
+.navbar-toggler {
+	align-self: start;
+	margin-top: 1rem;
+	padding: 0;
+	border: none;
+	font-size: unset;
+    line-height: normal;
+}
+
+.navbar-collapse {
+	z-index: 1;
+	position: absolute;
+    top: 140px;
+    left: 0;
+	width: 100%;
+	background-color: white;
+    box-shadow: 0 12px 10px rgba(100, 100, 100, 0.7);
+}
+
 .nav-pills {
 	border-radius: $border-radius;
 }
 
 .nav-pills .nav-link.active, 
 .nav-pills .show > .nav-link {
-	background-color: $primary_color_bg;
+	background-color: $primary_color_bg_light;
 	color: $secondary_color;
 	text-decoration: none;
 
 	&:hover {
 		text-decoration: none;
 	}
- }
+}
 
- .nav-link {
-	 margin-right: .4rem;
+.nav-link {
+	margin-right: .4rem;
 
 	&:focus, &:hover {
 		text-decoration: underline;
@@ -32,9 +71,17 @@
 	&:hover {
 		color: $secondary_color_intense;
 	}
- }
+}
+
+.form-group {
+	margin-bottom: 1.4rem;
+}
 
 .form-control {
+	&:focus {
+		box-shadow: inset 0 0 0.2rem 0.1rem rgba(0,123,255,.25);
+	}
+
 	&::placeholder {
 		color: $secondary_color_bg;
 		opacity: 0.8;
@@ -62,9 +109,38 @@ select.form-control {
     padding-left: 1.6rem;
 }
 
+.custom-control-label {
+	vertical-align: text-top;
+	padding-left: 1.2rem;
+
+	&::before,
+	&::after {
+		top: 0.95rem;
+		width: 2rem;
+		height: 2rem;
+	}
+
+	&::after {
+		background-size: 70%;
+	}
+}
+
+a.btn {
+	color: rgb(67, 43, 213);
+
+	&.active.focus,
+	&.active:focus {
+		box-shadow: inset 0 0 0.4rem $primary_color_light;
+	}
+}
 .btn {
 	vertical-align: baseline; // Aligns it with an adjacent input
 	border-radius: $border-radius;
+
+	&.focus,
+	&:focus {
+		box-shadow: inset 0rem 0 .5rem $primary_color_bg_light;
+	}
 }
 
 .btn-primary, 
@@ -80,6 +156,13 @@ select.form-control {
 .show > .btn-primary.dropdown-toggle {
 	background-color: $primary_color_intense;
 	border-color: $primary_color_intense;
+}
+
+.btn-primary {
+	&.focus,
+	&:focus {
+		box-shadow: inset 0 0 0.4rem $primary_color_bg_light;
+	}
 }
 
 .alert {
@@ -104,6 +187,10 @@ select.form-control {
 
 .close {
 	font-size: 3rem;
+}
+
+.tooltip-inner {
+	max-width: 380px;
 }
 
 $modal_width_fix: 90vw;
@@ -149,6 +236,27 @@ $modal_width_fix: 90vw;
 		width: auto;
 	}
 
+	.btn {
+		padding: 0.5rem 1rem;
+		font-size: 1rem;
+	}
+
+	.form-group {
+		margin-bottom: 1rem;
+	}
+
+	.navbar {
+		padding: 0.5rem;
+	}
+
+	.navbar-collapse {
+		position: relative;
+		top: auto;
+		left: auto;
+		width: auto;
+		box-shadow: none;
+	}
+
 	select.form-control {
 		font-size: 1.1rem;
 	}
@@ -159,5 +267,21 @@ $modal_width_fix: 90vw;
 
 	.form-check-label {
 		padding-left: 0.2rem;
+	}
+
+	.custom-control-label {
+		display: inline-block;
+		padding-left: 0;
+
+		&::before,
+		&::after {
+			top: .25rem;
+			width: 1rem;
+			height: 1rem;
+		}
+
+		&::after {
+			background-size: 60%;
+		}
 	}
 }

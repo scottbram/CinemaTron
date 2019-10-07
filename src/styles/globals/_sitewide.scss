@@ -26,10 +26,6 @@
 #site_header {
 	grid-column: 1 / -1;
 	background-color: $primary_color;
-
-	/* h1 {
-		
-	} */
 }
 
 #site_footer {
@@ -37,37 +33,20 @@
 }
 
 #site_nav {
-	border-bottom: 1px solid $primary_color_bg;
-
 	#site_nav_items {
-		a:not(:last-of-type) {
-			margin-right: 0.4rem;
+		a {
+			margin: 0 1.2rem 1.2rem;
+			padding: 1.3rem 2.1rem;
 		}
+	}
 
-		.auth-loginout {
-			margin-left: auto;
-			border-radius: $border-radius;
-			background-color: $primary_color;
-			color: white;
-			text-decoration: none;
-
-			&.disabled {
-				background-color: $secondary_color_bg;
-			}
-	
-			&:hover {
-				color: $secondary_color_intense;
-			}
-		}
+	.auth-loginout {
+		align-self: start;
 	}
 }
 
 .site-main {
 	padding: 16px 5vw;
-
-	header {
-		width: 100%;
-	}
 }
 
 .form-field-container {
@@ -90,6 +69,12 @@
 				}
 			}
 		}
+	}
+}
+
+.validHelp_ListItem {
+	&.valid {
+    	opacity: 0.6;
 	}
 }
 
@@ -183,8 +168,8 @@ textarea.valChg,
 textarea.valChg.form-control:focus,
 select.valChg,
 .valChg-colorsOnly {
-	border-color: rgb(255, 165, 0) !important;
-	background-color: $primary_color_bg !important;
+	border-color: $primary_color_light !important;
+	background-color: $primary_color_bg_light !important;
 }
 
 .is-new {
@@ -201,8 +186,8 @@ select.valChg,
 
 input:invalid,
 input:not([type='checkbox']):not([type='radio']).valChg:invalid {
-	border-color: rgb(196, 39, 8) !important;
-	background-color: rgb(255, 233, 224) !important;
+	border-color: $critical !important;
+	background-color: $critical_bg !important;
 }
 
 @media (min-width: 1000px) {
@@ -213,11 +198,30 @@ input:not([type='checkbox']):not([type='radio']).valChg:invalid {
 	}
 
 	#site_nav {
-		grid-column: 2;
+		// grid-column: 2;
+		margin: 0 auto;
+		width: 960px;
+
+		#site_nav_items {
+			a {
+				margin: 0 0.5rem 0 0;
+				padding: 0.5rem 1rem;
+
+				// &:not(:last-of-type) {
+					
+				// }
+			}
+
+			.acct-main {
+				margin-left: auto;
+			}
+		}
 	}
 
 	.site-main {
-		grid-column: 2;
+		// grid-column: 2;
+		margin: 0 auto;
+		width: 960px;
 		padding: 16px 20px;
 	}
 

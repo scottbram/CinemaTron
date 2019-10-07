@@ -4,10 +4,12 @@
  */
 
 $primary_color: rgb(247, 101, 59);
-$primary_color_subdued: rgb(241, 144, 116);
 $primary_color_intense: rgb(225, 74, 31);
+$primary_color_subdued: rgb(241, 144, 116);
+$primary_color_light: rgb(255, 165, 0);
 // $primary_color_bg: rgb(250, 220, 211);
-$primary_color_bg: rgb(255, 244, 224);
+$primary_color_bg: rgb(255, 230, 211);
+$primary_color_bg_light: rgb(255, 244, 224);
 
 $secondary_color: rgb(67, 43, 213);
 $secondary_color_intense: rgb(26, 12, 110);
@@ -23,6 +25,9 @@ $font_color: rgb(50, 50, 50);
 $neutral_font_color: rgb(152, 162, 152);
 
 $frosted_glass_bg: rgba(255, 255, 255, 0.7);
+
+$critical: rgb(196, 39, 8);
+$critical_bg: rgb(255, 233, 224);
 
 /** Matched to Bootstrap alerts */
 $msg_primary_color: rgb(0, 64, 133);

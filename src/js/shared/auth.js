@@ -3,26 +3,30 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 (auth = {
 	sesh_check : () => {
 		return new Promise( (resolve, reject) => {
-				$.ajax({
+			$.ajax({
 				url: '/.netlify/functions/at_auth',
 				dataType: 'json'
-			}).done( function (resp) {
+			})
+			.done( (resp) => {
 				if (resp.length > 0) {
 					resolve(resp);
 				}
-			}).fail( function ( jqXHR, textStatus, errorThrown ) {
+			})
+			.fail( ( jqXHR, textStatus, errorThrown ) => {
 				reject(jqXHR, textStatus, errorThrown);
 			});
 		})
 	}
 	,
 	input_validation : () => {
-		$('body').on('input change', '.auth_form input', function () {
+		$('body').on('input', '.auth_form input', function () {
+
 			var fld_el = $(this)[0];
+			var fld_id = $(fld_el).attr('id');
 			var fld_val = $(this).val();
 			var fld_parentForm = $(this).closest('form');
-			// var fld_parentForm_id = fld_parentForm.attr('id');
-			var fld_parentForm_valid = false;
+			var fld_parentForm_id = fld_parentForm.attr('id');
+			var fld_parentForm_valid;
 			var fld_parentForm_allFlds_notEmpty = false;
 			var fld_parentForm_allFlds_valid = false;
 
@@ -39,15 +43,21 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				}
 			}
 
-			if ( $(this).attr('type') === 'password' ) {
+			if ( $(this).attr('type') === 'password' && $(this).attr('id') !== 'acct_main_mgmt_pw_retype' ) {
 				let { 
 					valid_pw, 
-					valid_pw_length, 
-					valid_pw_length_msg, 
-					valid_ltrCases, 
-					valid_ltrCases_msg, 
-					valid_pw_spcChar, 
-					valid_pw_spcChar_msg 
+					valid_pw_length,
+					valid_pw_length_msg,
+					// valid_ltrCases,
+					// valid_ltrCases_msg,
+					valid_ltrCases_upper,
+					valid_ltrCases_upper_msg,
+					valid_ltrCases_lower,
+					valid_ltrCases_lower_msg,
+					valid_number,
+					valid_number_msg,
+					valid_pw_spcChar,
+					valid_pw_spcChar_msg
 				} = utils.validate_pw(fld_val);
 
 				// console.log('valid_pw: ');
@@ -67,12 +77,36 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 					$(fld_parentForm).find('.validHelp_minLength').removeClass('invalid').addClass('valid');
 				}
 
-				if ( !valid_ltrCases ) {
+				/* if ( !valid_ltrCases ) {
 					$(fld_parentForm).find('.validHelp_ltrCases').removeClass('valid').addClass('invalid');
 
 					customValidationMsg += valid_ltrCases_msg;
 				} else {
 					$(fld_parentForm).find('.validHelp_ltrCases').removeClass('invalid').addClass('valid');
+				} */
+
+				if ( !valid_ltrCases_upper ) {
+					$(fld_parentForm).find('.validHelp_ltrCases_upper').removeClass('valid').addClass('invalid');
+
+					customValidationMsg += valid_ltrCases_upper_msg;
+				} else {
+					$(fld_parentForm).find('.validHelp_ltrCases_upper').removeClass('invalid').addClass('valid');
+				}
+
+				if ( !valid_ltrCases_lower ) {
+					$(fld_parentForm).find('.validHelp_ltrCases_lower').removeClass('valid').addClass('invalid');
+
+					customValidationMsg += valid_ltrCases_lower_msg;
+				} else {
+					$(fld_parentForm).find('.validHelp_ltrCases_lower').removeClass('invalid').addClass('valid');
+				}
+
+				if ( !valid_number ) {
+					$(fld_parentForm).find('.validHelp_number').removeClass('valid').addClass('invalid');
+
+					customValidationMsg += valid_number_msg;
+				} else {
+					$(fld_parentForm).find('.validHelp_number').removeClass('invalid').addClass('valid');
 				}
 
 				if ( !valid_pw_spcChar ) {
@@ -84,6 +118,47 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				}
 
 				fld_el.setCustomValidity(customValidationMsg);
+
+				// console.log(`fld_id: ${fld_id}`);
+
+				if ( fld_id === 'acct_main_mgmt_pw' && customValidationMsg === '') {
+					/* $('#acct_main_mgmt_pw_retype').prop('disabled', false);
+					$('#acct_main_mgmt_pw_retype').attr('placeholder', ''); */
+
+					$('#acct_save_do').prop('disabled', false);
+				} else {
+					/* $('#acct_main_mgmt_pw_retype').prop('disabled', true);
+					$('#acct_main_mgmt_pw_retype').attr('placeholder', 'Minimum password requirements unmet'); */
+
+					$('#acct_save_do').prop('disabled', true);
+				}
+			}
+
+			if ( $(this).attr('id') === 'acct_main_mgmt_pw_retype' ) {
+				let newPw = $('#acct_main_mgmt_pw').val();
+				let newPw_retype = $(this).val();
+
+				if (newPw !== newPw_retype) {
+					$('#acct_save_do').prop('disabled', true);
+
+					let customValidationMsg = 'Doesn\'t match new password!';
+
+					$(this).attr('title', 'Doesn\'t match new password!');
+					$(this).attr('data-toggle', 'tooltip');
+					$(this).attr('data-placement', 'top');
+
+					$(this).tooltip('show');
+					
+					fld_el.setCustomValidity(customValidationMsg);
+				} else {
+					$('#acct_save_do').prop('disabled', false);
+
+					fld_el.setCustomValidity('');
+					
+					$(this).attr('title', '');
+					
+					$(this).tooltip('hide');
+				}
 			}
 
 			/** https://developer.mozilla.org/en-US/docs/Web/API/ValidityState */
@@ -95,20 +170,37 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			/** This delivers the custom validation messages */
 			var fld_isValid = fld_el.checkValidity();
 
-			if (!fld_isValid) {
+			/* if (!fld_isValid) {
 				
 				console.log('Fld invalid. fld_el.validationMessage: ');
 				console.log(fld_el.validationMessage);
 
-			}
+			} */
 
 			if ( $.trim( fld_parentForm.find('input[type=email]').val() ) !== '' && $.trim( fld_parentForm.find('input[type=password]').val() ) !== '' ) {
 				fld_parentForm_allFlds_notEmpty = true;
 			}
-
-			if ( fld_parentForm.find('input[type=email]').is(':valid') && fld_parentForm.find('input[type=password]').is(':valid') ) {
+			
+			/* if ( fld_parentForm.find('input[type=email]').is(':valid') && fld_parentForm.find('input[type=password]').is(':valid') ) {
 				fld_parentForm_allFlds_valid = true;
-			}
+			} */
+			
+			let auth_inputs = document.getElementById(fld_parentForm_id).getElementsByTagName('input');
+				auth_inputs = [...auth_inputs];
+
+			auth_inputs.forEach( (itm) => {
+				let fld_type = itm.getAttribute('type');
+
+				if (fld_type === 'email' || fld_type === 'password') {
+					let fldIsValid = itm.checkValidity();
+
+					if (!fldIsValid) {
+						return;
+					}
+
+					fld_parentForm_allFlds_valid = true;
+				}
+			});
 
 			if (fld_parentForm_allFlds_notEmpty && fld_parentForm_allFlds_valid) {
 				fld_parentForm_valid = true;
@@ -118,6 +210,18 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				$('#auth_login_do').prop('disabled', true);
 			}
 		});
+	}
+	,
+	login_btn_init : () => {
+		$('.auth-loginout, #log_in_prompt').click( () => {	
+			auth.show_login_modal('toggle');
+		});
+	}
+	,
+	login_modal_init : () => {
+		auth.login_btn_init();
+
+		auth.show_login_modal();
 	}
 	,
 	show_login_modal : () => {
@@ -140,18 +244,38 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 				auth.input_validation();
 
 				setTimeout( function () {
-					$('.auth_form input').trigger('change');
+					$('.auth_form input').trigger('input');
 				}, 500);
 				
-				$('#auth_login input').off('keypress');
-				$('#auth_login input').keypress( function (e) {
-					if (e.which === 13 && !$('#auth_login_do').prop('disabled') ) {
+				$('#auth_login input').off('keyup');
+				$('#auth_login input').keyup( function (e) {
+					var allFldsValid = true;
+
+					let auth_inputs = document.getElementById('auth_login').getElementsByTagName('input');
+						auth_inputs = [...auth_inputs];
+
+					auth_inputs.forEach( (itm) => {
+						let fldIsValid = itm.checkValidity();
+
+						if (!fldIsValid) {
+							allFldsValid = false;
+							return;
+						}
+					});
+
+					console.log(`e.which === 13: ${e.which === 13}`);
+					console.log(`allFldsValid: ${allFldsValid}`);
+
+					if (e.which === 13 && allFldsValid ) {
+
+						console.log('enter');
+
 						login_modal_go();
 					}
 				});
 
 				$('#auth_login_do').off('click');
-				$('#auth_login_do').on('click', function (e) {
+				$('#auth_login_do').on('click', function () {
 					login_modal_go();
 				});
 			});
@@ -180,8 +304,8 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 		var auth_task;
 
 		switch (form_is) {
-			case 'auth_pw_set':
-				auth_task = 'auth_pw_set';
+			case 'acct_main_mgmt':
+				auth_task = 'acct_main_mgmt';
 			break;
 			case 'auth_login':
 				auth_task = 'auth_login';
@@ -252,23 +376,16 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 		});
 	}
 	,
-	pw_set_do : () => {
+	pw_set_do : (passToPass) => {
 		var req_obj = {
-			'task': 'pw_set'
+			'auth_task': 'auth_pw_chg'
 		};
 
-		$.each( $('#auth_pw_set input'), function (idx, itm) {
-			var fldName = $(itm).attr('id');
-			var fldVal = $(itm).val();
-
-			req_obj[fldName] = fldVal;
-		});
-
-		console.log(req_obj);
+		req_obj['auth_pw'] = passToPass;
 
 		var req_str = JSON.stringify(req_obj);
 
-		$.ajax({
+		return $.ajax({
 			url: '/.netlify/functions/at_auth',
 			type: 'POST',
 			contentType: 'application/json',
@@ -334,8 +451,8 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			req_obj[fldName] = fldVal;
 		});
 
-		console.log('req_obj: ');
-		console.log(req_obj);
+		// console.log('req_obj: ');
+		// console.log(req_obj);
 
 		var req_str = JSON.stringify(req_obj);
 
@@ -345,6 +462,9 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 			contentType: 'application/json',
 			data: req_str,
 			success: function (resp) {
+
+				console.log('success event');
+
 				auth.login_success(resp);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -408,7 +528,22 @@ var auth = ( typeof (auth) === 'object' ) ? auth : {};
 		}
 	}
 	,
+	logout_init : () => {
+		$('.auth-loginout').text('Log out');
+		$('.auth-loginout').removeClass('disabled');
+		$('.auth-loginout').removeAttr('tabindex');
+		$('.auth-loginout').removeAttr('aria-disabled');
+		$('.auth-loginout').click( function () {
+			auth.logout_do();
+		});
+	}
+	,
 	logout_do : () => {
+
+		/**
+		 * Need some activity indication here
+		 */
+
 		$.ajax({
 			url: '/.netlify/functions/at_auth?auth_task=logout',
 			type: 'GET',
