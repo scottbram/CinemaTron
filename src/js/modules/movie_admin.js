@@ -5,7 +5,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		auth.sesh_check()
 		.then( function () {
 			movie_admin.sesh_success();
-		}).catch( errObj => {
+		}).catch( () => {
 			/** No valid session found */
 			movie_admin.sesh_fail();
 		});

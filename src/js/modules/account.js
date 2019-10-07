@@ -3,12 +3,12 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 (account = {
 	init : () => {
 		auth.sesh_check()
-		.then( (resp) => {
+		.then( resp => {
 			/**
 			 * Fields:
 			 * display_name
 			 * email
-			 * ​pwhash
+			 * pwhash
 			 * sesh
 			 * uid
 			 */
@@ -17,7 +17,7 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 
 			account.sesh_success(acctDetails);
 		})
-		.catch( errObj => {
+		.catch( () => {
 			/** No valid session found */
 			account.sesh_fail();
 		});
@@ -148,7 +148,7 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 
 		const saveAcctPw_promise = new Promise( function (promSuccess, promError) {
 			acct_pw_chg()
-				.then( resp => {
+				.then( () => {
 					$('#acct_main_mgmt_pw').val('').attr('type', 'password');
 					$('#acct_main_mgmt_pw_toggle_vis').prop('checked', false);
 
@@ -167,6 +167,12 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 	}
 	,
 	ready : () => {
+		$('#acct_main_mgmt').on('input change', 'input', function () {
+			$(this).addClass('valChg');
+
+			$('#acct_save_do').prop('disabled', false);
+		});
+
 		$('#acct_main_mgmt_pw_toggle_vis').on('change', function () {
 			if ( $(this).prop('checked') ) {
 				$('#acct_main_mgmt_pw').attr('type', 'text');
@@ -176,7 +182,8 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 		});
 
 		$('#acct_save_do').click( function () {
-			// $(this).prop('disabled', true);
+			$(this).prop('disabled', true);
+			account.status_msg('saving');
 
 			const saveBoth = async () => {
 				await account.save_pw();
@@ -186,6 +193,9 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 			}
 
 			saveBoth()
+				.then ( () => {
+					account.status_msg('save_success');
+				})
 				.catch( err => {
 					
 					console.log(err);
@@ -206,5 +216,34 @@ var account = ( typeof (account) === 'object' ) ? account : {};
 
 		/** Need to revise this approach to address on-demand validation when fields change */
 		auth.input_validation();
+	}
+	,
+	status_msg : (status_msg) => {
+		switch (status_msg) {
+			case 'saving':
+					$('.actions-msgs .msg_saveStatus').remove();
+
+					$('.actions-msgs').prepend('<small class="msg_saveStatus msg_chgsSaved msg-info">Saving...</small>');
+			break;
+			case 'save_success':
+				$('#acct_main_mgmt input').removeClass('valChg');
+				$('#acct_save_do').blur();
+				
+				/** Remove any messages about save status */
+				$('.actions-msgs .msg_saveStatus').remove();
+
+				$('.actions-msgs').prepend('<small class="msg_saveStatus msg_chgsSaved msg-success">All changes saved.</small>');
+
+				/** After specificed delay, fade the message, then remove from DOM */
+				window.setTimeout( function () {
+					$('.actions-msgs .msg_chgsSaved').fadeOut('slow', function () {
+						$(this).remove();
+					});
+				}, 2000);
+			break;
+			case 'save_error':
+				// 
+			break;
+		}
 	}
 }).init();
