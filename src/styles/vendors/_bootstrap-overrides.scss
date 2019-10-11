@@ -43,7 +43,19 @@ button {
     left: 0;
 	width: 100%;
 	background-color: white;
-    box-shadow: 0 12px 10px rgba(100, 100, 100, 0.7);
+	box-shadow: 0 12px 10px rgba(100, 100, 100, 0.7);
+	
+	/** The next 2 rules will make the mobile nav slide in from the left */
+	/* &.collapsing {
+		height: auto;
+		transition: left 0.3s ease;
+		left: -100%;
+	}
+
+	&.show {
+		left: 0;
+		transition: left 0.3s ease-in;
+	} */
 }
 
 .nav-pills {
@@ -127,6 +139,7 @@ select.form-control {
 
 a.btn {
 	color: rgb(67, 43, 213);
+	text-align: center;
 
 	&.active.focus,
 	&.active:focus {

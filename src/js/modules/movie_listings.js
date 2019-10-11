@@ -2,6 +2,8 @@
 var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings : {};
 (movie_listings = {
 	init : () => {
+		movie_listings.req_items();
+
 		auth.sesh_check()
 		.then( function () {
 			movie_listings.sesh_success();
@@ -9,8 +11,6 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 			/** No valid session found */
 			movie_listings.sesh_fail();
 		});
-
-		movie_listings.req_items();
 	}
 	,
 	sesh_success : () => {
@@ -148,6 +148,7 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 		window.setTimeout( function () {
 			$('#movie_list .status-container').alert('close');
 			$('#movie_list').css('overflow', 'auto');
+			$('#movie_list .movie_listing').css('visibility', 'visible');
 		}, 200);
 	}
 }).init();

@@ -5,11 +5,11 @@
 
 #movie_listings {
 	#movie_list {
-		// visibility: hidden;
 		overflow: hidden;
 	}
 	
 	.movie_listing {
+		visibility: hidden;
 		margin: 0 0 2rem;
 		padding: 0 0 1.6rem;
 		border-bottom-width: 2px;
