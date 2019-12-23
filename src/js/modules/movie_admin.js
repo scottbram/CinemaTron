@@ -77,10 +77,10 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 						break;
 					}
 					
-					let movie_listing = `<div class="movie-listing" ` +
-							`data-recid="${movie_recid}` +
-							`data-haschgs="false"` +
-							`id="movie_listing_${movie_recid}"` +
+					let movie_listing = `<div class="movie-listing"` +
+							` data-recid="${movie_recid}"` +
+							` data-haschgs="false"` +
+							` id="movie_listing_${movie_recid}"` +
 							`>` +
 							`<div class="movie_title form-field-container">` +
 								`<label for="movie_title_${movie_recid}">` +
@@ -224,11 +224,11 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		var movie_recid = Date.now();
 		var movie_rating_stars = movie_admin.seeing_stars('1');
 
-		let movie_listing = `<div class="movie-listing is-new form-group highlight" ` +
-				`data-recid="${movie_recid}"` +
-				`data-haschgs="false"` +
-				`id="movie_listing_${movie_recid}"` +
-				`class="movie-listing-new"` +
+		let movie_listing = `<div class="movie-listing is-new form-group highlight"` +
+				` data-recid="${movie_recid}"` +
+				` data-haschgs="false"` +
+				` id="movie_listing_${movie_recid}"` +
+				` class="movie-listing-new"` +
 				`>` +
 				`<div class="movie_title form-field-container">` +
 					`<label for="movie_title_${movie_recid}">` +
@@ -490,13 +490,12 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	rating_click : () => {
-		// $('.movie_rating_star').click( function (e) {
 		$('#movie_admin_list').on('click', '.movie_rating_star', function () {
 			var movie_rating_sel = $(this).attr('data-ratingstar');
 			var movie_recid = $(this).closest('.movie-listing').attr('data-recid');
 			
 			/** Fire change event on associated input */
-			$('#movie_rating_' + movie_recid).val(movie_rating_sel).change();
+			$(`#movie_rating_${movie_recid}`).val(movie_rating_sel).change();
 
 			var ogVal = $('#movie_rating_' + movie_recid).attr('data-ogval');
 			var currVal = $('#movie_rating_' + movie_recid).val();
