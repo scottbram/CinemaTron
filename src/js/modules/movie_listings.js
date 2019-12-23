@@ -122,7 +122,7 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 
 				movie_rating_stars += '</span>';
 				
-				var movie_listing = '<div class="movie_listing" ' +
+				var movie_listing = '<div class="movie-listing" ' +
 					'data-recid="' + movie_recid + '">' +
 					'<span class="movie_title">' + movie_title + '</span>' +
 						'<div class="movie_details">' +
@@ -148,7 +148,7 @@ var movie_listings = ( typeof (movie_listings) === 'object' ) ? movie_listings :
 		window.setTimeout( function () {
 			$('#movie_list .status-container').alert('close');
 			$('#movie_list').css('overflow', 'auto');
-			$('#movie_list .movie_listing').css('visibility', 'visible');
+			$('#movie_list .movie-listing').css('visibility', 'visible');
 		}, 200);
 	}
 }).init();

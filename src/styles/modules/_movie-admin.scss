@@ -18,12 +18,19 @@
 		padding-bottom: 158px;
 	}
 
-	.movie_listing {
+	.movie-listing {
 		margin: 0 0 1.6rem;
 		padding: 0 0 1rem;
 		border-bottom-width: 4px;
 		border-bottom-style: solid;
 		border-bottom-color: $secondary_color_bg;
+		background-color: white;
+
+		transition: background-color ease-in-out 2s;
+
+		&.highlight {
+			background-color: lightyellow;
+		}
 
 		&:last-of-type {
 			margin: 0;
@@ -90,7 +97,7 @@
 			padding-bottom: 58px;
 		}
 
-		.movie_listing {
+		.movie-listing {
 			padding: 0 0 0.2rem;
 			border-bottom-width: 1px;
 		}
