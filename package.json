@@ -31,6 +31,7 @@
   "dependencies": {
     "airtable": "^0.8.1",
     "bcryptjs": "^2.4.3",
-    "client-sessions": "^0.8.0"
+    "client-sessions": "^0.8.0",
+    "dependencies": "0.0.1"
   }
 }
