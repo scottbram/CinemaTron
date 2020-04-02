@@ -4,5 +4,5 @@ netlify.toml
 *.sublime-*
 *.code-workspace
 .eslintrc.json
-.vscode/tasks.json
+.vscode/
 .netlify/

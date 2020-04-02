@@ -77,109 +77,103 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 						break;
 					}
 					
-					var movie_listing = '<div class="movie_listing" ' +
-							'data-recid="' + movie_recid +'"' +
-							'data-haschgs="false"' +
-							'id="movie_listing_' + movie_recid + '"' +
-							'>' +
-							// '<div class="movie_poster"></div>' +
-							'<div class="movie_title form-field-container">' +
-								'<label for="movie_title_' + movie_recid + '">' +
-									'Title' +
-								'</label>' +
-								' <small class="text-muted">(50 characters or less)</small>' +
-								'<input id="movie_title_' + movie_recid + '"' +
-									' value="' + movie_title + '"' +
-									' data-fldname="Title"' +
-									' data-ogval="' + movie_title + '"' +
-									' class="form-control"' +
-									' type="text" minlength="1" maxlength="50"' + 
-									'>' +
-							'</div>' +
-							'<div class="movie_details">' +
-								'<div class="movie_year form-field-container">' +
-									'<label for="movie_year_' + movie_recid + '">' +
-										'Year' +
-									'</label>' +
-									'<small class="text-muted">(from 1800 to 2100)</small>' +
-									'<input id="movie_year_' + movie_recid + '"' +
-										' value="' + movie_year + '"' +
-										' data-fldname="Year"' +
-										' data-ogval="' + movie_year + '"' +
-										' class="form-control"' +
+					let movie_listing = `<div class="movie-listing"` +
+							` data-recid="${movie_recid}"` +
+							` data-haschgs="false"` +
+							` id="movie_listing_${movie_recid}"` +
+							`>` +
+							`<div class="movie_title form-field-container">` +
+								`<label for="movie_title_${movie_recid}">` +
+									`Title` +
+								`</label>` +
+								`<small class="text-muted">(50 characters or less)</small>` +
+								`<input id="movie_title_${movie_recid}"` +
+									` value="${movie_title}"` +
+									` data-fldname="Title"` +
+									` data-ogval="${movie_title}"` +
+									` class="form-control"` +
+									` type="text" minlength="1" maxlength="50"` + 
+									`>` +
+							`</div>` +
+							`<div class="movie_details">` +
+								`<div class="movie_year form-field-container">` +
+									`<label for="movie_year_${movie_recid}">` +
+										`Year` +
+									`</label>` +
+									`<small class="text-muted">(from 1800 to 2100)</small>` +
+									`<input id="movie_year_${movie_recid}"` +
+										` value="${movie_year}"` +
+										` data-fldname="Year"` +
+										` data-ogval="${movie_year}"` +
+										` class="form-control"` +
 										
 										/** Input type="number" has undesirable side effects */
-										// ' type="number" min="1800" max="2100"' + 
+										// ` type="number" min="1800" max="2100"` + 
 
 										/** This pattern is perfect but triggering the numeric keypad on mobile is perfecter */
-										// ' type="text" pattern="\\d{4}" maxlength="4" required' +
+										// ` type="text" pattern="\\d{4}" maxlength="4" required` +
 										
 										/** Fun fact: This pattern will trigger the numeric keypad on mobile */
-										' type="text" pattern="\\d*" maxlength="4" required' + 
-										'>' +
-								'</div>' +
-								'<div class="movie_length form-field-container">' +
-									'<label for="movie_length_' + movie_recid + '">' +
-										'Length' +
-									'</label>' +
-									'<small class="text-muted">(in minutes)</small>' +
-									'<input id="movie_length_' + movie_recid + '"' +
-										' value="' + movie_length + '"' +
-										' data-fldname="Length"' +
-										' data-ogval="' + movie_length + '"' +
-										' class="form-control"' +
-										// ' type="number" min="1" max="999"' + 
-										' type="text" pattern="\\d*" maxlength="3" required' + 
-										'>' +
-								'</div>' +
-								'<div class="movie_rating form-field-container">' +
-									'<label for="movie_rating_' + movie_recid + '">' +
-										'Rating' +
-									'</label>' +
-									'<small class="text-muted">(Select a rating)</small>' +
+										` type="text" pattern="\\d*" maxlength="4" required` + 
+										`>` +
+								`</div>` +
+								`<div class="movie_length form-field-container">` +
+									`<label for="movie_length_${movie_recid}">` +
+										`Length` +
+									`</label>` +
+									`<small class="text-muted">(in minutes)</small>` +
+									`<input id="movie_length_${movie_recid}"` +
+										` value="${movie_length}"` +
+										` data-fldname="Length"` +
+										` data-ogval="${movie_length}"` +
+										` class="form-control"` +
+										` type="text" pattern="\\d*" maxlength="3" required` + 
+										`>` +
+								`</div>` +
+								`<div class="movie_rating form-field-container">` +
+									`<label for="movie_rating_${movie_recid}">` +
+										`Rating` +
+									`</label>` +
+									`<small class="text-muted">(Select a rating)</small>` +
 									movie_rating_stars +
-									'<input id="movie_rating_' + movie_recid + '"' +
-										' value="' + movie_rating + '"' +
-										' data-fldname="Rating"' +
-										' data-ogval="' + movie_rating + '"' +
-										' class="form-control"' +
-										' type="number" min="1" max="5" hidden' + 
-										'>' +
-								'</div>' +
-								'<div class="movie_format form-field-container">' +
-									'<label for="movie_format_' + movie_recid + '">' +
-										'Format' +
-									'</label>' +
-									// '<select id="movie_format_' + movie_recid + '" class="custom-select"' +
-									'<select id="movie_format_' + movie_recid + '" class="form-control"' +
-										' data-fldname="Format"' +
-										' data-ogval="' + movie_format + '"' +'>' +
-										// '<option selected>Open this select menu</option>' +
-										'<option value="DVD"' + DVDsel + '>DVD</option>' +
-										'<option value="Streaming"' + STRsel + '>Streaming</option>' +
-										'<option value="VHS"' + VHSsel + '>VHS</option>' +
-									'</select>' +
-								'</div>' +
-								// '<div class="movie_active form-field-container form-check">' +
-								'<div class="movie_active form-field-container custom-control custom-checkbox">' +
-									'<input id="movie_active_' + movie_recid + '"' +
-										' data-fldname="Active"' +
-										' data-ogval="' + movie_active + '"' +
-										// ' class="form-check-input"' +
-										' class="custom-control-input"' +
-										' type="checkbox"' + 
+									`<input id="movie_rating_${movie_recid}"` +
+										` value="${movie_rating}"` +
+										` data-fldname="Rating"` +
+										` data-ogval="${movie_rating}"` +
+										` class="form-control"` +
+										` type="number" min="1" max="5" hidden` + 
+										`>` +
+								`</div>` +
+								`<div class="movie_format form-field-container">` +
+									`<label for="movie_format_${movie_recid}">` +
+										`Format` +
+									`</label>` +
+									`<select id="movie_format_${movie_recid}" class="form-control"` +
+										` data-fldname="Format"` +
+										` data-ogval="${movie_format}"` +
+									`>` +
+										`<option value="DVD" ${DVDsel}>DVD</option>` +
+										`<option value="Streaming" ${STRsel}>Streaming</option>` +
+										`<option value="VHS" ${VHSsel}>VHS</option>` +
+									`</select>` +
+								`</div>` +
+								`<div class="movie_active form-field-container custom-control custom-checkbox">` +
+									`<input id="movie_active_${movie_recid}"` +
+										` data-fldname="Active"` +
+										` data-ogval="${movie_active}"` +
+										` class="custom-control-input"` +
+										` type="checkbox"` + 
 										movie_active_checked +
-									'>' +
-									'<label' +
-										' for="movie_active_' + movie_recid + '"' +
-										// ' class="lbl_checkbox form-check-label"' +
-										' class="lbl_checkbox custom-control-label"' +
-										'>' +
-										'Active' +
-									'</label>' +
-								'</div>' +
-							'</div>' +
-						'</div>'
+									`>` +
+									`<label` +
+										` for="movie_active_${movie_recid}"` +
+										` class="lbl_checkbox custom-control-label"` +
+										`>` +
+										`Active` +
+									`</label>` +
+								`</div>` +
+							`</div>` +
+						`</div>`
 					;
 
 					$('#movie_admin_list').append(movie_listing);
@@ -230,111 +224,105 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		var movie_recid = Date.now();
 		var movie_rating_stars = movie_admin.seeing_stars('1');
 
-		var movie_listing = '<div class="movie_listing is-new form-group" ' +
-				'data-recid="' + movie_recid +'"' +
-				// 'data-recid="new"' +
-				'data-haschgs="false"' +
-				'id="movie_listing_' + movie_recid + '"' +
-				'class="movie_listing_new"' +
-				'>' +
-				// '<div class="movie_poster"></div>' +
-				'<div class="movie_title form-field-container">' +
-					'<label for="movie_title_' + movie_recid + '">' +
-						'Title' +
-					'</label>' +
-					'<small class="text-muted">(50 characters or less)</small>' +
-					'<input id="movie_title_' + movie_recid + '"' +
-						' value=""' +
-						' data-fldname="Title"' +
-						// ' data-ogval="new_movie_' + movie_recid + '"' +
-						' class="form-control"' +
-						// ' placeholder="The Big Flick Title"' +
-						' type="text" minlength="1" maxlength="50" required' + 
-						'>' +
-				'</div>' +
-				'<div class="movie_details">' +
-					'<div class="movie_year form-field-container">' +
-						'<label for="movie_year_' + movie_recid + '">' +
-							'Year' +
-						'</label>' +
-						'<small class="text-muted">(from 1800 to 2100)</small>' +
-						'<input id="movie_year_' + movie_recid + '"' +
-							' value=""' +
-							' data-fldname="Year"' +
-							// ' data-ogval="new_movie_' + movie_recid + '"' +
-							' class="form-control"' +
-							// ' placeholder="2019"' +
-							' type="text" pattern="\\d*" maxlength="4" required' + 
-							'>' +
-					'</div>' +
-					'<div class="movie_length form-field-container">' +
-						'<label for="movie_length_' + movie_recid + '">' +
-							'Length' +
-						'</label>' +
-						'<small class="text-muted">(in minutes)</small>' +
-						'<input id="movie_length_' + movie_recid + '"' +
-							' value=""' +
-							' data-fldname="Length"' +
-							// ' data-ogval="' + movie_length + '"' +
-							' class="form-control"' +
-							// ' placeholder="150"' +
-							// ' type="number" min="0" max="500" minlength="1" maxlength="3" pattern="\\d{4}" required' +
-							' type="text" pattern="\\d*" maxlength="3" required' + 
-							'>' +
-					'</div>' +
-					'<div class="movie_rating form-field-container">' +
-						'<label for="movie_rating_' + movie_recid + '">' +
-							'Rating' +
-						'</label>' +
-						'<small class="text-muted">(Select a rating)</small>' +
+		let movie_listing = `<div class="movie-listing is-new form-group highlight"` +
+				` data-recid="${movie_recid}"` +
+				` data-haschgs="false"` +
+				` id="movie_listing_${movie_recid}"` +
+				` class="movie-listing-new"` +
+				`>` +
+				`<div class="movie_title form-field-container">` +
+					`<label for="movie_title_${movie_recid}">` +
+						`Title` +
+					`</label>` +
+					`<small class="text-muted">(50 characters or less)</small>` +
+					`<input id="movie_title_${movie_recid}"` +
+						` value=""` +
+						` data-fldname="Title"` +
+						` class="form-control"` +
+						` type="text" minlength="1" maxlength="50" required` + 
+						`>` +
+				`</div>` +
+				`<div class="movie_details">` +
+					`<div class="movie_year form-field-container">` +
+						`<label for="movie_year_${movie_recid}">` +
+							`Year` +
+						`</label>` +
+						`<small class="text-muted">(from 1800 to 2100)</small>` +
+						`<input id="movie_year_${movie_recid}"` +
+							` value=""` +
+							` data-fldname="Year"` +
+							` class="form-control"` +
+							` type="text" pattern="\\d*" maxlength="4" required` + 
+							`>` +
+					`</div>` +
+					`<div class="movie_length form-field-container">` +
+						`<label for="movie_length_${movie_recid}">` +
+							`Length` +
+						`</label>` +
+						`<small class="text-muted">(in minutes)</small>` +
+						`<input id="movie_length_${movie_recid}"` +
+							` value=""` +
+							` data-fldname="Length"` +
+							` class="form-control"` +
+							` type="text" pattern="\\d*" maxlength="3" required` + 
+							`>` +
+					`</div>` +
+					`<div class="movie_rating form-field-container">` +
+						`<label for="movie_rating_${movie_recid}">` +
+							`Rating` +
+						`</label>` +
+						`<small class="text-muted">(Select a rating)</small>` +
 						movie_rating_stars +
-						'<input id="movie_rating_' + movie_recid + '"' +
-							' value="1"' +
-							' data-fldname="Rating"' +
-							// ' data-ogval="' + movie_rating + '"' +
-							' class="form-control valChg"' +
-							' type="number" min="1" max="5" hidden required' + 
-							'>' +
-					'</div>' +
-					'<div class="movie_format form-field-container">' +
-						'<label for="movie_format_' + movie_recid + '">' +
-							'Format' +
-						'</label>' +
-						// '<select id="movie_format_' + movie_recid + '" class="custom-select"' +
-						'<select id="movie_format_' + movie_recid + '" class="form-control valChg"' +
-							' data-fldname="Format"' +
-							// ' data-ogval="' + movie_format + '"' +
-							'>' +
-							// '<option selected>Open this select menu</option>' +
-							'<option value="DVD">DVD</option>' +
-							'<option value="Streaming" selected>Streaming</option>' +
-							'<option value="VHS">VHS</option>' +
-						'</select>' +
-					'</div>' +
-					// '<div class="movie_active form-field-container form-check">' +
-					'<div class="movie_active form-field-container custom-control custom-checkbox">' +
-						'<input id="movie_active_' + movie_recid + '"' +
-							' data-fldname="Active"' +
-							// ' data-ogval="' + movie_active + '"' +
-							// ' class="form-check-input"' +
-							' class="custom-control-input"' +
-							' type="checkbox"' + 
-							' checked' +
-						'>' +
-						'<label' +
-							' for="movie_active_' + movie_recid + '"' +
-							// ' class="lbl_checkbox form-check-label"' +
-							' class="lbl_checkbox custom-control-label"' +
-							'>' +
-							'Active' +
-						'</label>' +
-					'</div>' +
-				'</div>' +
-			'</div>'
+						`<input id="movie_rating_${movie_recid}"` +
+							` value="1"` +
+							` data-fldname="Rating"` +
+							` class="form-control valChg"` +
+							` type="number" min="1" max="5" hidden required` + 
+							`>` +
+					`</div>` +
+					`<div class="movie_format form-field-container">` +
+						`<label for="movie_format_${movie_recid}">` +
+							`Format` +
+						`</label>` +
+						`<select id="movie_format_${movie_recid}" class="form-control valChg"` +
+							` data-fldname="Format"` +
+							`>` +
+							`<option value="DVD">DVD</option>` +
+							`<option value="Streaming" selected>Streaming</option>` +
+							`<option value="VHS">VHS</option>` +
+						`</select>` +
+					`</div>` +
+					`<div class="movie_active form-field-container custom-control custom-checkbox">` +
+						`<input id="movie_active_${movie_recid}"` +
+							` data-fldname="Active"` +
+							` class="custom-control-input"` +
+							` type="checkbox"` + 
+							` checked` +
+						`>` +
+						`<label` +
+							` for="movie_active_${movie_recid}"` +
+							` class="lbl_checkbox custom-control-label"` +
+							`>` +
+							`Active` +
+						`</label>` +
+					`</div>` +
+				`</div>` +
+			`</div>`
 		;
 
 		$('#movie_admin_list').prepend(movie_listing);
 		$('.is-new .movie_rating_stars').addClass('valChg-colorsOnly');
+		
+		/** 
+		 * Since the set of elements for a new listing are created in the exact same position 
+		 * as the existing topmost elements, a new listing has a class designed to draw attention 
+		 * to the block of newly created elements. The special class is removed, allowing CSS transitions
+		 * to handle the animation. 
+		 * A slight delay is required, otherwise the styles for the special class are never visible.
+		 */
+		setTimeout( function () {
+			document.getElementById(`movie_listing_${movie_recid}`).classList.remove('highlight');
+		}, 500);
 	}
 	,
 	seeing_stars : (movie_rating) => {
@@ -350,7 +338,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		var ratingstar = 1;
 		/** Add a selected indicator to the object until the selected rating value is reached */
 		for (var i = 0; i < movie_rating; i++) {
-			movie_rating_stars += '<span class="movie_rating_star movie_rating_star_selected" data-ratingstar="' + ratingstar + '">&#9733 </span>';
+			movie_rating_stars += `<span class="movie_rating_star movie_rating_star_selected" data-ratingstar="${ratingstar}">&#9733</span>`;
 			
 			ratingstar++;
 		}
@@ -359,7 +347,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		var movie_rating_star_unselectedCt = movie_rating_star_totalCt-movie_rating;
 		/** Add an unselected indicator to the object until filler count is reached */
 		for (i = 0; i < movie_rating_star_unselectedCt; i++) {
-			movie_rating_stars += '<span class="movie_rating_star movie_rating_star_unselected" data-ratingstar="' + ratingstar + '">&#9734  </span>';
+			movie_rating_stars += `<span class="movie_rating_star movie_rating_star_unselected" data-ratingstar="${ratingstar}">&#9734</span>`;
 
 			ratingstar++;
 		}
@@ -455,12 +443,12 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	track_changes_listing : (jqObj) => {
-		var hasChgs = jqObj.closest('.movie_listing').find('input, select').hasClass('valChg');
+		var hasChgs = jqObj.closest('.movie-listing').find('input, select').hasClass('valChg');
 
 		if (hasChgs) {
-			jqObj.closest('.movie_listing').attr('data-haschgs', true);
+			jqObj.closest('.movie-listing').attr('data-haschgs', true);
 		} else {
-			jqObj.closest('.movie_listing').attr('data-haschgs', false);
+			jqObj.closest('.movie-listing').attr('data-haschgs', false);
 		}
 
 		movie_admin.save_all_check();
@@ -502,13 +490,12 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 	}
 	,
 	rating_click : () => {
-		// $('.movie_rating_star').click( function (e) {
 		$('#movie_admin_list').on('click', '.movie_rating_star', function () {
 			var movie_rating_sel = $(this).attr('data-ratingstar');
-			var movie_recid = $(this).closest('.movie_listing').attr('data-recid');
+			var movie_recid = $(this).closest('.movie-listing').attr('data-recid');
 			
 			/** Fire change event on associated input */
-			$('#movie_rating_' + movie_recid).val(movie_rating_sel).change();
+			$(`#movie_rating_${movie_recid}`).val(movie_rating_sel).change();
 
 			var ogVal = $('#movie_rating_' + movie_recid).attr('data-ogval');
 			var currVal = $('#movie_rating_' + movie_recid).val();
@@ -756,7 +743,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		 * Changes need to be grouped per record (i.e., movie)
 		 * 
 		 * Pretty sure the best option is to 
-		 * flag a parent element (e.g., ".movie_listing") on changes,
+		 * flag a parent element (e.g., ".movie-listing") on changes,
 		 * using that as the starting point 
 		 * to traverse down children
 		 * and collect changes.
@@ -765,7 +752,7 @@ var movie_admin = ( typeof (movie_admin) === 'object' ) ? movie_admin : {};
 		 * clear flag on parent element
 		 */
 
-		var chgdMoviesArr = $('.movie_listing[data-haschgs="true"]');
+		var chgdMoviesArr = $('.movie-listing[data-haschgs="true"]');
 
 		$.each(chgdMoviesArr, function (idx, itm) {
 			var isNew = false;
