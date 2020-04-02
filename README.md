@@ -7,7 +7,7 @@ Just a little JAMstack demo site for code exercise.
 ## Project info
 - HTML
 - CSS via [Sass](https://sass-lang.com/)
-- JS, mostly seen as [jQuery](https://jquery.com)
+- JS (primarily as [jQuery](https://jquery.com) in the front-end, although with gradually increasing amounts of vanilla)
 - [Gulp](https://gulpjs.com/) for build/taskrunner
 - [Netlify](https://www.netlify.com/) for continuous deployment from this repo (plus hosting)
 - Node for API endpoints via [Netlify Functions](https://www.netlify.com/docs/functions/)
