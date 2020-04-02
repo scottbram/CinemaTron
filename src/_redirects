@@ -1,5 +1,5 @@
 # Temporary alternate homepage while developing new one
-/	/movie-listings.html 200
+/	/movie-listings.html !200
 
 # Netlify Functions proxy redirect for API endpoints
 # /api/at_get_movie recid=:recidid /.netlify/functions/at_get_movie recid=:recidid 200
